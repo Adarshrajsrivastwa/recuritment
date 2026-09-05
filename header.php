@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</nav>
 
 		<div class="header-cta">
-			<a href="https://payroll.razorpay.com/login" class="btn btn-outline btn-sm">Login</a>
+			<a href="<?php echo esc_url( sam_candidate_form_url() ); ?>" class="btn btn-outline btn-sm">Join as Candidate</a>
 			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
 		</div>
 

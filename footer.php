@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			<ul>
 				<li><a href="<?php echo esc_url( home_url( '/#about' ) ); ?>">About Us</a></li>
 				<li><a href="<?php echo esc_url( home_url( '/#employers' ) ); ?>">For Employers</a></li>
+				<li><a href="<?php echo esc_url( sam_candidate_form_url() ); ?>">Candidate Registration</a></li>
 				<li><a href="<?php echo esc_url( home_url( '/#payroll' ) ); ?>">Payroll</a></li>
 				<li><a href="<?php echo esc_url( home_url( '/#sam-assured' ) ); ?>">SAM Assured</a></li>
 			</ul>

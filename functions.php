@@ -140,6 +140,13 @@ function sam_hire_form_url() {
 }
 
 /**
+ * Return the destination used by candidate registration call-to-action buttons.
+ */
+function sam_candidate_form_url() {
+	return sam_get_page_url_by_slug( 'candidate-form' );
+}
+
+/**
  * Create the pages used by the primary navigation automatically if missing without duplicating.
  */
 function sam_create_default_pages_and_menu() {
@@ -173,6 +180,11 @@ function sam_create_default_pages_and_menu() {
 			'title'    => 'Hire Talent',
 			'slug'     => 'hire-talent',
 			'template' => 'page-hire-talent.php',
+		),
+		'candidate' => array(
+			'title'    => 'Candidate Registration',
+			'slug'     => 'candidate-form',
+			'template' => 'page-candidate-form.php',
 		),
 	);
 
@@ -256,7 +268,7 @@ function sam_create_default_pages_and_menu() {
 			}
 
 			foreach ( $page_ids as $key => $page_id ) {
-				if ( 'hire' === $key ) {
+				if ( 'hire' === $key || 'candidate' === $key ) {
 					continue;
 				}
 				wp_update_nav_menu_item( $menu_id, 0, array(
@@ -337,6 +349,9 @@ function sam_custom_template_include( $template ) {
 				'payroll'       => 'page-payroll.php',
 				'sam-assured'   => 'page-sam-assured.php',
 				'hire-talent'   => 'page-hire-talent.php',
+				'candidate-form'=> 'page-candidate-form.php',
+				'candidate'     => 'page-candidate-form.php',
+				'apply'         => 'page-candidate-form.php',
 			);
 
 			if ( isset( $mapping[ $slug ] ) ) {
@@ -429,6 +444,19 @@ function sam_register_post_types() {
 		'show_in_menu' => true,
 		'menu_icon'    => 'dashicons-editor-help',
 		'supports'     => array( 'title', 'editor' ),
+	) );
+
+	register_post_type( 'sam_candidate', array(
+		'labels' => array(
+			'name'          => 'Candidate Submissions',
+			'singular_name' => 'Candidate Profile',
+			'add_new_item'  => 'Add New Candidate Profile',
+		),
+		'public'       => false,
+		'show_ui'      => true,
+		'show_in_menu' => true,
+		'menu_icon'    => 'dashicons-id-alt',
+		'supports'     => array( 'title', 'custom-fields' ),
 	) );
 }
 add_action( 'init', 'sam_register_post_types' );
@@ -544,3 +572,137 @@ function sam_handle_hiring_form() {
 }
 add_action( 'admin_post_nopriv_sam_submit_hiring_requirement', 'sam_handle_hiring_form' );
 add_action( 'admin_post_sam_submit_hiring_requirement', 'sam_handle_hiring_form' );
+
+/**
+ * Process candidate registration form with file uploads (Resume & Notice Document).
+ */
+function sam_handle_candidate_form() {
+	$redirect_url = wp_get_referer() ? wp_get_referer() : home_url( '/candidate-form/' );
+
+	if ( ! isset( $_POST['sam_candidate_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sam_candidate_nonce'] ) ), 'sam_submit_candidate_profile' ) ) {
+		wp_safe_redirect( add_query_arg( 'form_status', 'invalid', $redirect_url ) );
+		exit;
+	}
+
+	if ( ! empty( $_POST['website'] ) ) {
+		wp_safe_redirect( add_query_arg( 'form_status', 'success', $redirect_url ) );
+		exit;
+	}
+
+	$fields = array(
+		'full_name'           => sanitize_text_field( wp_unslash( $_POST['full_name'] ?? '' ) ),
+		'phone'               => sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) ),
+		'email'               => sanitize_email( wp_unslash( $_POST['email'] ?? '' ) ),
+		'current_role'        => sanitize_text_field( wp_unslash( $_POST['current_role'] ?? '' ) ),
+		'total_experience'    => sanitize_text_field( wp_unslash( $_POST['total_experience'] ?? '' ) ),
+		'primary_skill'       => sanitize_text_field( wp_unslash( $_POST['primary_skill'] ?? '' ) ),
+		'current_location'    => sanitize_text_field( wp_unslash( $_POST['current_location'] ?? '' ) ),
+		'skills'              => sanitize_textarea_field( wp_unslash( $_POST['skills'] ?? '' ) ),
+		'serving_notice'      => sanitize_text_field( wp_unslash( $_POST['serving_notice'] ?? 'No' ) ),
+		'joining_timeline'    => sanitize_text_field( wp_unslash( $_POST['joining_timeline'] ?? '' ) ),
+		'offer_in_hand'       => sanitize_text_field( wp_unslash( $_POST['offer_in_hand'] ?? '' ) ),
+		'contract_role_ready' => sanitize_text_field( wp_unslash( $_POST['contract_role_ready'] ?? '' ) ),
+		'current_ctc'         => sanitize_text_field( wp_unslash( $_POST['current_ctc'] ?? '' ) ),
+		'expected_ctc'        => sanitize_text_field( wp_unslash( $_POST['expected_ctc'] ?? '' ) ),
+	);
+
+	if ( ! $fields['full_name'] || ! $fields['phone'] || ! is_email( $fields['email'] ) || ! $fields['current_role'] || ! $fields['total_experience'] || ! $fields['primary_skill'] || ! $fields['current_location'] || ! $fields['joining_timeline'] || ! $fields['current_ctc'] || ! $fields['expected_ctc'] ) {
+		wp_safe_redirect( add_query_arg( 'form_status', 'error', $redirect_url ) );
+		exit;
+	}
+
+	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	$attachments      = array();
+	$resume_url       = '';
+	$notice_doc_url   = '';
+	$upload_overrides = array( 'test_form' => false );
+
+	// Resume Upload
+	if ( isset( $_FILES['resume_file'] ) && ! empty( $_FILES['resume_file']['name'] ) ) {
+		$resume_file = $_FILES['resume_file'];
+		$movefile    = wp_handle_upload( $resume_file, $upload_overrides );
+		if ( $movefile && ! isset( $movefile['error'] ) ) {
+			$resume_url    = $movefile['url'];
+			$attachments[] = $movefile['file'];
+		} else {
+			wp_safe_redirect( add_query_arg( 'form_status', 'upload-error', $redirect_url ) );
+			exit;
+		}
+	} else {
+		wp_safe_redirect( add_query_arg( 'form_status', 'error', $redirect_url ) );
+		exit;
+	}
+
+	// Notice Period Document Upload (Optional / Conditional)
+	if ( isset( $_FILES['notice_doc'] ) && ! empty( $_FILES['notice_doc']['name'] ) ) {
+		$notice_doc_file = $_FILES['notice_doc'];
+		$movefile        = wp_handle_upload( $notice_doc_file, $upload_overrides );
+		if ( $movefile && ! isset( $movefile['error'] ) ) {
+			$notice_doc_url = $movefile['url'];
+			$attachments[]  = $movefile['file'];
+		}
+	}
+
+	// Store candidate submission as Custom Post Type in WP Admin
+	$post_id = wp_insert_post( array(
+		'post_title'  => $fields['full_name'] . ' - ' . $fields['current_role'],
+		'post_type'   => 'sam_candidate',
+		'post_status' => 'publish',
+	) );
+
+	if ( $post_id && ! is_wp_error( $post_id ) ) {
+		foreach ( $fields as $key => $val ) {
+			update_post_meta( $post_id, '_' . $key, $val );
+		}
+		if ( $resume_url ) {
+			update_post_meta( $post_id, '_resume_url', $resume_url );
+		}
+		if ( $notice_doc_url ) {
+			update_post_meta( $post_id, '_notice_doc_url', $notice_doc_url );
+		}
+	}
+
+	// Email Notification
+	$body   = "New Candidate Profile Registration Received:\n\n";
+	$labels = array(
+		'full_name'           => 'Full Name',
+		'phone'               => 'Contact No.',
+		'email'               => 'Email',
+		'current_role'        => 'Current Role',
+		'total_experience'    => 'Total Experience',
+		'primary_skill'       => 'Primary Skill',
+		'skills'              => 'All Key Skills',
+		'current_location'    => 'Current Location',
+		'serving_notice'      => 'Serving Notice Period?',
+		'joining_timeline'    => 'Joining Timeline',
+		'offer_in_hand'       => 'Offer in Hand?',
+		'contract_role_ready' => 'Comfortable with Contract Role?',
+		'current_ctc'         => 'Current CTC',
+		'expected_ctc'        => 'Expected CTC',
+	);
+
+	foreach ( $labels as $key => $label ) {
+		$body .= $label . ': ' . ( ! empty( $fields[ $key ] ) ? $fields[ $key ] : 'N/A' ) . "\n";
+	}
+
+	if ( $resume_url ) {
+		$body .= "Resume Link: " . $resume_url . "\n";
+	}
+	if ( $notice_doc_url ) {
+		$body .= "Notice Period Document Link: " . $notice_doc_url . "\n";
+	}
+
+	$recipient = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
+	$sent      = wp_mail(
+		$recipient,
+		'New Candidate Submission: ' . $fields['full_name'] . ' (' . $fields['primary_skill'] . ')',
+		$body,
+		array( 'Reply-To: ' . $fields['full_name'] . ' <' . $fields['email'] . '>' ),
+		$attachments
+	);
+
+	wp_safe_redirect( add_query_arg( 'form_status', 'success', $redirect_url ) );
+	exit;
+}
+add_action( 'admin_post_nopriv_sam_submit_candidate_profile', 'sam_handle_candidate_form' );
+add_action( 'admin_post_sam_submit_candidate_profile', 'sam_handle_candidate_form' );

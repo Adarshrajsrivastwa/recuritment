@@ -371,3 +371,37 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 	.section{ padding:60px 0; }
 	.hero{ padding:100px 0 70px; }
 }
+/* ==========================================================================
+   16. Candidate Registration Form & File Upload Styling
+   ========================================================================== */
+.candidate-form { background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+.form-section-header { border-bottom: 2px solid var(--bg-soft); margin: 32px 0 20px; padding-bottom: 8px; }
+.form-section-header:first-child { margin-top: 0; }
+.form-section-header h3 { font-size: 1.15rem; color: var(--navy); margin: 0; display: flex; align-items: center; gap: 8px; }
+
+.full-width { grid-column: 1 / -1; }
+.field-hint { display: block; font-weight: normal; color: var(--text-muted); font-size: 0.82rem; margin-top: 2px; }
+
+.radio-group-container { margin-bottom: 12px; }
+.group-label { font-weight: 600; color: var(--navy); display: block; margin-bottom: 10px; font-size: 0.95rem; }
+.radio-options { display: flex; flex-wrap: wrap; gap: 14px; }
+.radio-card { display: flex; align-items: center; gap: 10px; background: var(--bg-soft); border: 1px solid var(--border); padding: 12px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+.radio-card:hover { border-color: var(--blue); background: rgba(37, 99, 235, 0.03); }
+.radio-card input[type="radio"] { accent-color: var(--blue); width: 18px; height: 18px; cursor: pointer; margin: 0; }
+.radio-label { font-size: 0.92rem; font-weight: 500; color: var(--text-main); }
+
+.file-field-group { margin-top: 20px; }
+.file-upload-wrapper { position: relative; margin-top: 6px; }
+.file-upload-wrapper input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
+.file-upload-ui { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 10px; padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease; }
+.file-upload-wrapper:hover .file-upload-ui { border-color: var(--blue); background: #eff6ff; }
+.upload-icon { width: 40px; height: 40px; color: var(--blue); background: rgba(37, 99, 235, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.upload-icon svg { width: 20px; height: 20px; }
+.upload-text { font-size: 0.92rem; font-weight: 500; color: var(--navy); }
+.file-name-preview { font-size: 0.85rem; color: #16a34a; font-weight: 600; word-break: break-all; }
+.file-name-preview.has-file { margin-top: 6px; padding: 4px 10px; background: #dcfce7; border-radius: 4px; border: 1px solid #bbf7d0; }
+
+.conditional-upload-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 20px; margin-top: 10px; transition: all 0.3s ease; }
+.hidden-field { display: none; }
+
+.btn-lg { padding: 16px 36px; font-size: 1.05rem; }

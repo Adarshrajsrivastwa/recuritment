@@ -109,5 +109,51 @@
 				observer.observe(el);
 			});
 		}
+
+		/* Candidate Form Notice Period & File Input Preview handlers */
+		var noticeRadios = document.querySelectorAll('.toggle-notice-doc');
+		var noticeDocBox = document.getElementById('notice_doc_container');
+		var noticeFileInput = document.getElementById('notice_doc');
+
+		if (noticeRadios.length && noticeDocBox) {
+			function updateNoticeDocVisibility() {
+				var selected = document.querySelector('input[name="serving_notice"]:checked');
+				if (selected && selected.value === 'Yes') {
+					noticeDocBox.classList.remove('hidden-field');
+					noticeDocBox.style.display = 'block';
+					if (noticeFileInput) noticeFileInput.setAttribute('required', 'required');
+				} else {
+					noticeDocBox.classList.add('hidden-field');
+					noticeDocBox.style.display = 'none';
+					if (noticeFileInput) noticeFileInput.removeAttribute('required');
+				}
+			}
+
+			noticeRadios.forEach(function (radio) {
+				radio.addEventListener('change', updateNoticeDocVisibility);
+			});
+			updateNoticeDocVisibility();
+		}
+
+		/* File preview updates */
+		function bindFilePreview(inputId, previewId) {
+			var fileInput = document.getElementById(inputId);
+			var preview = document.getElementById(previewId);
+			if (fileInput && preview) {
+				fileInput.addEventListener('change', function () {
+					if (fileInput.files && fileInput.files[0]) {
+						var file = fileInput.files[0];
+						var size = (file.size / (1024 * 1024)).toFixed(2);
+						preview.textContent = 'Selected: ' + file.name + ' (' + size + ' MB)';
+						preview.classList.add('has-file');
+					} else {
+						preview.textContent = '';
+						preview.classList.remove('has-file');
+					}
+				});
+			}
+		}
+		bindFilePreview('resume_file', 'resume_file_name');
+		bindFilePreview('notice_doc', 'notice_doc_name');
 	});
 })();
