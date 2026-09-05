@@ -13,7 +13,7 @@ get_header();
 		<h1>Fill urgent roles without the usual notice-period drag.</h1>
 		<p>Tell us the role, and we'll surface pre-screened candidates who are ready to join within 30 days &mdash; or immediately.</p>
 		<div class="hero-actions">
-			<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Submit a Requirement</a>
+			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Submit a Requirement</a>
 		</div>
 	</div>
 </section>
@@ -30,17 +30,17 @@ get_header();
 				array( 'icon' => 'users', 'title' => 'Permanent Hiring', 'desc' => 'Specialized in immediate and 30-day placements for critical roles.' ),
 				array( 'icon' => 'laptop', 'title' => 'IT Contract Staffing', 'desc' => 'Flexible technical talent to scale projects dynamically.' ),
 				array( 'icon' => 'briefcase', 'title' => 'Managed Workforce', 'desc' => 'End-to-end management of contingent workforce operations.' ),
-				array( 'icon' => 'wallet', 'title' => 'Payroll Support', 'desc' => 'Compliant and timely payroll processing and management.', 'link' => '/payroll/' ),
+				array( 'icon' => 'wallet', 'title' => 'Payroll Support', 'desc' => 'Compliant and timely payroll processing and management.', 'slug' => 'payroll' ),
 			);
 			foreach ( $services as $s ) :
-				$link = isset( $s['link'] ) ? $s['link'] : '';
+				$slug = isset( $s['slug'] ) ? $s['slug'] : '';
 				?>
 				<div class="service-card">
 					<div class="icon-badge icon-badge-sm"><?php echo sam_icon( $s['icon'] ); ?></div>
 					<h3><?php echo esc_html( $s['title'] ); ?></h3>
 					<p><?php echo esc_html( $s['desc'] ); ?></p>
-					<?php if ( $link ) : ?>
-						<a href="<?php echo esc_url( home_url( $link ) ); ?>" class="text-link">Learn More <?php echo sam_icon('arrow'); ?></a>
+					<?php if ( $slug ) : ?>
+						<a href="<?php echo esc_url( sam_get_page_url_by_slug( $slug ) ); ?>" class="text-link">Learn More <?php echo sam_icon('arrow'); ?></a>
 					<?php endif; ?>
 				</div>
 			<?php endforeach; ?>
@@ -82,7 +82,7 @@ get_header();
 			<span class="eyebrow-badge eyebrow-badge-light"><?php echo sam_icon('shield'); ?> Zero Risk Hiring</span>
 			<h2>Try Before You Hire, With SAM Assured</h2>
 			<p>Evaluate a candidate on the job before committing to a permanent hire. No severance, no backfill scramble if it's not the right fit.</p>
-			<a href="<?php echo esc_url( home_url( '/sam-assured/' ) ); ?>" class="btn btn-primary">Learn About SAM Assured</a>
+			<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'sam-assured' ) ); ?>" class="btn btn-primary">Learn About SAM Assured</a>
 		</div>
 		<div class="assured-steps">
 			<div class="assured-step"><?php echo sam_icon('check'); ?><span>01. Identify<br><small>Curated Talent</small></span></div>
@@ -97,7 +97,7 @@ get_header();
 	<div class="container cta-band-inner">
 		<h2>Have an urgent role to fill?</h2>
 		<p>Share your requirement and hear back within 24 hours.</p>
-		<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary">Submit a Requirement</a>
+		<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary">Submit a Requirement</a>
 	</div>
 </section>
 

@@ -17,19 +17,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<div class="footer-col">
 			<h4 class="footer-widget-title">Company</h4>
 			<ul>
-				<li><a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>">About Us</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/for-employers/' ) ); ?>">For Employers</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/payroll/' ) ); ?>">Payroll</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a></li>
+				<li><a href="<?php echo esc_url( home_url( '/#about' ) ); ?>">About Us</a></li>
+				<li><a href="<?php echo esc_url( home_url( '/#employers' ) ); ?>">For Employers</a></li>
+				<li><a href="<?php echo esc_url( home_url( '/#payroll' ) ); ?>">Payroll</a></li>
+				<li><a href="<?php echo esc_url( home_url( '/#sam-assured' ) ); ?>">SAM Assured</a></li>
 			</ul>
 		</div>
 
 		<div class="footer-col">
 			<h4 class="footer-widget-title">Legal</h4>
 			<ul>
-				<li><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy Policy</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/terms-of-service/' ) ); ?>">Terms of Service</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookie Policy</a></li>
+				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'privacy-policy' ) ); ?>">Privacy Policy</a></li>
+				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'terms-of-service' ) ); ?>">Terms of Service</a></li>
+				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'cookie-policy' ) ); ?>">Cookie Policy</a></li>
 			</ul>
 		</div>
 

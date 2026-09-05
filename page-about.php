@@ -72,7 +72,7 @@ get_header();
 	<div class="container cta-band-inner">
 		<h2>Ready to hire faster?</h2>
 		<p>Talk to our team about your urgent hiring needs.</p>
-		<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary">Hire Immediate Talent</a>
+		<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary">Hire Immediate Talent</a>
 	</div>
 </section>
 

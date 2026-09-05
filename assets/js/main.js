@@ -45,6 +45,50 @@
 			});
 		}
 
+		/* Highlight the nav item that matches the section currently in view. */
+		if (nav) {
+			var navItems = nav.querySelectorAll('.nav-menu li');
+			var sectionLinks = [];
+			var header = document.getElementById('site-header');
+
+			nav.querySelectorAll('.nav-menu a[href*="#"]').forEach(function (link) {
+				var hash = link.getAttribute('href').split('#')[1];
+				var section = hash ? document.getElementById(hash) : null;
+				if (section) {
+					sectionLinks.push({ link: link, section: section });
+				}
+			});
+
+			function setActiveNavItem() {
+				var headerHeight = header ? header.offsetHeight : 0;
+				var activeLink = null;
+				var activePosition = -Infinity;
+
+				sectionLinks.forEach(function (item) {
+					var sectionPosition = item.section.getBoundingClientRect().top;
+					if (sectionPosition <= headerHeight + 24 && sectionPosition > activePosition) {
+						activeLink = item.link;
+						activePosition = sectionPosition;
+					}
+				});
+
+				navItems.forEach(function (item) {
+					item.classList.remove('current-menu-item');
+				});
+
+				if (activeLink) {
+					activeLink.parentElement.classList.add('current-menu-item');
+				} else {
+					var homeLink = nav.querySelector('.nav-menu a[href$="/"]');
+					if (homeLink) homeLink.parentElement.classList.add('current-menu-item');
+				}
+			}
+
+			window.addEventListener('scroll', setActiveNavItem, { passive: true });
+			window.addEventListener('hashchange', setActiveNavItem);
+			setActiveNavItem();
+		}
+
 		/* Simple scroll-reveal for cards */
 		var revealTargets = document.querySelectorAll('.focus-card, .service-card, .why-card, .testimonial-card, .blog-card, .journey-step');
 		if ('IntersectionObserver' in window && revealTargets.length) {

@@ -13,7 +13,7 @@ get_header();
 		<h1>Compliant payroll, handled end-to-end.</h1>
 		<p>From salary processing to statutory filings, SAM manages your payroll cycle accurately and on time &mdash; so your team never has to chase compliance.</p>
 		<div class="hero-actions">
-			<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary"><?php echo sam_icon('wallet'); ?> Get a Payroll Quote</a>
+			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary"><?php echo sam_icon('wallet'); ?> Get a Payroll Quote</a>
 		</div>
 	</div>
 </section>
@@ -119,7 +119,7 @@ get_header();
 	<div class="container cta-band-inner">
 		<h2>Hand off your payroll headaches.</h2>
 		<p>Get a custom payroll quote based on your headcount.</p>
-		<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary">Get a Payroll Quote</a>
+		<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary">Get a Payroll Quote</a>
 	</div>
 </section>
 

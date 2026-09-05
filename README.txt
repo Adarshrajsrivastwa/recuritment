@@ -9,32 +9,27 @@ INSTALL
 
 REQUIRED SETUP AFTER ACTIVATION
 --------------------------------
-1. Create these Pages (Pages → Add New), leave them EMPTY of content
-   (all design is in the template), and assign the matching template
-   under Page Attributes → Template:
-      - "Home"          → Template: Default (this becomes homepage via step 2)
-      - "About Us"       → Template: About Us
-      - "For Employers"  → Template: For Employers
-      - "Payroll"        → Template: Payroll Services
-      - "SAM Assured"    → Template: SAM Assured
+1. On first theme activation, Home, About Us, For Employers, Payroll and
+   SAM Assured pages are created automatically, along with the Primary Menu.
+   The Home page is also set as the static front page.
 
-2. Set the static front page:
-   Settings → Reading → "A static page" → Homepage = "Home".
-   (The Home page uses front-page.php automatically once set as the
-   front page — no template assignment needed for it.)
-
-3. Create a menu: Appearance → Menus → add Home, About Us,
-   For Employers, Payroll, SAM Assured → assign to "Primary Menu" location.
+2. You can edit the page titles/content from Pages, and adjust the navigation
+   later from Appearance → Menus. The page designs are handled by the theme.
    Optionally create a second menu for the "Footer Menu" location.
 
-4. Upload your logo: Appearance → Customize → Site Identity → Logo.
+3. Upload your logo: Appearance → Customize → Site Identity → Logo.
    Falls back to a "SAM" text logo if none is set.
 
-5. Set contact info: Appearance → Customize → "SAM Contact Info"
+4. Set contact info: Appearance → Customize → "SAM Contact Info"
       - Phone Number
-      - Hire Talent CTA URL (paste your Google Form link here — every
-        "Hire Talent" / "Hire Immediate Talent" button on the site uses it)
+      - Hire Talent CTA URL (all hiring buttons open the built-in Hire Talent
+        form by default; an external Google Form can be used instead)
+      - Hiring Form Recipient Email
       - Office Address
+
+5. For reliable form delivery, install and configure the WP Mail SMTP plugin
+   in WP Admin → WP Mail SMTP. The built-in hiring form uses WordPress mail,
+   which WP Mail SMTP sends through your configured mailer.
 
 6. Add content (all optional — the site shows solid fallback content
    automatically if you skip these):

@@ -27,19 +27,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</div>
 
 		<nav class="main-navigation" id="main-navigation" aria-label="Primary">
-			<?php
-			wp_nav_menu( array(
-				'theme_location' => 'primary',
-				'container'      => false,
-				'menu_id'        => 'primary-menu',
-				'menu_class'     => 'nav-menu',
-				'fallback_cb'    => 'sam_fallback_primary_menu',
-			) );
-			?>
+			<?php sam_one_page_primary_menu(); ?>
 		</nav>
 
 		<div class="header-cta">
-			<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
+			<a href="https://payroll.razorpay.com/login" class="btn btn-outline btn-sm">Login</a>
+			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
 		</div>
 
 		<button class="menu-toggle" id="menu-toggle" aria-controls="main-navigation" aria-expanded="false">

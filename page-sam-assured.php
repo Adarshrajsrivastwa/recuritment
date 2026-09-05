@@ -13,7 +13,7 @@ get_header();
 		<h1>SAM Assured Hire</h1>
 		<p>Not sure if a hire will work out? Evaluate a candidate on the job first, so you only commit to a permanent hire once you're confident it's the right fit. No severance, no backfill scramble.</p>
 		<div class="hero-actions">
-			<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Start an Assured Hire</a>
+			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Start an Assured Hire</a>
 		</div>
 	</div>
 </section>
@@ -79,7 +79,7 @@ get_header();
 	<div class="container cta-band-inner">
 		<h2>Try before you hire, permanently.</h2>
 		<p>Start with a SAM Assured trial placement today.</p>
-		<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary">Start an Assured Hire</a>
+		<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary">Start an Assured Hire</a>
 	</div>
 </section>
 

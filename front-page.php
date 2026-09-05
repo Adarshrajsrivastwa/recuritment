@@ -14,8 +14,8 @@ get_header();
 		<h1 class="hero-title">Immediate &amp; <span class="text-accent">30-Day Hiring</span> Experts.</h1>
 		<p class="hero-sub">Long notice periods increase offer dropouts and hit revenue. SAM works exclusively with candidates serving notice or ready to join within 30 days &mdash; filling urgent roles without delays.</p>
 		<div class="hero-actions">
-			<a href="<?php echo esc_url( get_theme_mod( 'sam_hire_form_url', '#hire' ) ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Hire Immediate Talent</a>
-			<a href="#services" class="btn btn-outline-light"><?php echo sam_icon('search'); ?> Find Opportunity</a>
+			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Hire Immediate Talent</a>
+			<a href="#employers" class="btn btn-outline-light"><?php echo sam_icon('search'); ?> Find Opportunity</a>
 		</div>
 	</div>
 </section>
@@ -70,7 +70,7 @@ get_header();
 </section>
 
 <!-- OUR SERVICES -->
-<section class="section services-section" id="services">
+<section class="section services-section" id="employers">
 	<div class="container">
 		<div class="section-head section-head-left">
 			<h2>Our Services</h2>
@@ -79,19 +79,19 @@ get_header();
 		<div class="grid-4 services-grid">
 			<?php
 			$services = array(
-				array( 'icon' => 'users', 'title' => 'Permanent Hiring', 'desc' => 'Specialized in immediate and 30-day placements for critical roles.' ),
-				array( 'icon' => 'laptop', 'title' => 'IT Contract Staffing', 'desc' => 'Flexible technical talent to scale projects dynamically.' ),
-				array( 'icon' => 'briefcase', 'title' => 'Managed Workforce', 'desc' => 'End-to-end management of contingent workforce operations.' ),
-				array( 'icon' => 'wallet', 'title' => 'Payroll Support', 'desc' => 'Compliant and timely payroll processing and management.', 'link' => '/payroll/' ),
+				array( 'icon' => 'users', 'title' => 'Permanent Hiring', 'desc' => 'Specialized in immediate and 30-day placements for critical roles.', 'link' => '#employers' ),
+				array( 'icon' => 'laptop', 'title' => 'IT Contract Staffing', 'desc' => 'Flexible technical talent to scale projects dynamically.', 'link' => '#employers' ),
+				array( 'icon' => 'briefcase', 'title' => 'Managed Workforce', 'desc' => 'End-to-end management of contingent workforce operations.', 'link' => '#employers' ),
+				array( 'icon' => 'wallet', 'title' => 'Payroll Support', 'desc' => 'Compliant and timely payroll processing and management.', 'link' => '#payroll' ),
 			);
 			foreach ( $services as $s ) :
-				$link = isset( $s['link'] ) ? $s['link'] : '/for-employers/';
+				$link = isset( $s['link'] ) ? $s['link'] : '#employers';
 				?>
 				<div class="service-card">
 					<div class="icon-badge icon-badge-sm"><?php echo sam_icon( $s['icon'] ); ?></div>
 					<h3><?php echo esc_html( $s['title'] ); ?></h3>
 					<p><?php echo esc_html( $s['desc'] ); ?></p>
-					<a href="<?php echo esc_url( home_url( $link ) ); ?>" class="text-link">Learn More <?php echo sam_icon('arrow'); ?></a>
+					<a href="<?php echo esc_url( $link ); ?>" class="text-link">Learn More <?php echo sam_icon('arrow'); ?></a>
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -136,7 +136,7 @@ get_header();
 			<span class="eyebrow-badge eyebrow-badge-light"><?php echo sam_icon('shield'); ?> Zero Risk Hiring</span>
 			<h2>SAM Assured Hire</h2>
 			<p>Not sure if a hire will work out? SAM Assured lets you evaluate a candidate on the job first, so you only commit to a permanent hire once you're confident it's the right fit. No severance, no backfill scramble.</p>
-			<a href="<?php echo esc_url( home_url( '/sam-assured/' ) ); ?>" class="btn btn-primary">Explore Assured Model</a>
+			<a href="#sam-assured" class="btn btn-primary">Explore Assured Model</a>
 		</div>
 		<div class="assured-steps">
 			<div class="assured-step"><?php echo sam_icon('check'); ?><span>01. Identify<br><small>Curated Talent</small></span></div>
@@ -160,13 +160,45 @@ get_header();
 				<li><?php echo sam_icon('check'); ?> Full &amp; final settlements</li>
 				<li><?php echo sam_icon('check'); ?> Monthly MIS reporting</li>
 			</ul>
-			<a href="<?php echo esc_url( home_url( '/payroll/' ) ); ?>" class="btn btn-primary">Explore Payroll Services</a>
+			<a href="#payroll" class="btn btn-primary">Explore Payroll Services</a>
 		</div>
 		<div class="payroll-stats-card">
 			<div class="payroll-stat"><span class="stat-num">ISO</span><span class="stat-label">9001:2015 Certified</span></div>
 			<div class="payroll-stat"><span class="stat-num">100%</span><span class="stat-label">On-Time Disbursal</span></div>
 			<div class="payroll-stat"><span class="stat-num">PAN</span><span class="stat-label">India Compliance</span></div>
 			<div class="payroll-stat"><span class="stat-num">0</span><span class="stat-label">Missed Filings</span></div>
+		</div>
+	</div>
+</section>
+
+<!-- PAYROLL QUERIES FOR EXISTING EMPLOYEES -->
+<section class="section employee-query-section" aria-labelledby="employee-payroll-queries">
+	<div class="container">
+		<div class="section-head">
+			<span class="eyebrow-badge eyebrow-badge-light"><?php echo sam_icon('chat'); ?> Employee Support</span>
+			<h2 id="employee-payroll-queries">Payroll Queries from Existing Employees</h2>
+			<p>Need help with your salary, payslip, statutory deduction, or final settlement? Our payroll support team is here to assist you.</p>
+		</div>
+		<div class="grid-3 employee-query-grid">
+			<div class="employee-query-card">
+				<?php echo sam_icon('wallet'); ?>
+				<h3>Salary &amp; Payslips</h3>
+				<p>Get support for salary credits, payslip access, reimbursements, and bank-detail updates.</p>
+			</div>
+			<div class="employee-query-card">
+				<?php echo sam_icon('shield'); ?>
+				<h3>PF, ESI &amp; Tax</h3>
+				<p>Ask about statutory deductions, PF/ESI details, Form 16, and tax-related documents.</p>
+			</div>
+			<div class="employee-query-card">
+				<?php echo sam_icon('clock'); ?>
+				<h3>Exit &amp; Settlement</h3>
+				<p>Get clarity on attendance corrections, full-and-final settlement, and relieving documentation.</p>
+			</div>
+		</div>
+		<div class="employee-query-action">
+			<a href="tel:<?php echo esc_attr( str_replace( ' ', '', get_theme_mod( 'sam_phone', '+919876543210' ) ) ); ?>" class="btn btn-primary"><?php echo sam_icon('chat'); ?> Contact Payroll Support</a>
+			<p>Keep your employee ID ready. Please do not share sensitive identity or bank details over an unsecured channel.</p>
 		</div>
 	</div>
 </section>
@@ -251,7 +283,7 @@ get_header();
 </section>
 
 <!-- PARTNERING FOR SUCCESS -->
-<section class="section partner-section">
+<section class="section partner-section" id="about">
 	<div class="container partner-inner">
 		<div class="partner-media">
 			<?php
