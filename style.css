@@ -444,6 +444,17 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 	border-color:var(--blue);
 	transform:translateY(-2px);
 }
+.footer-social-card{ margin-top:4px; }
+.footer-social-card .footer-social-list{
+	justify-content:flex-start;
+	gap:12px;
+}
+.footer-social-card .footer-social-list a{
+	width:44px;
+	height:44px;
+	border-radius:12px;
+}
+.footer-social-card .footer-social-list a svg{ width:20px; height:20px; }
 .footer-links-grid{
 	display:grid;
 	grid-template-columns:repeat(3,1fr);

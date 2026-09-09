@@ -29,7 +29,6 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 					<a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a>
 				</li>
 			</ul>
-			<?php sam_render_social_links(); ?>
 		</div>
 
 		<div class="footer-links-grid">
@@ -55,10 +54,9 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 			</div>
 
 			<div class="footer-col footer-cta-col">
-				<h4 class="footer-widget-title">Get Started</h4>
-				<p class="footer-cta-text">Share your hiring requirement and hear back within 24 hours.</p>
-				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm footer-cta-btn"><?php echo sam_icon( 'users' ); ?> Hire Talent</a>
-				<a href="<?php echo esc_url( sam_contact_url() ); ?>" class="footer-cta-link">Contact our team <?php echo sam_icon( 'arrow' ); ?></a>
+				<h4 class="footer-widget-title">Follow Us</h4>
+				<p class="footer-cta-text">Connect with SAM Manpower on Instagram, Facebook and LinkedIn.</p>
+				<?php sam_render_social_links( 'footer-social footer-social-card', false ); ?>
 			</div>
 		</div>
 	</div>

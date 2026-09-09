@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.8' );
+define( 'SAM_THEME_VERSION', '1.0.9' );
 
 /**
  * Theme setup
@@ -833,19 +833,24 @@ function sam_icon( $name ) {
 /**
  * Return configured social profile URLs for the theme.
  */
+function sam_get_social_url( $key, $default ) {
+	$url = get_theme_mod( $key, $default );
+	return $url ? $url : $default;
+}
+
 function sam_get_social_links() {
 	$networks = array(
 		'linkedin'  => array(
 			'label' => 'LinkedIn',
-			'url'   => get_theme_mod( 'sam_linkedin_url', '' ),
+			'url'   => sam_get_social_url( 'sam_linkedin_url', 'https://www.linkedin.com/company/sam-manpower' ),
 		),
 		'instagram' => array(
 			'label' => 'Instagram',
-			'url'   => get_theme_mod( 'sam_instagram_url', '' ),
+			'url'   => sam_get_social_url( 'sam_instagram_url', 'https://www.instagram.com/sammanpower' ),
 		),
 		'facebook'  => array(
 			'label' => 'Facebook',
-			'url'   => get_theme_mod( 'sam_facebook_url', '' ),
+			'url'   => sam_get_social_url( 'sam_facebook_url', 'https://www.facebook.com/sammanpower' ),
 		),
 	);
 
@@ -860,14 +865,16 @@ function sam_get_social_links() {
 /**
  * Output footer/social icon links when URLs are configured.
  */
-function sam_render_social_links( $class = 'footer-social' ) {
+function sam_render_social_links( $class = 'footer-social', $show_label = true ) {
 	$links = sam_get_social_links();
 	if ( empty( $links ) ) {
 		return;
 	}
 
 	echo '<div class="' . esc_attr( $class ) . '">';
-	echo '<span class="footer-social-label">Follow Us</span>';
+	if ( $show_label ) {
+		echo '<span class="footer-social-label">Follow Us</span>';
+	}
 	echo '<ul class="footer-social-list">';
 	foreach ( $links as $key => $network ) {
 		echo '<li>';
@@ -907,13 +914,13 @@ function sam_customize_register( $wp_customize ) {
 
 	$wp_customize->add_section( 'sam_social', array( 'title' => 'SAM Social Media', 'priority' => 31 ) );
 
-	$wp_customize->add_setting( 'sam_linkedin_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'sam_linkedin_url', array( 'default' => 'https://www.linkedin.com/company/sam-manpower', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_linkedin_url', array( 'label' => 'LinkedIn Profile URL', 'section' => 'sam_social', 'type' => 'url' ) );
 
-	$wp_customize->add_setting( 'sam_instagram_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'sam_instagram_url', array( 'default' => 'https://www.instagram.com/sammanpower', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_instagram_url', array( 'label' => 'Instagram Profile URL', 'section' => 'sam_social', 'type' => 'url' ) );
 
-	$wp_customize->add_setting( 'sam_facebook_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'sam_facebook_url', array( 'default' => 'https://www.facebook.com/sammanpower', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_facebook_url', array( 'label' => 'Facebook Page URL', 'section' => 'sam_social', 'type' => 'url' ) );
 }
 add_action( 'customize_register', 'sam_customize_register' );
