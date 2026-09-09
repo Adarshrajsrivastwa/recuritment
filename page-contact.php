@@ -22,21 +22,21 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 
 <section class="section">
 	<div class="container container-narrow">
-		<div class="contact-info-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px;">
-			<div class="focus-card" style="padding: 24px; text-align: center; border-radius: 12px; background: #ffffff; border: 1px solid var(--border);">
-				<div class="icon-badge" style="margin: 0 auto 16px;"><?php echo sam_icon( 'chat' ); ?></div>
-				<h4 style="margin: 0 0 8px; color: var(--navy);">Phone</h4>
-				<p style="margin: 0;"><a href="tel:<?php echo esc_attr( str_replace(' ', '', $phone) ); ?>" style="color: var(--blue); font-weight: 600; text-decoration: none;"><?php echo esc_html( $phone ); ?></a></p>
+		<div class="contact-info-cards">
+			<div class="focus-card contact-card">
+				<div class="icon-badge"><?php echo sam_icon( 'chat' ); ?></div>
+				<h4>Phone</h4>
+				<p><a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a></p>
 			</div>
-			<div class="focus-card" style="padding: 24px; text-align: center; border-radius: 12px; background: #ffffff; border: 1px solid var(--border);">
-				<div class="icon-badge" style="margin: 0 auto 16px;"><?php echo sam_icon( 'bell' ); ?></div>
-				<h4 style="margin: 0 0 8px; color: var(--navy);">Email</h4>
-				<p style="margin: 0;"><a href="mailto:<?php echo esc_attr( $email ); ?>" style="color: var(--blue); font-weight: 600; text-decoration: none;"><?php echo esc_html( $email ); ?></a></p>
+			<div class="focus-card contact-card">
+				<div class="icon-badge"><?php echo sam_icon( 'bell' ); ?></div>
+				<h4>Email</h4>
+				<p><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a></p>
 			</div>
-			<div class="focus-card" style="padding: 24px; text-align: center; border-radius: 12px; background: #ffffff; border: 1px solid var(--border);">
-				<div class="icon-badge" style="margin: 0 auto 16px;"><?php echo sam_icon( 'target' ); ?></div>
-				<h4 style="margin: 0 0 8px; color: var(--navy);">Location</h4>
-				<p style="margin: 0; font-size: 0.9rem; color: var(--text-muted);"><?php echo esc_html( $address ); ?></p>
+			<div class="focus-card contact-card">
+				<div class="icon-badge"><?php echo sam_icon( 'target' ); ?></div>
+				<h4>Location</h4>
+				<p><?php echo esc_html( $address ); ?></p>
 			</div>
 		</div>
 

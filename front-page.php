@@ -303,7 +303,7 @@ get_header();
 				<div><span class="stat-num">98%</span><span class="stat-label">Retention Rate</span></div>
 				<div><span class="stat-num">500+</span><span class="stat-label">Partners Nationwide</span></div>
 			</div>
-			<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'about-us' ) ); ?>" class="btn btn-outline" style="margin-top:24px;">About SAM Manpower</a>
+			<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'about-us' ) ); ?>" class="btn btn-outline partner-cta">About SAM Manpower</a>
 		</div>
 	</div>
 </section>

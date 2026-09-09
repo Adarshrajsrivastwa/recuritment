@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.4' );
+define( 'SAM_THEME_VERSION', '1.0.6' );
 
 /**
  * Theme setup
@@ -123,7 +123,13 @@ function sam_one_page_primary_menu() {
 
 	echo '<ul id="primary-menu" class="nav-menu">';
 	foreach ( $items as $label => $url ) {
-		$is_current = ( 'Home' === $label && is_front_page() ) || ( untrailingslashit( $url ) === untrailingslashit( get_permalink() ) );
+		if ( 'Home' === $label ) {
+			$is_current = is_front_page();
+		} elseif ( is_page() ) {
+			$is_current = untrailingslashit( $url ) === untrailingslashit( get_permalink( get_queried_object_id() ) );
+		} else {
+			$is_current = false;
+		}
 		echo '<li class="' . ( $is_current ? 'current-menu-item' : '' ) . '"><a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
 	}
 	echo '</ul>';
@@ -573,13 +579,13 @@ function sam_render_breadcrumbs() {
 		return;
 	}
 
-	echo '<nav class="breadcrumbs" aria-label="Breadcrumb"><div class="container">';
+	echo '<nav class="breadcrumbs" aria-label="Breadcrumb">';
 	echo '<ol class="breadcrumb-list">';
 	foreach ( $items as $item ) {
 		echo '<li><a href="' . esc_url( $item['url'] ) . '">' . esc_html( $item['label'] ) . '</a></li>';
 	}
 	echo '<li aria-current="page">' . esc_html( $current ) . '</li>';
-	echo '</ol></div></nav>';
+	echo '</ol></nav>';
 }
 
 /**

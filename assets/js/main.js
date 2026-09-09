@@ -6,10 +6,34 @@
 		/* Mobile nav toggle */
 		var toggle = document.getElementById('menu-toggle');
 		var nav = document.getElementById('main-navigation');
+		var body = document.body;
+
+		function setMobileNavState(isOpen) {
+			if (!nav || !toggle) return;
+			nav.classList.toggle('is-open', isOpen);
+			body.classList.toggle('nav-open', isOpen);
+			toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+		}
+
+		function closeMobileNav() {
+			setMobileNavState(false);
+		}
+
 		if (toggle && nav) {
 			toggle.addEventListener('click', function () {
-				var isOpen = nav.classList.toggle('is-open');
-				toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+				setMobileNavState(!nav.classList.contains('is-open'));
+			});
+
+			document.addEventListener('keydown', function (event) {
+				if (event.key === 'Escape') {
+					closeMobileNav();
+				}
+			});
+
+			window.addEventListener('resize', function () {
+				if (window.innerWidth > 782) {
+					closeMobileNav();
+				}
 			});
 		}
 
@@ -39,54 +63,53 @@
 		if (nav) {
 			nav.querySelectorAll('a').forEach(function (link) {
 				link.addEventListener('click', function () {
-					nav.classList.remove('is-open');
-					if (toggle) toggle.setAttribute('aria-expanded', 'false');
+					closeMobileNav();
 				});
 			});
 		}
 
-		/* Highlight the nav item that matches the section currently in view. */
+		/* One-page section highlighting only when nav uses in-page hash links. */
 		if (nav) {
 			var navItems = nav.querySelectorAll('.nav-menu li');
 			var sectionLinks = [];
 			var header = document.getElementById('site-header');
 
 			nav.querySelectorAll('.nav-menu a[href*="#"]').forEach(function (link) {
-				var hash = link.getAttribute('href').split('#')[1];
+				var href = link.getAttribute('href') || '';
+				var hash = href.split('#')[1];
 				var section = hash ? document.getElementById(hash) : null;
 				if (section) {
 					sectionLinks.push({ link: link, section: section });
 				}
 			});
 
-			function setActiveNavItem() {
-				var headerHeight = header ? header.offsetHeight : 0;
-				var activeLink = null;
-				var activePosition = -Infinity;
+			if (sectionLinks.length) {
+				function setActiveNavItem() {
+					var headerHeight = header ? header.offsetHeight : 0;
+					var activeLink = null;
+					var activePosition = -Infinity;
 
-				sectionLinks.forEach(function (item) {
-					var sectionPosition = item.section.getBoundingClientRect().top;
-					if (sectionPosition <= headerHeight + 24 && sectionPosition > activePosition) {
-						activeLink = item.link;
-						activePosition = sectionPosition;
+					sectionLinks.forEach(function (item) {
+						var sectionPosition = item.section.getBoundingClientRect().top;
+						if (sectionPosition <= headerHeight + 24 && sectionPosition > activePosition) {
+							activeLink = item.link;
+							activePosition = sectionPosition;
+						}
+					});
+
+					navItems.forEach(function (item) {
+						item.classList.remove('current-menu-item');
+					});
+
+					if (activeLink) {
+						activeLink.parentElement.classList.add('current-menu-item');
 					}
-				});
-
-				navItems.forEach(function (item) {
-					item.classList.remove('current-menu-item');
-				});
-
-				if (activeLink) {
-					activeLink.parentElement.classList.add('current-menu-item');
-				} else {
-					var homeLink = nav.querySelector('.nav-menu a[href$="/"]');
-					if (homeLink) homeLink.parentElement.classList.add('current-menu-item');
 				}
-			}
 
-			window.addEventListener('scroll', setActiveNavItem, { passive: true });
-			window.addEventListener('hashchange', setActiveNavItem);
-			setActiveNavItem();
+				window.addEventListener('scroll', setActiveNavItem, { passive: true });
+				window.addEventListener('hashchange', setActiveNavItem);
+				setActiveNavItem();
+			}
 		}
 
 		/* Simple scroll-reveal for cards */
