@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.3' );
+define( 'SAM_THEME_VERSION', '1.0.4' );
 
 /**
  * Theme setup
@@ -108,22 +108,23 @@ function sam_fallback_primary_menu() {
 }
 
 /**
- * Primary navigation for the single-page site. Keep links absolute so they
- * also return visitors to the correct section from any legacy page URL.
+ * Primary navigation. Every visible navigation item has its own crawlable
+ * WordPress page instead of linking to a section on the home page.
  */
 function sam_one_page_primary_menu() {
-	$home_url = home_url( '/' );
-	$items    = array(
-		'Home'          => '',
-		'For Employers' => '#employers',
-		'SAM Assured'   => '#sam-assured',
-		'Payroll'       => '#payroll',
-		'About Us'      => '#about',
+	$items = array(
+		'Home'          => home_url( '/' ),
+		'For Employers' => sam_get_page_url_by_slug( 'for-employers' ),
+		'SAM Assured'   => sam_get_page_url_by_slug( 'sam-assured' ),
+		'Payroll'       => sam_get_page_url_by_slug( 'payroll' ),
+		'About Us'      => sam_get_page_url_by_slug( 'about-us' ),
+		'Contact Us'    => sam_contact_url(),
 	);
 
 	echo '<ul id="primary-menu" class="nav-menu">';
-	foreach ( $items as $label => $anchor ) {
-		echo '<li><a href="' . esc_url( $home_url . $anchor ) . '">' . esc_html( $label ) . '</a></li>';
+	foreach ( $items as $label => $url ) {
+		$is_current = ( 'Home' === $label && is_front_page() ) || ( untrailingslashit( $url ) === untrailingslashit( get_permalink() ) );
+		echo '<li class="' . ( $is_current ? 'current-menu-item' : '' ) . '"><a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
 	}
 	echo '</ul>';
 }
@@ -144,6 +145,25 @@ function sam_hire_form_url() {
  */
 function sam_candidate_form_url() {
 	return sam_get_page_url_by_slug( 'candidate-form' );
+}
+
+/**
+ * Return the destination used by employee login call-to-action button.
+ */
+function sam_employee_login_url() {
+	return sam_get_page_url_by_slug( 'employee-login' );
+}
+
+/** Return the configured third-party employee portal URL. */
+function sam_employee_portal_url() {
+	return get_theme_mod( 'sam_employee_login_url', 'https://payroll.razorpay.com/login' );
+}
+
+/**
+ * Return the destination used by contact call-to-action buttons.
+ */
+function sam_contact_url() {
+	return sam_get_page_url_by_slug( 'contact' );
 }
 
 /**
@@ -185,6 +205,31 @@ function sam_create_default_pages_and_menu() {
 			'title'    => 'Candidate Registration',
 			'slug'     => 'candidate-form',
 			'template' => 'page-candidate-form.php',
+		),
+		'contact' => array(
+			'title'    => 'Contact Us',
+			'slug'     => 'contact',
+			'template' => 'page-contact.php',
+		),
+		'employee_login' => array(
+			'title'    => 'Employee Login',
+			'slug'     => 'employee-login',
+			'template' => 'page-employee-login.php',
+		),
+		'privacy' => array(
+			'title'    => 'Privacy Policy',
+			'slug'     => 'privacy-policy',
+			'template' => 'page-legal.php',
+		),
+		'terms' => array(
+			'title'    => 'Terms of Service',
+			'slug'     => 'terms-of-service',
+			'template' => 'page-legal.php',
+		),
+		'cookies' => array(
+			'title'    => 'Cookie Policy',
+			'slug'     => 'cookie-policy',
+			'template' => 'page-legal.php',
 		),
 	);
 
@@ -303,9 +348,13 @@ function sam_ensure_default_pages_and_menu_on_init() {
 	}
 
 	if ( ! is_admin() ) {
-		$about_page = get_page_by_path( 'about-us', OBJECT, 'page' );
-		if ( ! $about_page || 'publish' !== $about_page->post_status ) {
-			sam_create_default_pages_and_menu();
+		$required_slugs = array( 'about-us', 'for-employers', 'payroll', 'sam-assured', 'hire-talent', 'candidate-form', 'contact', 'employee-login', 'privacy-policy', 'terms-of-service', 'cookie-policy' );
+		foreach ( $required_slugs as $slug ) {
+			$page = get_page_by_path( $slug, OBJECT, 'page' );
+			if ( ! $page || 'publish' !== $page->post_status ) {
+				sam_create_default_pages_and_menu();
+				break;
+			}
 		}
 	}
 }
@@ -352,6 +401,12 @@ function sam_custom_template_include( $template ) {
 				'candidate-form'=> 'page-candidate-form.php',
 				'candidate'     => 'page-candidate-form.php',
 				'apply'         => 'page-candidate-form.php',
+				'contact'       => 'page-contact.php',
+				'contact-us'    => 'page-contact.php',
+				'employee-login'=> 'page-employee-login.php',
+				'privacy-policy'=> 'page-legal.php',
+				'terms-of-service'=> 'page-legal.php',
+				'cookie-policy' => 'page-legal.php',
 			);
 
 			if ( isset( $mapping[ $slug ] ) ) {
@@ -415,6 +470,264 @@ function sam_body_classes( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'sam_body_classes' );
+
+/**
+ * Search metadata for the site's core landing pages. A dedicated SEO plugin
+ * can still override these values; this supplies a solid baseline without one.
+ */
+function sam_seo_page_data() {
+	$defaults = array(
+		'title'       => get_bloginfo( 'name' ),
+		'description' => 'SAM Manpower provides fast, compliant recruitment, staffing and payroll services across India.',
+		'noindex'     => false,
+		'schema_type' => 'WebPage',
+	);
+	$pages = array(
+		'for-employers'   => array(
+			'title'       => 'Recruitment & Staffing Solutions for Employers',
+			'description' => 'Hire pre-screened, immediate and 30-day joiners with SAM Manpower staffing solutions for employers across India.',
+			'schema_type' => 'Service',
+		),
+		'sam-assured'     => array(
+			'title'       => 'SAM Assured Hire: Try Before You Hire',
+			'description' => 'Reduce hiring risk with SAM Assured Hire. Evaluate pre-screened candidates on the job before making a permanent hiring decision.',
+			'schema_type' => 'Service',
+		),
+		'payroll'         => array(
+			'title'       => 'Payroll Outsourcing & Compliance Services',
+			'description' => 'Simplify salary processing, statutory compliance, payslips, settlements and payroll reporting with SAM Manpower.',
+			'schema_type' => 'Service',
+		),
+		'about-us'        => array(
+			'title'       => 'About SAM Manpower & Career Services',
+			'description' => 'Learn about SAM Manpower, an ISO 9001:2015 certified recruitment, staffing and payroll partner with PAN-India reach.',
+			'schema_type' => 'AboutPage',
+		),
+		'contact'         => array(
+			'title'       => 'Contact SAM Manpower',
+			'description' => 'Contact SAM Manpower for recruitment, staffing, payroll support and workforce solutions in Noida and across India.',
+			'schema_type' => 'ContactPage',
+		),
+		'privacy-policy'  => array(
+			'title'       => 'Privacy Policy',
+			'description' => 'Read how SAM Manpower collects, uses, stores, and protects personal information submitted through our website and services.',
+		),
+		'terms-of-service'=> array(
+			'title'       => 'Terms of Service',
+			'description' => 'Review the terms and conditions for using the SAM Manpower website and recruitment, staffing, and payroll services.',
+		),
+		'cookie-policy'   => array(
+			'title'       => 'Cookie Policy',
+			'description' => 'Learn how SAM Manpower uses cookies and similar technologies on this website.',
+		),
+		'hire-talent'     => array( 'title' => 'Hire Talent', 'description' => 'Share your talent requirement with SAM Manpower and connect with pre-screened candidates ready to join.', 'noindex' => true ),
+		'candidate-form'  => array( 'title' => 'Candidate Registration', 'description' => 'Register your profile with SAM Manpower for relevant employment opportunities.', 'noindex' => true ),
+		'employee-login'  => array( 'title' => 'Employee Login', 'description' => 'Access the SAM Manpower employee payroll portal.', 'noindex' => true ),
+	);
+
+	if ( is_front_page() ) {
+		return array_merge( $defaults, array(
+			'title'       => 'Immediate & 30-Day Hiring Experts',
+			'description' => 'SAM Manpower connects employers with pre-screened immediate and 30-day joiners, plus compliant payroll and staffing services.',
+			'schema_type' => 'WebSite',
+		) );
+	}
+	if ( is_page() ) {
+		$slug = get_post_field( 'post_name', get_queried_object_id() );
+		if ( isset( $pages[ $slug ] ) ) {
+			return array_merge( $defaults, $pages[ $slug ] );
+		}
+		return array_merge( $defaults, array(
+			'title'       => get_the_title(),
+			'description' => wp_strip_all_tags( get_the_excerpt() ) ?: $defaults['description'],
+		) );
+	}
+	return $defaults;
+}
+
+/**
+ * Visible breadcrumb trail for inner pages.
+ */
+function sam_render_breadcrumbs() {
+	if ( is_front_page() || is_admin() ) {
+		return;
+	}
+
+	$items   = array(
+		array(
+			'url'   => home_url( '/' ),
+			'label' => 'Home',
+		),
+	);
+	$current = '';
+
+	if ( is_page() ) {
+		$current = get_the_title();
+	} elseif ( is_singular() ) {
+		$current = get_the_title();
+	} else {
+		return;
+	}
+
+	if ( ! $current ) {
+		return;
+	}
+
+	echo '<nav class="breadcrumbs" aria-label="Breadcrumb"><div class="container">';
+	echo '<ol class="breadcrumb-list">';
+	foreach ( $items as $item ) {
+		echo '<li><a href="' . esc_url( $item['url'] ) . '">' . esc_html( $item['label'] ) . '</a></li>';
+	}
+	echo '<li aria-current="page">' . esc_html( $current ) . '</li>';
+	echo '</ol></div></nav>';
+}
+
+/**
+ * Structured breadcrumb data for search engines.
+ */
+function sam_seo_breadcrumb_schema() {
+	$items = array(
+		array(
+			'@type'    => 'ListItem',
+			'position' => 1,
+			'name'     => 'Home',
+			'item'     => home_url( '/' ),
+		),
+	);
+
+	if ( is_page() ) {
+		$items[] = array(
+			'@type'    => 'ListItem',
+			'position' => 2,
+			'name'     => get_the_title(),
+			'item'     => get_permalink(),
+		);
+	}
+
+	return array(
+		'@type'           => 'BreadcrumbList',
+		'@id'             => ( is_page() ? get_permalink() : home_url( '/' ) ) . '#breadcrumb',
+		'itemListElement' => $items,
+	);
+}
+
+function sam_seo_document_title( $parts ) {
+	if ( is_front_page() || is_page() ) {
+		$data          = sam_seo_page_data();
+		$parts['title'] = $data['title'];
+	}
+	return $parts;
+}
+add_filter( 'document_title_parts', 'sam_seo_document_title' );
+
+function sam_seo_meta_tags() {
+	if ( is_admin() || is_feed() || is_robots() || defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'AIOSEO_VERSION' ) ) {
+		return;
+	}
+	$data = sam_seo_page_data();
+	if ( is_front_page() || is_page() ) {
+		$url       = is_front_page() ? home_url( '/' ) : get_permalink();
+		$image     = get_site_icon_url( 512 );
+		$site_name = get_bloginfo( 'name' );
+
+		echo '<meta name="description" content="' . esc_attr( $data['description'] ) . '">' . "\n";
+		echo '<link rel="canonical" href="' . esc_url( $url ) . '">' . "\n";
+		echo '<meta property="og:type" content="website">' . "\n";
+		echo '<meta property="og:site_name" content="' . esc_attr( $site_name ) . '">' . "\n";
+		echo '<meta property="og:locale" content="en_IN">' . "\n";
+		echo '<meta property="og:title" content="' . esc_attr( $data['title'] ) . '">' . "\n";
+		echo '<meta property="og:description" content="' . esc_attr( $data['description'] ) . '">' . "\n";
+		echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
+		echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+		echo '<meta name="twitter:title" content="' . esc_attr( $data['title'] ) . '">' . "\n";
+		echo '<meta name="twitter:description" content="' . esc_attr( $data['description'] ) . '">' . "\n";
+		if ( $image ) {
+			echo '<meta property="og:image" content="' . esc_url( $image ) . '">' . "\n";
+			echo '<meta name="twitter:image" content="' . esc_url( $image ) . '">' . "\n";
+		}
+	}
+}
+add_action( 'wp_head', 'sam_seo_meta_tags', 5 );
+
+function sam_seo_robots( $robots ) {
+	$data = sam_seo_page_data();
+	if ( ! empty( $data['noindex'] ) ) {
+		$robots['noindex'] = true;
+	}
+	return $robots;
+}
+add_filter( 'wp_robots', 'sam_seo_robots' );
+
+function sam_seo_schema() {
+	if ( is_admin() || is_feed() || is_robots() || defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'AIOSEO_VERSION' ) ) {
+		return;
+	}
+
+	$data      = sam_seo_page_data();
+	$site_url  = home_url( '/' );
+	$logo      = get_site_icon_url( 512 );
+	$graph     = array();
+	$org_id    = $site_url . '#organization';
+	$website_id = $site_url . '#website';
+
+	$graph[] = array(
+		'@type'        => 'Organization',
+		'@id'          => $org_id,
+		'name'         => 'SAM Manpower & Career Services LLP',
+		'url'          => $site_url,
+		'logo'         => $logo,
+		'email'        => get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' ),
+		'telephone'    => get_theme_mod( 'sam_phone', '+91 98765 43210' ),
+		'address'      => array(
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ),
+			'addressCountry'  => 'IN',
+		),
+		'sameAs'       => array(),
+	);
+
+	$graph[] = array(
+		'@type'      => 'WebSite',
+		'@id'        => $website_id,
+		'url'        => $site_url,
+		'name'       => get_bloginfo( 'name' ),
+		'publisher'  => array( '@id' => $org_id ),
+		'inLanguage' => 'en-IN',
+	);
+
+	if ( is_front_page() || is_page() ) {
+		$page_url   = is_front_page() ? $site_url : get_permalink();
+		$page_type  = ! empty( $data['schema_type'] ) ? $data['schema_type'] : 'WebPage';
+		$page_node  = array(
+			'@type'       => $page_type,
+			'@id'         => trailingslashit( $page_url ) . '#webpage',
+			'url'         => $page_url,
+			'name'        => $data['title'],
+			'description' => $data['description'],
+			'isPartOf'    => array( '@id' => $website_id ),
+			'inLanguage'  => 'en-IN',
+		);
+
+		if ( 'Service' === $page_type ) {
+			$page_node['provider'] = array( '@id' => $org_id );
+			$page_node['areaServed'] = 'IN';
+		}
+
+		$graph[] = $page_node;
+
+		if ( is_page() ) {
+			$graph[] = sam_seo_breadcrumb_schema();
+		}
+	}
+
+	$schema = array(
+		'@context' => 'https://schema.org',
+		'@graph'   => $graph,
+	);
+
+	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'sam_seo_schema', 30 );
 
 /**
  * Register Testimonials & FAQ custom post types (editable from wp-admin)
@@ -518,13 +831,59 @@ function sam_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'sam_hire_form_url', array( 'default' => home_url( '/hire-talent/' ), 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_hire_form_url', array( 'label' => 'Hire Talent CTA URL', 'description' => 'Defaults to the built-in requirement form. Enter an external URL only if you prefer another form.', 'section' => 'sam_contact', 'type' => 'url' ) );
 
+	$wp_customize->add_setting( 'sam_employee_login_url', array( 'default' => 'https://payroll.razorpay.com/login', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'sam_employee_login_url', array( 'label' => 'Employee Login URL', 'description' => 'URL opened when clicking "Login as Employee" button. Opens in the same tab.', 'section' => 'sam_contact', 'type' => 'url' ) );
+
 	$wp_customize->add_setting( 'sam_hiring_form_recipient', array( 'default' => 'srivastwaadarsh@gmail.com', 'sanitize_callback' => 'sanitize_email' ) );
 	$wp_customize->add_control( 'sam_hiring_form_recipient', array( 'label' => 'Hiring Form Recipient Email', 'section' => 'sam_contact', 'type' => 'email' ) );
 
 	$wp_customize->add_setting( 'sam_address', array( 'default' => 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ) );
 	$wp_customize->add_control( 'sam_address', array( 'label' => 'Office Address', 'section' => 'sam_contact', 'type' => 'textarea' ) );
+	$wp_customize->add_setting( 'sam_smtp_user', array( 'default' => '', 'sanitize_callback' => 'sanitize_email' ) );
+	$wp_customize->add_control( 'sam_smtp_user', array( 'label' => 'Gmail SMTP Email (Sender)', 'description' => 'Enter your Gmail address used to send form emails.', 'section' => 'sam_contact', 'type' => 'email' ) );
+
+	$wp_customize->add_setting( 'sam_smtp_pass', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'sam_smtp_pass', array( 'label' => 'Gmail App Password', 'description' => 'Use a Gmail App Password (not your regular password). Generate at myaccount.google.com > Security > App passwords.', 'section' => 'sam_contact', 'type' => 'text' ) );
 }
 add_action( 'customize_register', 'sam_customize_register' );
+
+/**
+ * Configure PHPMailer to use Gmail SMTP so form emails are delivered on localhost & production.
+ */
+function sam_configure_smtp( $phpmailer ) {
+	$smtp_user = get_theme_mod( 'sam_smtp_user', '' );
+	$smtp_pass = get_theme_mod( 'sam_smtp_pass', '' );
+
+	if ( empty( $smtp_user ) || empty( $smtp_pass ) ) {
+		return;
+	}
+
+	$phpmailer->isSMTP();
+	$phpmailer->Host       = 'smtp.gmail.com';
+	$phpmailer->SMTPAuth   = true;
+	$phpmailer->Port       = 587;
+	$phpmailer->SMTPSecure = 'tls';
+	$phpmailer->Username   = $smtp_user;
+	$phpmailer->Password   = $smtp_pass;
+	$phpmailer->From       = $smtp_user;
+	$phpmailer->FromName   = get_bloginfo( 'name' );
+}
+add_action( 'phpmailer_init', 'sam_configure_smtp' );
+
+/**
+ * Override WordPress default "from" email so it matches the Gmail SMTP sender.
+ */
+function sam_mail_from( $original_email ) {
+	$smtp_user = get_theme_mod( 'sam_smtp_user', '' );
+	return ! empty( $smtp_user ) ? $smtp_user : $original_email;
+}
+add_filter( 'wp_mail_from', 'sam_mail_from' );
+
+function sam_mail_from_name( $original_name ) {
+	return get_bloginfo( 'name' ) ?: $original_name;
+}
+add_filter( 'wp_mail_from_name', 'sam_mail_from_name' );
+
 
 /**
  * Process the hiring requirement form. WP Mail SMTP automatically handles
@@ -706,3 +1065,57 @@ function sam_handle_candidate_form() {
 }
 add_action( 'admin_post_nopriv_sam_submit_candidate_profile', 'sam_handle_candidate_form' );
 add_action( 'admin_post_sam_submit_candidate_profile', 'sam_handle_candidate_form' );
+
+/**
+ * Process general contact form inquiries.
+ */
+function sam_handle_contact_form() {
+	$redirect_url = wp_get_referer() ? wp_get_referer() : home_url( '/contact/' );
+
+	if ( ! isset( $_POST['sam_contact_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sam_contact_nonce'] ) ), 'sam_submit_contact_message' ) ) {
+		wp_safe_redirect( add_query_arg( 'form_status', 'invalid', $redirect_url ) );
+		exit;
+	}
+
+	if ( ! empty( $_POST['website'] ) ) {
+		wp_safe_redirect( add_query_arg( 'form_status', 'success', $redirect_url ) );
+		exit;
+	}
+
+	$name    = sanitize_text_field( wp_unslash( $_POST['contact_name'] ?? '' ) );
+	$email   = sanitize_email( wp_unslash( $_POST['contact_email'] ?? '' ) );
+	$phone   = sanitize_text_field( wp_unslash( $_POST['contact_phone'] ?? '' ) );
+	$subject = sanitize_text_field( wp_unslash( $_POST['contact_subject'] ?? '' ) );
+	$message = sanitize_textarea_field( wp_unslash( $_POST['contact_message'] ?? '' ) );
+
+	if ( ! $name || ! is_email( $email ) || ! $phone || ! $subject || ! $message ) {
+		wp_safe_redirect( add_query_arg( 'form_status', 'error', $redirect_url ) );
+		exit;
+	}
+
+	$body  = "New Contact Us Message Received:\n\n";
+	$body .= "Name: " . $name . "\n";
+	$body .= "Email: " . $email . "\n";
+	$body .= "Phone: " . $phone . "\n";
+	$body .= "Inquiry Type: " . $subject . "\n\n";
+	$body .= "Message:\n" . $message . "\n";
+
+	$recipient = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
+	$headers   = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
+
+	$sent = wp_mail(
+		$recipient,
+		'Contact Inquiry from ' . $name . ' [' . $subject . ']',
+		$body,
+		$headers
+	);
+
+	if ( $sent ) {
+		wp_safe_redirect( add_query_arg( 'form_status', 'success', $redirect_url ) );
+	} else {
+		wp_safe_redirect( add_query_arg( 'form_status', 'mail-error', $redirect_url ) );
+	}
+	exit;
+}
+add_action( 'admin_post_nopriv_sam_submit_contact_message', 'sam_handle_contact_form' );
+add_action( 'admin_post_sam_submit_contact_message', 'sam_handle_contact_form' );

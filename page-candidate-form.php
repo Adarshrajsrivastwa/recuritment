@@ -30,7 +30,7 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 			</div>
 		<?php elseif ( 'upload-error' === $status ) : ?>
 			<div class="form-notice form-notice-error" role="alert">
-				There was an error uploading your file. Please ensure files are in PDF, DOC, or DOCX format under 5MB.
+				There was an error uploading your file. Please ensure your files are in PDF, DOC, or DOCX format under 10MB.
 			</div>
 		<?php elseif ( 'mail-error' === $status ) : ?>
 			<div class="form-notice form-notice-error" role="alert">
@@ -56,16 +56,20 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 
 			<div class="form-grid">
 				<p>
-					<label for="full_name">Full Name <span>*</span></label>
+					<label for="full_name">Name <span>*</span></label>
 					<input id="full_name" name="full_name" type="text" required placeholder="e.g. Rahul Sharma">
 				</p>
 				<p>
 					<label for="phone">Contact No. <span>*</span></label>
 					<input id="phone" name="phone" type="tel" required placeholder="e.g. +91 9876543210">
 				</p>
-				<p class="full-width">
+				<p>
 					<label for="email">Email Address <span>*</span></label>
 					<input id="email" name="email" type="email" required placeholder="e.g. rahul.sharma@example.com">
+				</p>
+				<p>
+					<label for="current_location">Current Location <span>*</span></label>
+					<input id="current_location" name="current_location" type="text" required placeholder="e.g. Noida / Gurgaon / Remote">
 				</p>
 			</div>
 
@@ -75,13 +79,13 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 
 			<div class="form-grid">
 				<p>
-					<label for="current_role">Current Role <span>*</span></label>
+					<label for="current_role">Current Role / Designation <span>*</span></label>
 					<input id="current_role" name="current_role" type="text" required placeholder="e.g. Senior Frontend Engineer">
 				</p>
 				<p>
 					<label for="total_experience">Total Experience <span>*</span></label>
 					<select id="total_experience" name="total_experience" required>
-						<option value="">Select Experience</option>
+						<option value="">Choose</option>
 						<option value="0-1 years">0 - 1 Years (Fresher/Junior)</option>
 						<option value="1-3 years">1 - 3 Years</option>
 						<option value="3-5 years">3 - 5 Years</option>
@@ -90,18 +94,14 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 						<option value="12+ years">12+ Years (Lead/Architect)</option>
 					</select>
 				</p>
-				<p>
-					<label for="primary_skill">Primary Skill <span>*</span></label>
+				<p class="full-width">
+					<label for="primary_skill">Primary Key Skills <span>*</span></label>
 					<input id="primary_skill" name="primary_skill" type="text" required placeholder="e.g. React.js / Node.js / Java">
-				</p>
-				<p>
-					<label for="current_location">Current Location <span>*</span></label>
-					<input id="current_location" name="current_location" type="text" required placeholder="e.g. Noida / Gurgaon / Remote">
 				</p>
 			</div>
 
 			<p>
-				<label for="skills">All Key Skills / Tech Stack <span>*</span></label>
+				<label for="skills">Skills / Tech Stack <span>*</span></label>
 				<textarea id="skills" name="skills" rows="3" required placeholder="e.g. React, JavaScript, HTML5, CSS3, Redux, REST APIs, Git"></textarea>
 			</p>
 
@@ -111,25 +111,25 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 
 			<div class="form-grid">
 				<p class="full-width radio-group-container">
-					<label class="group-label">Are you currently serving notice period? <span>*</span></label>
+					<label class="group-label">Are you Currently Serving Notice Period or available to Join Immediately ? <span>*</span></label>
 					<div class="radio-options">
 						<label class="radio-card">
 							<input type="radio" name="serving_notice" value="Yes" required class="toggle-notice-doc">
 							<span class="radio-custom"></span>
-							<span class="radio-label">Yes, serving notice</span>
+							<span class="radio-label">Yes</span>
 						</label>
 						<label class="radio-card">
 							<input type="radio" name="serving_notice" value="No" required class="toggle-notice-doc">
 							<span class="radio-custom"></span>
-							<span class="radio-label">No, not yet</span>
+							<span class="radio-label">No</span>
 						</label>
 					</div>
 				</p>
 
 				<div id="notice_doc_container" class="full-width conditional-upload-box hidden-field">
 					<label for="notice_doc">
-						Upload Notice Period / Resignation Relevant Document
-						<small class="field-hint">(Resignation acceptance letter, buyout email, or official notice period proof)</small>
+						If Yes can you share relevant docs (Resignation Email Screenshot or reliving letter) to verify your availability.
+						<small class="field-hint">(Resignation acceptance letter, buyout email, or relieving letter screenshot)</small>
 					</label>
 					<div class="file-upload-wrapper">
 						<input id="notice_doc" name="notice_doc" type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
@@ -144,7 +144,7 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 				<p>
 					<label for="joining_timeline">How soon can you join? <span>*</span></label>
 					<select id="joining_timeline" name="joining_timeline" required>
-						<option value="">Select Joining Timeline</option>
+						<option value="">Choose</option>
 						<option value="Immediate">Immediate (0-7 Days)</option>
 						<option value="Within 15 days">Within 15 Days</option>
 						<option value="Within 30 days">Within 30 Days</option>
@@ -154,34 +154,23 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 				</p>
 
 				<p>
-					<label for="offer_in_hand">Any offer letter in hand? <span>*</span></label>
+					<label for="offer_in_hand">Any offers in hand? <span>*</span></label>
 					<select id="offer_in_hand" name="offer_in_hand" required>
-						<option value="">Select Option</option>
+						<option value="">Choose</option>
 						<option value="Yes">Yes, holding an offer</option>
 						<option value="No">No active offer</option>
 						<option value="Multiple Offers">Multiple offers in hand</option>
 					</select>
 				</p>
 
-				<p class="full-width radio-group-container">
-					<label class="group-label">Are you comfortable with contract / contract-to-hire roles? <span>*</span></label>
-					<div class="radio-options">
-						<label class="radio-card">
-							<input type="radio" name="contract_role_ready" value="Yes" required>
-							<span class="radio-custom"></span>
-							<span class="radio-label">Yes, comfortable</span>
-						</label>
-						<label class="radio-card">
-							<input type="radio" name="contract_role_ready" value="No" required>
-							<span class="radio-custom"></span>
-							<span class="radio-label">No, permanent only</span>
-						</label>
-						<label class="radio-card">
-							<input type="radio" name="contract_role_ready" value="Open to both" required>
-							<span class="radio-custom"></span>
-							<span class="radio-label">Open to both</span>
-						</label>
-					</div>
+				<p class="full-width">
+					<label for="contract_role_ready">Comfortable with contract roles? <span>*</span></label>
+					<select id="contract_role_ready" name="contract_role_ready" required>
+						<option value="">Choose</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+						<option value="Open to both">Open to both</option>
+					</select>
 				</p>
 			</div>
 
@@ -191,11 +180,11 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 
 			<div class="form-grid">
 				<p>
-					<label for="current_ctc">Current CTC (LPA) <span>*</span></label>
+					<label for="current_ctc">Current CTC <span>*</span></label>
 					<input id="current_ctc" name="current_ctc" type="text" required placeholder="e.g. 10.5 LPA">
 				</p>
 				<p>
-					<label for="expected_ctc">Expected CTC (LPA) <span>*</span></label>
+					<label for="expected_ctc">Expected CTC <span>*</span></label>
 					<input id="expected_ctc" name="expected_ctc" type="text" required placeholder="e.g. 14 LPA">
 				</p>
 			</div>
@@ -203,7 +192,7 @@ $status = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_
 			<div class="full-width file-field-group">
 				<label for="resume_file">
 					Upload Resume <span>*</span>
-					<small class="field-hint">(Accepted formats: PDF, DOC, DOCX - Max size: 5MB)</small>
+					<small class="field-hint">Upload 1 supported file: document (PDF, DOC, DOCX). Max 10 MB.</small>
 				</label>
 				<div class="file-upload-wrapper">
 					<input id="resume_file" name="resume_file" type="file" required accept=".pdf,.doc,.docx">

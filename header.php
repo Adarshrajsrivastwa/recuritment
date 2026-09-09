@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</nav>
 
 		<div class="header-cta">
-			<a href="<?php echo esc_url( sam_candidate_form_url() ); ?>" class="btn btn-outline btn-sm">Join as Candidate</a>
+			<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm" target="_self">Login as Employee</a>
 			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
 		</div>
 
@@ -43,3 +43,4 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 </header>
 
 <main id="main" class="site-main">
+	<?php sam_render_breadcrumbs(); ?>

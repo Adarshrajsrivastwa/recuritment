@@ -15,7 +15,7 @@ get_header();
 		<p class="hero-sub">Long notice periods increase offer dropouts and hit revenue. SAM works exclusively with candidates serving notice or ready to join within 30 days &mdash; filling urgent roles without delays.</p>
 		<div class="hero-actions">
 			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Hire Immediate Talent</a>
-			<a href="#employers" class="btn btn-outline-light"><?php echo sam_icon('search'); ?> Find Opportunity</a>
+			<a href="<?php echo esc_url( sam_contact_url() ); ?>" class="btn btn-outline-light"><?php echo sam_icon('chat'); ?> Contact Us</a>
 		</div>
 	</div>
 </section>
@@ -79,10 +79,10 @@ get_header();
 		<div class="grid-4 services-grid">
 			<?php
 			$services = array(
-				array( 'icon' => 'users', 'title' => 'Permanent Hiring', 'desc' => 'Specialized in immediate and 30-day placements for critical roles.', 'link' => '#employers' ),
-				array( 'icon' => 'laptop', 'title' => 'IT Contract Staffing', 'desc' => 'Flexible technical talent to scale projects dynamically.', 'link' => '#employers' ),
-				array( 'icon' => 'briefcase', 'title' => 'Managed Workforce', 'desc' => 'End-to-end management of contingent workforce operations.', 'link' => '#employers' ),
-				array( 'icon' => 'wallet', 'title' => 'Payroll Support', 'desc' => 'Compliant and timely payroll processing and management.', 'link' => '#payroll' ),
+				array( 'icon' => 'users', 'title' => 'Permanent Hiring', 'desc' => 'Specialized in immediate and 30-day placements for critical roles.', 'link' => sam_get_page_url_by_slug( 'for-employers' ) ),
+				array( 'icon' => 'laptop', 'title' => 'IT Contract Staffing', 'desc' => 'Flexible technical talent to scale projects dynamically.', 'link' => sam_get_page_url_by_slug( 'for-employers' ) ),
+				array( 'icon' => 'briefcase', 'title' => 'Managed Workforce', 'desc' => 'End-to-end management of contingent workforce operations.', 'link' => sam_get_page_url_by_slug( 'for-employers' ) ),
+				array( 'icon' => 'wallet', 'title' => 'Payroll Support', 'desc' => 'Compliant and timely payroll processing and management.', 'link' => sam_get_page_url_by_slug( 'payroll' ) ),
 			);
 			foreach ( $services as $s ) :
 				$link = isset( $s['link'] ) ? $s['link'] : '#employers';
@@ -136,7 +136,7 @@ get_header();
 			<span class="eyebrow-badge eyebrow-badge-light"><?php echo sam_icon('shield'); ?> Zero Risk Hiring</span>
 			<h2>SAM Assured Hire</h2>
 			<p>Not sure if a hire will work out? SAM Assured lets you evaluate a candidate on the job first, so you only commit to a permanent hire once you're confident it's the right fit. No severance, no backfill scramble.</p>
-			<a href="#sam-assured" class="btn btn-primary">Explore Assured Model</a>
+			<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'sam-assured' ) ); ?>" class="btn btn-primary">Explore Assured Model</a>
 		</div>
 		<div class="assured-steps">
 			<div class="assured-step"><?php echo sam_icon('check'); ?><span>01. Identify<br><small>Curated Talent</small></span></div>
@@ -160,7 +160,7 @@ get_header();
 				<li><?php echo sam_icon('check'); ?> Full &amp; final settlements</li>
 				<li><?php echo sam_icon('check'); ?> Monthly MIS reporting</li>
 			</ul>
-			<a href="#payroll" class="btn btn-primary">Explore Payroll Services</a>
+			<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'payroll' ) ); ?>" class="btn btn-primary">Explore Payroll Services</a>
 		</div>
 		<div class="payroll-stats-card">
 			<div class="payroll-stat"><span class="stat-num">ISO</span><span class="stat-label">9001:2015 Certified</span></div>
@@ -303,6 +303,7 @@ get_header();
 				<div><span class="stat-num">98%</span><span class="stat-label">Retention Rate</span></div>
 				<div><span class="stat-num">500+</span><span class="stat-label">Partners Nationwide</span></div>
 			</div>
+			<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'about-us' ) ); ?>" class="btn btn-outline" style="margin-top:24px;">About SAM Manpower</a>
 		</div>
 	</div>
 </section>

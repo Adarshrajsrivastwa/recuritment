@@ -17,11 +17,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<div class="footer-col">
 			<h4 class="footer-widget-title">Company</h4>
 			<ul>
-				<li><a href="<?php echo esc_url( home_url( '/#about' ) ); ?>">About Us</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/#employers' ) ); ?>">For Employers</a></li>
+				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'about-us' ) ); ?>">About Us</a></li>
+				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'for-employers' ) ); ?>">For Employers</a></li>
 				<li><a href="<?php echo esc_url( sam_candidate_form_url() ); ?>">Candidate Registration</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/#payroll' ) ); ?>">Payroll</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/#sam-assured' ) ); ?>">SAM Assured</a></li>
+				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'payroll' ) ); ?>">Payroll</a></li>
+				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'sam-assured' ) ); ?>">SAM Assured</a></li>
+				<li><a href="<?php echo esc_url( sam_contact_url() ); ?>">Contact Us</a></li>
 			</ul>
 		</div>
 
