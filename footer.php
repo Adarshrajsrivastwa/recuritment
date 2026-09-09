@@ -3,48 +3,74 @@
  * The footer for our theme
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+$phone   = get_theme_mod( 'sam_phone', '+91 98765 43210' );
+$email   = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
+$address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' );
 ?>
 </main><!-- #main -->
 
 <footer class="site-footer">
 	<div class="container footer-inner">
-		<div class="footer-col footer-brand">
-			<div class="site-logo-text footer-logo">SAM</div>
-			<p><?php echo nl2br( esc_html( get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ) ) ); ?></p>
-			<p><a href="tel:<?php echo esc_attr( str_replace( ' ', '', get_theme_mod( 'sam_phone', '+919876543210' ) ) ); ?>"><?php echo esc_html( get_theme_mod( 'sam_phone', '+91 98765 43210' ) ); ?></a></p>
-		</div>
-
-		<div class="footer-col">
-			<h4 class="footer-widget-title">Company</h4>
-			<ul>
-				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'about-us' ) ); ?>">About Us</a></li>
-				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'for-employers' ) ); ?>">For Employers</a></li>
-				<li><a href="<?php echo esc_url( sam_candidate_form_url() ); ?>">Candidate Registration</a></li>
-				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'payroll' ) ); ?>">Payroll</a></li>
-				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'sam-assured' ) ); ?>">SAM Assured</a></li>
-				<li><a href="<?php echo esc_url( sam_contact_url() ); ?>">Contact Us</a></li>
+		<div class="footer-brand-col">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="footer-logo">SAM</a>
+			<p class="footer-tagline">Immediate &amp; 30-Day Hiring Experts across India.</p>
+			<ul class="footer-contact-list">
+				<li>
+					<span class="footer-contact-icon" aria-hidden="true"><?php echo sam_icon( 'target' ); ?></span>
+					<span><?php echo esc_html( $address ); ?></span>
+				</li>
+				<li>
+					<span class="footer-contact-icon" aria-hidden="true"><?php echo sam_icon( 'chat' ); ?></span>
+					<a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a>
+				</li>
+				<li>
+					<span class="footer-contact-icon" aria-hidden="true"><?php echo sam_icon( 'bell' ); ?></span>
+					<a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a>
+				</li>
 			</ul>
+			<?php sam_render_social_links(); ?>
 		</div>
 
-		<div class="footer-col">
-			<h4 class="footer-widget-title">Legal</h4>
-			<ul>
-				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'privacy-policy' ) ); ?>">Privacy Policy</a></li>
-				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'terms-of-service' ) ); ?>">Terms of Service</a></li>
-				<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'cookie-policy' ) ); ?>">Cookie Policy</a></li>
-			</ul>
-		</div>
-
-		<?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+		<div class="footer-links-grid">
 			<div class="footer-col">
-				<?php dynamic_sidebar( 'footer-1' ); ?>
+				<h4 class="footer-widget-title">Company</h4>
+				<ul class="footer-links">
+					<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'about-us' ) ); ?>">About Us</a></li>
+					<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'for-employers' ) ); ?>">For Employers</a></li>
+					<li><a href="<?php echo esc_url( sam_candidate_form_url() ); ?>">Candidate Registration</a></li>
+					<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'payroll' ) ); ?>">Payroll</a></li>
+					<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'sam-assured' ) ); ?>">SAM Assured</a></li>
+					<li><a href="<?php echo esc_url( sam_contact_url() ); ?>">Contact Us</a></li>
+				</ul>
 			</div>
-		<?php endif; ?>
+
+			<div class="footer-col">
+				<h4 class="footer-widget-title">Legal</h4>
+				<ul class="footer-links">
+					<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'privacy-policy' ) ); ?>">Privacy Policy</a></li>
+					<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'terms-of-service' ) ); ?>">Terms of Service</a></li>
+					<li><a href="<?php echo esc_url( sam_get_page_url_by_slug( 'cookie-policy' ) ); ?>">Cookie Policy</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col footer-cta-col">
+				<h4 class="footer-widget-title">Get Started</h4>
+				<p class="footer-cta-text">Share your hiring requirement and hear back within 24 hours.</p>
+				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm footer-cta-btn"><?php echo sam_icon( 'users' ); ?> Hire Talent</a>
+				<a href="<?php echo esc_url( sam_contact_url() ); ?>" class="footer-cta-link">Contact our team <?php echo sam_icon( 'arrow' ); ?></a>
+			</div>
+		</div>
 	</div>
 
 	<div class="footer-bottom">
-		<div class="container">
-			<p>&copy; <?php echo esc_html( date( 'Y' ) ); ?> SAM Manpower &amp; Career Services LLP. All Rights Reserved.</p>
+		<div class="container footer-bottom-inner">
+			<p class="footer-copyright">&copy; <?php echo esc_html( date( 'Y' ) ); ?> SAM Manpower &amp; Career Services LLP. All Rights Reserved.</p>
+			<div class="footer-bottom-links">
+				<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'privacy-policy' ) ); ?>">Privacy</a>
+				<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'terms-of-service' ) ); ?>">Terms</a>
+				<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'cookie-policy' ) ); ?>">Cookies</a>
+			</div>
 		</div>
 	</div>
 </footer>

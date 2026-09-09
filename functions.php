@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.6' );
+define( 'SAM_THEME_VERSION', '1.0.8' );
 
 /**
  * Theme setup
@@ -689,7 +689,9 @@ function sam_seo_schema() {
 			'streetAddress'   => get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ),
 			'addressCountry'  => 'IN',
 		),
-		'sameAs'       => array(),
+		'sameAs'       => array_values( array_map( function ( $network ) {
+			return $network['url'];
+		}, sam_get_social_links() ) ),
 	);
 
 	$graph[] = array(
@@ -821,8 +823,60 @@ function sam_icon( $name ) {
 		'download'   => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 19h16"/></svg>',
 		'arrow'      => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
 		'star'       => '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9-6.2-3.3-6.2 3.3 1.2-6.9-5-4.9 6.9-1z"/></svg>',
+		'linkedin'   => '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6.5 8.5h3v11h-3v-11zm1.5-5a1.75 1.75 0 110 3.5 1.75 1.75 0 010-3.5zM10 8.5h2.9v1.5h.04c.4-.75 1.38-1.55 2.84-1.55 3.04 0 3.6 2 3.6 4.6v6.45h-3v-5.72c0-1.36-.02-3.1-1.89-3.1-1.9 0-2.19 1.48-2.19 3.01v5.81h-3v-11z"/></svg>',
+		'instagram'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+		'facebook'   => '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14 8.5h2.5l-.5 3H14v9h-3v-9H9v-3h2V7.2c0-2.5 1.5-4.2 4.1-4.2H16v3h-1.4c-.8 0-1.6.4-1.6 1.3v1.2z"/></svg>',
 	);
 	return isset( $icons[ $name ] ) ? $icons[ $name ] : '';
+}
+
+/**
+ * Return configured social profile URLs for the theme.
+ */
+function sam_get_social_links() {
+	$networks = array(
+		'linkedin'  => array(
+			'label' => 'LinkedIn',
+			'url'   => get_theme_mod( 'sam_linkedin_url', '' ),
+		),
+		'instagram' => array(
+			'label' => 'Instagram',
+			'url'   => get_theme_mod( 'sam_instagram_url', '' ),
+		),
+		'facebook'  => array(
+			'label' => 'Facebook',
+			'url'   => get_theme_mod( 'sam_facebook_url', '' ),
+		),
+	);
+
+	return array_filter(
+		$networks,
+		function ( $network ) {
+			return ! empty( $network['url'] );
+		}
+	);
+}
+
+/**
+ * Output footer/social icon links when URLs are configured.
+ */
+function sam_render_social_links( $class = 'footer-social' ) {
+	$links = sam_get_social_links();
+	if ( empty( $links ) ) {
+		return;
+	}
+
+	echo '<div class="' . esc_attr( $class ) . '">';
+	echo '<span class="footer-social-label">Follow Us</span>';
+	echo '<ul class="footer-social-list">';
+	foreach ( $links as $key => $network ) {
+		echo '<li>';
+		echo '<a href="' . esc_url( $network['url'] ) . '" target="_blank" rel="noopener noreferrer" aria-label="' . esc_attr( $network['label'] ) . '">';
+		echo sam_icon( $key );
+		echo '</a>';
+		echo '</li>';
+	}
+	echo '</ul></div>';
 }
 
 /**
@@ -850,6 +904,17 @@ function sam_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'sam_smtp_pass', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'sam_smtp_pass', array( 'label' => 'Gmail App Password', 'description' => 'Use a Gmail App Password (not your regular password). Generate at myaccount.google.com > Security > App passwords.', 'section' => 'sam_contact', 'type' => 'text' ) );
+
+	$wp_customize->add_section( 'sam_social', array( 'title' => 'SAM Social Media', 'priority' => 31 ) );
+
+	$wp_customize->add_setting( 'sam_linkedin_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'sam_linkedin_url', array( 'label' => 'LinkedIn Profile URL', 'section' => 'sam_social', 'type' => 'url' ) );
+
+	$wp_customize->add_setting( 'sam_instagram_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'sam_instagram_url', array( 'label' => 'Instagram Profile URL', 'section' => 'sam_social', 'type' => 'url' ) );
+
+	$wp_customize->add_setting( 'sam_facebook_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'sam_facebook_url', array( 'label' => 'Facebook Page URL', 'section' => 'sam_social', 'type' => 'url' ) );
 }
 add_action( 'customize_register', 'sam_customize_register' );
 

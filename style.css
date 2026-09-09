@@ -347,16 +347,186 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 /* ==========================================================================
    14. Footer
    ========================================================================== */
-.site-footer{ background:var(--bg-soft-2); border-top:1px solid var(--border); padding-top:30px; }
-.footer-inner{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:16px; padding-bottom:20px; }
-.footer-logo{ margin-bottom:8px; font-size:1.15rem; }
-.footer-col p{ font-size:.84rem; margin-bottom:6px; line-height:1.5; }
-.footer-col a{ font-size:.84rem; color:var(--text-muted); }
-.footer-col a:hover{ color:var(--blue); }
-.footer-widget-title{ font-size:.86rem; margin-bottom:8px; color:var(--navy); }
-.footer-col ul{ display:flex; flex-direction:column; gap:6px; }
-.footer-bottom{ border-top:1px solid var(--border); padding:10px 0; }
-.footer-bottom p{ margin:0; font-size:.8rem; text-align:center; }
+.site-footer{
+	position:relative;
+	background:linear-gradient(160deg, var(--navy) 0%, #0f1f3d 100%);
+	color:rgba(255,255,255,.82);
+	border-top:3px solid transparent;
+	border-image:linear-gradient(90deg, var(--blue), #6b9fff, var(--blue)) 1;
+	padding-top:36px;
+}
+.footer-inner{
+	display:grid;
+	grid-template-columns:1.1fr 1.9fr;
+	gap:40px;
+	padding-bottom:28px;
+	align-items:start;
+}
+.footer-brand-col{ max-width:340px; }
+.footer-logo{
+	display:inline-block;
+	font-family:var(--font-head);
+	font-weight:800;
+	font-size:1.35rem;
+	color:#fff;
+	letter-spacing:.04em;
+	margin-bottom:10px;
+}
+.footer-logo:hover{ color:var(--blue); }
+.footer-tagline{
+	font-size:.88rem;
+	line-height:1.55;
+	color:rgba(255,255,255,.65);
+	margin:0 0 18px;
+}
+.footer-contact-list{
+	display:flex;
+	flex-direction:column;
+	gap:12px;
+}
+.footer-contact-list li{
+	display:flex;
+	align-items:flex-start;
+	gap:10px;
+	font-size:.84rem;
+	line-height:1.5;
+	color:rgba(255,255,255,.72);
+}
+.footer-contact-icon{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:30px;
+	height:30px;
+	border-radius:8px;
+	background:rgba(255,255,255,.08);
+	color:#9db6f5;
+	flex-shrink:0;
+}
+.footer-contact-icon svg{ width:15px; height:15px; }
+.footer-contact-list a{
+	color:rgba(255,255,255,.88);
+	font-weight:500;
+	word-break:break-word;
+	transition:color .15s ease;
+}
+.footer-contact-list a:hover{ color:#fff; }
+.footer-social{ margin-top:20px; }
+.footer-social-label{
+	display:block;
+	font-size:.72rem;
+	font-weight:700;
+	letter-spacing:.08em;
+	text-transform:uppercase;
+	color:rgba(255,255,255,.5);
+	margin-bottom:10px;
+}
+.footer-social-list{
+	display:flex;
+	align-items:center;
+	gap:10px;
+}
+.footer-social-list a{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:38px;
+	height:38px;
+	border-radius:10px;
+	background:rgba(255,255,255,.08);
+	border:1px solid rgba(255,255,255,.12);
+	color:#fff;
+	transition:background .15s ease, transform .15s ease, border-color .15s ease;
+}
+.footer-social-list a svg{ width:18px; height:18px; }
+.footer-social-list a:hover{
+	background:var(--blue);
+	border-color:var(--blue);
+	transform:translateY(-2px);
+}
+.footer-links-grid{
+	display:grid;
+	grid-template-columns:repeat(3,1fr);
+	gap:24px;
+}
+.footer-widget-title{
+	font-size:.78rem;
+	font-weight:700;
+	letter-spacing:.08em;
+	text-transform:uppercase;
+	color:#fff;
+	margin:0 0 14px;
+}
+.footer-links{
+	display:flex;
+	flex-direction:column;
+	gap:9px;
+}
+.footer-links a{
+	font-size:.86rem;
+	color:rgba(255,255,255,.68);
+	transition:color .15s ease, transform .15s ease;
+}
+.footer-links a:hover{
+	color:#fff;
+	transform:translateX(3px);
+}
+.footer-cta-col{
+	background:rgba(255,255,255,.06);
+	border:1px solid rgba(255,255,255,.1);
+	border-radius:var(--radius-md);
+	padding:18px 16px;
+}
+.footer-cta-text{
+	font-size:.84rem;
+	line-height:1.5;
+	color:rgba(255,255,255,.65);
+	margin:0 0 14px;
+}
+.footer-cta-btn{
+	width:100%;
+	margin-bottom:12px;
+	box-shadow:0 6px 18px rgba(47,95,214,.35);
+}
+.footer-cta-link{
+	display:inline-flex;
+	align-items:center;
+	gap:6px;
+	font-size:.82rem;
+	font-weight:600;
+	color:#9db6f5;
+}
+.footer-cta-link svg{ width:14px; height:14px; transition:transform .15s ease; }
+.footer-cta-link:hover{ color:#fff; }
+.footer-cta-link:hover svg{ transform:translateX(3px); }
+.footer-bottom{
+	border-top:1px solid rgba(255,255,255,.1);
+	padding:12px 0;
+	background:rgba(0,0,0,.12);
+}
+.footer-bottom-inner{
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	gap:16px;
+	flex-wrap:wrap;
+}
+.footer-copyright{
+	margin:0;
+	font-size:.78rem;
+	color:rgba(255,255,255,.5);
+}
+.footer-bottom-links{
+	display:flex;
+	align-items:center;
+	gap:16px;
+}
+.footer-bottom-links a{
+	font-size:.78rem;
+	color:rgba(255,255,255,.55);
+	font-weight:500;
+}
+.footer-bottom-links a:hover{ color:#fff; }
 
 /* ==========================================================================
    15. Contact page
@@ -379,7 +549,9 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 	.journey-track{ grid-template-columns:repeat(3,1fr); row-gap:28px; }
 	.assured-inner, .partner-inner, .payroll-inner{ grid-template-columns:1fr; }
 	.partner-media{ order:-1; }
-	.footer-inner{ grid-template-columns:1fr 1fr; }
+	.footer-inner{ grid-template-columns:1fr; gap:28px; }
+	.footer-links-grid{ grid-template-columns:repeat(2,1fr); }
+	.footer-cta-col{ grid-column:1 / -1; }
 	.contact-info-cards{ grid-template-columns:repeat(2,1fr); }
 }
 
@@ -417,7 +589,11 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 	.assured-steps{ grid-template-columns:1fr; }
 	.payroll-stats-card{ grid-template-columns:repeat(2,1fr); gap:16px; padding:24px 16px; }
 	.partner-stats{ flex-direction:column; gap:16px; align-items:flex-start; }
-	.footer-inner{ grid-template-columns:1fr; }
+	.footer-inner{ grid-template-columns:1fr; gap:24px; padding-bottom:20px; }
+	.footer-links-grid{ grid-template-columns:1fr; }
+	.footer-cta-col{ grid-column:auto; }
+	.footer-bottom-inner{ flex-direction:column; text-align:center; }
+	.site-footer{ padding-top:28px; }
 	.form-grid{ grid-template-columns:1fr; }
 	.contact-info-cards{ grid-template-columns:1fr; }
 
