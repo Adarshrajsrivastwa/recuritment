@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.14' );
+define( 'SAM_THEME_VERSION', '1.0.15' );
 
 /**
  * Theme setup
@@ -106,7 +106,7 @@ function sam_render_logo( $class = 'site-logo' ) {
 	}
 
 	printf(
-		'<a href="%1$s" class="%2$s" rel="home"><img src="%3$s" alt="%4$s" width="190" height="64" decoding="async"></a>',
+		'<a href="%1$s" class="%2$s" rel="home"><img src="%3$s" alt="%4$s" width="220" height="auto" decoding="async"></a>',
 		esc_url( home_url( '/' ) ),
 		esc_attr( $class ),
 		esc_url( sam_default_logo_url() ),

@@ -120,7 +120,8 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .site-logo{ display:flex; align-items:center; line-height:0; }
 .site-logo img,
 .site-branding .custom-logo{
-	max-height:52px;
+	max-height:58px;
+	max-width:220px;
 	width:auto;
 	height:auto;
 	object-fit:contain;
@@ -132,7 +133,8 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 .footer-logo-link img,
 .footer-logo-link .custom-logo{
-	max-height:54px;
+	max-height:56px;
+	max-width:200px;
 	width:auto;
 	background:#fff;
 	padding:6px 10px;
