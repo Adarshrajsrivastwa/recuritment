@@ -19,11 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <header class="site-header" id="site-header">
 	<div class="container header-inner">
 		<div class="site-branding">
-			<?php if ( has_custom_logo() ) : ?>
-				<?php the_custom_logo(); ?>
-			<?php else : ?>
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo-text">SAM</a>
-			<?php endif; ?>
+			<?php sam_render_logo( 'site-logo' ); ?>
 		</div>
 
 		<nav class="main-navigation" id="main-navigation" aria-label="Primary">
@@ -35,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</nav>
 
 		<div class="header-cta">
-			<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm" target="_self">Login as Employee</a>
+			<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm">Login as Employee</a>
 			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
 		</div>
 

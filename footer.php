@@ -13,7 +13,7 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 <footer class="site-footer">
 	<div class="container footer-inner">
 		<div class="footer-brand-col">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="footer-logo">SAM</a>
+			<?php sam_render_logo( 'footer-logo-link' ); ?>
 			<p class="footer-tagline">Immediate &amp; 30-Day Hiring Experts across India.</p>
 			<ul class="footer-contact-list">
 				<li>

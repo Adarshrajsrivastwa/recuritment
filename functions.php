@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.10' );
+define( 'SAM_THEME_VERSION', '1.0.13' );
 
 /**
  * Theme setup
@@ -83,6 +83,38 @@ function sam_get_page_url_by_slug( $slug ) {
 }
 
 /**
+ * Default theme logo bundled with the theme files.
+ */
+function sam_default_logo_url() {
+	return get_template_directory_uri() . '/assets/images/sam-logo.png';
+}
+
+/**
+ * Accessible alt text for the SAM logo image.
+ */
+function sam_logo_alt() {
+	return 'SAM Manpower - People, Careers, Growth - Immediate and 30-Day Hiring Experts';
+}
+
+/**
+ * Render the site logo. Uses the WordPress custom logo when set, otherwise the bundled image.
+ */
+function sam_render_logo( $class = 'site-logo' ) {
+	if ( has_custom_logo() ) {
+		the_custom_logo();
+		return;
+	}
+
+	printf(
+		'<a href="%1$s" class="%2$s" rel="home"><img src="%3$s" alt="%4$s" width="190" height="64" decoding="async"></a>',
+		esc_url( home_url( '/' ) ),
+		esc_attr( $class ),
+		esc_url( sam_default_logo_url() ),
+		esc_attr( sam_logo_alt() )
+	);
+}
+
+/**
  * Fallback menu if no menu assigned to a location
  */
 function sam_fallback_primary_menu() {
@@ -154,15 +186,17 @@ function sam_candidate_form_url() {
 }
 
 /**
- * Return the destination used by employee login call-to-action button.
+ * Return the destination used by employee login call-to-action buttons.
  */
 function sam_employee_login_url() {
-	return sam_get_page_url_by_slug( 'employee-login' );
+	return sam_employee_portal_url();
 }
 
 /** Return the configured third-party employee portal URL. */
 function sam_employee_portal_url() {
-	return get_theme_mod( 'sam_employee_login_url', 'https://payroll.razorpay.com/login' );
+	$default = 'https://payroll.razorpay.com/login';
+	$url     = get_theme_mod( 'sam_employee_login_url', $default );
+	return $url ? $url : $default;
 }
 
 /**
