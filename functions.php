@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.9' );
+define( 'SAM_THEME_VERSION', '1.0.10' );
 
 /**
  * Theme setup

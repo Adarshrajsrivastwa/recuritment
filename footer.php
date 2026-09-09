@@ -53,10 +53,10 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 				</ul>
 			</div>
 
-			<div class="footer-col footer-cta-col">
+			<div class="footer-col footer-social-col">
 				<h4 class="footer-widget-title">Follow Us</h4>
-				<p class="footer-cta-text">Connect with SAM Manpower on Instagram, Facebook and LinkedIn.</p>
-				<?php sam_render_social_links( 'footer-social footer-social-card', false ); ?>
+				<p class="footer-social-text">Connect with SAM Manpower on Instagram, Facebook and LinkedIn.</p>
+				<?php sam_render_social_links( 'footer-social footer-social-inline', false ); ?>
 			</div>
 		</div>
 	</div>
