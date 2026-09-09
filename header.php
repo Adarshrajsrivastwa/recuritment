@@ -25,13 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<nav class="main-navigation" id="main-navigation" aria-label="Primary">
 			<?php sam_one_page_primary_menu(); ?>
 			<div class="mobile-nav-cta">
-				<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm">Login as Employee</a>
 				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
 			</div>
 		</nav>
 
 		<div class="header-cta">
-			<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm">Login as Employee</a>
 			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
 		</div>
 

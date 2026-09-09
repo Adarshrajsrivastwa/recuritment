@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.15' );
+define( 'SAM_THEME_VERSION', '1.0.16' );
 
 /**
  * Theme setup
@@ -186,20 +186,6 @@ function sam_candidate_form_url() {
 }
 
 /**
- * Return the destination used by employee login call-to-action buttons.
- */
-function sam_employee_login_url() {
-	return sam_employee_portal_url();
-}
-
-/** Return the configured third-party employee portal URL. */
-function sam_employee_portal_url() {
-	$default = 'https://payroll.razorpay.com/login';
-	$url     = get_theme_mod( 'sam_employee_login_url', $default );
-	return $url ? $url : $default;
-}
-
-/**
  * Return the destination used by contact call-to-action buttons.
  */
 function sam_contact_url() {
@@ -250,11 +236,6 @@ function sam_create_default_pages_and_menu() {
 			'title'    => 'Contact Us',
 			'slug'     => 'contact',
 			'template' => 'page-contact.php',
-		),
-		'employee_login' => array(
-			'title'    => 'Employee Login',
-			'slug'     => 'employee-login',
-			'template' => 'page-employee-login.php',
 		),
 		'privacy' => array(
 			'title'    => 'Privacy Policy',
@@ -388,7 +369,7 @@ function sam_ensure_default_pages_and_menu_on_init() {
 	}
 
 	if ( ! is_admin() ) {
-		$required_slugs = array( 'about-us', 'for-employers', 'payroll', 'sam-assured', 'hire-talent', 'candidate-form', 'contact', 'employee-login', 'privacy-policy', 'terms-of-service', 'cookie-policy' );
+		$required_slugs = array( 'about-us', 'for-employers', 'payroll', 'sam-assured', 'hire-talent', 'candidate-form', 'contact', 'privacy-policy', 'terms-of-service', 'cookie-policy' );
 		foreach ( $required_slugs as $slug ) {
 			$page = get_page_by_path( $slug, OBJECT, 'page' );
 			if ( ! $page || 'publish' !== $page->post_status ) {
@@ -399,6 +380,17 @@ function sam_ensure_default_pages_and_menu_on_init() {
 	}
 }
 add_action( 'init', 'sam_ensure_default_pages_and_menu_on_init', 1 );
+
+/**
+ * Remove the retired employee login page and route if it still exists.
+ */
+function sam_remove_retired_employee_login_page() {
+	$page = get_page_by_path( 'employee-login', OBJECT, 'page' );
+	if ( $page ) {
+		wp_trash_post( $page->ID );
+	}
+}
+add_action( 'init', 'sam_remove_retired_employee_login_page', 2 );
 
 /**
  * Filter option_show_on_front to return 'posts' when page_on_front is unassigned, preventing WP query parser from marking inner pages as front page
@@ -443,7 +435,6 @@ function sam_custom_template_include( $template ) {
 				'apply'         => 'page-candidate-form.php',
 				'contact'       => 'page-contact.php',
 				'contact-us'    => 'page-contact.php',
-				'employee-login'=> 'page-employee-login.php',
 				'privacy-policy'=> 'page-legal.php',
 				'terms-of-service'=> 'page-legal.php',
 				'cookie-policy' => 'page-legal.php',
@@ -562,7 +553,6 @@ function sam_seo_page_data() {
 		),
 		'hire-talent'     => array( 'title' => 'Hire Talent', 'description' => 'Share your talent requirement with SAM Manpower and connect with pre-screened candidates ready to join.', 'noindex' => true ),
 		'candidate-form'  => array( 'title' => 'Candidate Registration', 'description' => 'Register your profile with SAM Manpower for relevant employment opportunities.', 'noindex' => true ),
-		'employee-login'  => array( 'title' => 'Employee Login', 'description' => 'Access the SAM Manpower employee payroll portal.', 'noindex' => true ),
 	);
 
 	if ( is_front_page() ) {
@@ -931,9 +921,6 @@ function sam_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'sam_hire_form_url', array( 'default' => home_url( '/hire-talent/' ), 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_hire_form_url', array( 'label' => 'Hire Talent CTA URL', 'description' => 'Defaults to the built-in requirement form. Enter an external URL only if you prefer another form.', 'section' => 'sam_contact', 'type' => 'url' ) );
-
-	$wp_customize->add_setting( 'sam_employee_login_url', array( 'default' => 'https://payroll.razorpay.com/login', 'sanitize_callback' => 'esc_url_raw' ) );
-	$wp_customize->add_control( 'sam_employee_login_url', array( 'label' => 'Employee Login URL', 'description' => 'URL opened when clicking "Login as Employee" button. Opens in the same tab.', 'section' => 'sam_contact', 'type' => 'url' ) );
 
 	$wp_customize->add_setting( 'sam_hiring_form_recipient', array( 'default' => 'srivastwaadarsh@gmail.com', 'sanitize_callback' => 'sanitize_email' ) );
 	$wp_customize->add_control( 'sam_hiring_form_recipient', array( 'label' => 'Hiring Form Recipient Email', 'section' => 'sam_contact', 'type' => 'email' ) );
