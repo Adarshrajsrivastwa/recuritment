@@ -110,6 +110,42 @@ get_header();
 	</div>
 </section>
 
+<!-- Contract Governance & Zero-Liability Framework -->
+<section class="section" style="background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0;">
+	<div class="container">
+		<div class="section-head text-center">
+			<span class="eyebrow-badge eyebrow-badge-dark"><?php echo sam_icon('shield'); ?> Enterprise Risk Shield</span>
+			<h2>Zero Co-Employment Risk &amp; Ironclad IP Protection</h2>
+			<p>SAM absorbs all statutory employer obligations so your enterprise operates with 100% compliance peace of mind.</p>
+		</div>
+		<div class="grid-3" style="margin-top:32px; gap:24px;">
+			<div style="background:#fff; border-radius:16px; padding:28px; border:1px solid #E2E8F0; box-shadow:0 4px 14px rgba(0,0,0,0.03);">
+				<div style="width:46px; height:46px; border-radius:12px; background:#EFF6FF; color:#2563EB; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+					<?php echo sam_icon('shield'); ?>
+				</div>
+				<h3 style="font-size:1.15rem; margin-bottom:8px; color:#0F172A;">No Co-Employment Liability</h3>
+				<p style="font-size:0.9rem; color:#64748B; line-height:1.55;">Contract professionals remain on SAM's legal payroll. We manage PF, ESIC, Gratuity, Workmen Compensation, and all state labour board audits.</p>
+			</div>
+
+			<div style="background:#fff; border-radius:16px; padding:28px; border:1px solid #E2E8F0; box-shadow:0 4px 14px rgba(0,0,0,0.03);">
+				<div style="width:46px; height:46px; border-radius:12px; background:#ECFDF5; color:#059669; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+					<?php echo sam_icon('check'); ?>
+				</div>
+				<h3 style="font-size:1.15rem; margin-bottom:8px; color:#0F172A;">Complete NDA &amp; IP Assignment</h3>
+				<p style="font-size:0.9rem; color:#64748B; line-height:1.55;">Every contractor signs bilateral NDAs and comprehensive Intellectual Property assignment clauses ensuring all codebase and work belong to your company.</p>
+			</div>
+
+			<div style="background:#fff; border-radius:16px; padding:28px; border:1px solid #E2E8F0; box-shadow:0 4px 14px rgba(0,0,0,0.03);">
+				<div style="width:46px; height:46px; border-radius:12px; background:#FEF3C7; color:#D97706; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+					<?php echo sam_icon('refresh'); ?>
+				</div>
+				<h3 style="font-size:1.15rem; margin-bottom:8px; color:#0F172A;">Seamless Permanent Conversion</h3>
+				<p style="font-size:0.9rem; color:#64748B; line-height:1.55;">Love a contractor's performance? Convert them seamlessly to your permanent payroll after 3 or 6 months with pre-agreed nominal transfer terms.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
 <section class="section cta-band">
 	<div class="container cta-band-inner">
 		<h2>Need contract staff in the next 30 days?</h2>

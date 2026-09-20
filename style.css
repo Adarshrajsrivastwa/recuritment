@@ -360,13 +360,51 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .cta-band-inner h2{ margin-bottom:8px; }
 
 /* ==========================================================================
-   13. Page hero (interior pages)
+   13. Page hero (interior pages — upgraded modern dark theme)
    ========================================================================== */
-.page-hero{ position:relative; background:linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%); color:#fff; padding:110px 0 80px; text-align:center; overflow:hidden; }
-.page-hero-inner{ position:relative; max-width:720px; margin:0 auto; }
-.page-hero-inner h1{ color:#fff; }
-.page-hero-inner p{ color:rgba(255,255,255,.82); font-size:1.05rem; }
-.page-hero-simple{ padding:80px 0 60px; }
+.page-hero{
+	position:relative;
+	background:linear-gradient(135deg, #070D1E 0%, #0D1B3E 45%, #081126 100%);
+	color:#fff;
+	padding:115px 0 80px;
+	text-align:center;
+	overflow:hidden;
+}
+.page-hero::before{
+	content:'';
+	position:absolute;
+	inset:0;
+	pointer-events:none;
+	background-image:
+		linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+	background-size:40px 40px;
+}
+.page-hero::after{
+	content:'';
+	position:absolute;
+	width:450px;
+	height:450px;
+	border-radius:50%;
+	background:#2563EB;
+	top:-120px;
+	left:50%;
+	transform:translateX(-50%);
+	filter:blur(140px);
+	opacity:.22;
+	pointer-events:none;
+}
+.page-hero-inner{ position:relative; z-index:5; max-width:840px; margin:0 auto; }
+.page-hero-inner h1{
+	color:#fff;
+	font-size:2.6rem;
+	font-weight:800;
+	line-height:1.2;
+	letter-spacing:-0.02em;
+	margin-bottom:16px;
+}
+.page-hero-inner p{ color:rgba(255,255,255,.82); font-size:1.06rem; line-height:1.6; }
+.page-hero-simple{ padding:90px 0 60px; }
 
 /* ==========================================================================
    14. Footer

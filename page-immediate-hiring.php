@@ -132,6 +132,97 @@ get_header();
 	</div>
 </section>
 
+<!-- SLA Comparison Table -->
+<section class="section sla-comparison-section" style="background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0;">
+	<div class="container">
+		<div class="section-head text-center">
+			<span class="eyebrow-badge eyebrow-badge-dark"><?php echo sam_icon('shield'); ?> The SAM Advantage</span>
+			<h2>Traditional Recruitment vs. SAM 0–30 Day Fast-Track</h2>
+			<p>Why modern enterprises and high-growth scale-ups are replacing outdated 90-day recruitment cycles.</p>
+		</div>
+
+		<div class="sla-table-wrapper" style="overflow-x:auto; margin-top:32px; box-shadow:0 10px 30px rgba(0,0,0,0.06); border-radius:16px; background:#fff; border:1px solid #E2E8F0;">
+			<table class="sla-comparison-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:0.95rem;">
+				<thead>
+					<tr style="background:#0F172A; color:#fff;">
+						<th style="padding:18px 24px; font-weight:700; width:28%;">Hiring Metric &amp; Parameter</th>
+						<th style="padding:18px 24px; font-weight:600; color:#94A3B8; width:36%;">Traditional Recruitment Agencies</th>
+						<th style="padding:18px 24px; font-weight:700; color:#38BDF8; width:36%; background:#1E293B;">SAM 0–30 Day Fast-Track Engine</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style="border-bottom:1px solid #F1F5F9;">
+						<td style="padding:16px 24px; font-weight:600; color:#1E293B;">Notice Period Focus</td>
+						<td style="padding:16px 24px; color:#64748B;">Generic sourcing (60 to 90 days notice)</td>
+						<td style="padding:16px 24px; color:#0F172A; font-weight:600; background:#F0FDF4;"><span style="color:#16A34A; margin-right:6px;">✓</span> Exclusively 0–30 days &amp; immediate joiners</td>
+					</tr>
+					<tr style="border-bottom:1px solid #F1F5F9;">
+						<td style="padding:16px 24px; font-weight:600; color:#1E293B;">First Profile Shortlist</td>
+						<td style="padding:16px 24px; color:#64748B;">7 to 14 business days</td>
+						<td style="padding:16px 24px; color:#0F172A; font-weight:600; background:#F0FDF4;"><span style="color:#16A34A; margin-right:6px;">✓</span> Within 48 to 72 hours SLA</td>
+					</tr>
+					<tr style="border-bottom:1px solid #F1F5F9;">
+						<td style="padding:16px 24px; font-weight:600; color:#1E293B;">Offer-to-Joining Ghosting Rate</td>
+						<td style="padding:16px 24px; color:#DC2626;">35% to 50% candidate reneges</td>
+						<td style="padding:16px 24px; color:#0F172A; font-weight:600; background:#F0FDF4;"><span style="color:#16A34A; margin-right:6px;">✓</span> Under 4% with weekly engagement track</td>
+					</tr>
+					<tr style="border-bottom:1px solid #F1F5F9;">
+						<td style="padding:16px 24px; font-weight:600; color:#1E293B;">Resignation &amp; LWD Verification</td>
+						<td style="padding:16px 24px; color:#64748B;">Self-declared, rarely confirmed</td>
+						<td style="padding:16px 24px; color:#0F172A; font-weight:600; background:#F0FDF4;"><span style="color:#16A34A; margin-right:6px;">✓</span> Formally verified with acceptance proof</td>
+					</tr>
+					<tr style="border-bottom:1px solid #F1F5F9;">
+						<td style="padding:16px 24px; font-weight:600; color:#1E293B;">Replacement Guarantee</td>
+						<td style="padding:16px 24px; color:#64748B;">Standard 30–60 days or credit notes</td>
+						<td style="padding:16px 24px; color:#0F172A; font-weight:600; background:#F0FDF4;"><span style="color:#16A34A; margin-right:6px;">✓</span> Up to 90 Days Free Replacement Guarantee</td>
+					</tr>
+					<tr>
+						<td style="padding:16px 24px; font-weight:600; color:#1E293B;">Notice Period Buyout Support</td>
+						<td style="padding:16px 24px; color:#64748B;">Not assisted or structured</td>
+						<td style="padding:16px 24px; color:#0F172A; font-weight:600; background:#F0FDF4;"><span style="color:#16A34A; margin-right:6px;">✓</span> Buyout negotiations &amp; contract structuring</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+
+<!-- Cost of Vacancy Callout -->
+<section class="section" style="padding:60px 0; background:#0A1024; color:#fff;">
+	<div class="container">
+		<div style="display:grid; grid-template-columns:1.2fr 0.8fr; gap:40px; align-items:center;">
+			<div>
+				<span class="eyebrow-badge" style="background:rgba(56,189,248,0.15); color:#38BDF8; border:1px solid rgba(56,189,248,0.3);"><?php echo sam_icon('wallet'); ?> The Math Behind Speed</span>
+				<h2 style="color:#fff; margin-top:16px; font-size:2rem; line-height:1.25;">The Hidden Cost of an Open Position: <span style="color:#38BDF8;">&#8377;2.5L to &#8377;8L</span> Lost Per Month</h2>
+				<p style="color:#94A3B8; font-size:1.02rem; line-height:1.6; margin-top:14px;">Every 90-day delay in filling critical engineering, sales, or manufacturing leadership roles stalls sprint deliveries, creates burned-out teammates, and burns budget on overtime. Cutting your cycle to 20 days preserves momentum and saves substantial capital.</p>
+				<div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+					<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Fast-Track Your Mandate</a>
+					<a href="tel:+919876543210" class="btn btn-outline-light"><?php echo sam_icon('phone'); ?> Call Fast-Track Desk</a>
+				</div>
+			</div>
+			<div style="background:#111A38; border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:32px;">
+				<h3 style="color:#fff; font-size:1.2rem; margin-bottom:18px; display:flex; align-items:center; gap:10px;">
+					<span style="color:#10B981;"><?php echo sam_icon('check'); ?></span> 0–30 Day Availability Pipeline
+				</h3>
+				<div style="display:flex; flex-direction:column; gap:14px;">
+					<div style="background:rgba(255,255,255,0.04); padding:12px 16px; border-radius:10px; border-left:3px solid #10B981;">
+						<div style="font-weight:700; color:#fff; font-size:0.95rem;">Software &amp; Cloud Engineers</div>
+						<div style="font-size:0.82rem; color:#94A3B8;">Notice: Serving final 15–20 days &bull; Ready for technical rounds</div>
+					</div>
+					<div style="background:rgba(255,255,255,0.04); padding:12px 16px; border-radius:10px; border-left:3px solid #38BDF8;">
+						<div style="font-weight:700; color:#fff; font-size:0.95rem;">Plant &amp; Production Supervisors</div>
+						<div style="font-size:0.82rem; color:#94A3B8;">Notice: Immediate to 15 days &bull; Documented relieving letters</div>
+					</div>
+					<div style="background:rgba(255,255,255,0.04); padding:12px 16px; border-radius:10px; border-left:3px solid #F59E0B;">
+						<div style="font-weight:700; color:#fff; font-size:0.95rem;">Corporate Sales &amp; Key Accounts</div>
+						<div style="font-size:0.82rem; color:#94A3B8;">Notice: 0–30 days verified &bull; Proven track record in B2B</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
 <section class="section cta-band">
 	<div class="container cta-band-inner">
 		<h2>Have a role that can't wait three months?</h2>

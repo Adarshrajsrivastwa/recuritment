@@ -105,6 +105,66 @@ get_header();
 	</div>
 </section>
 
+<!-- STATUTORY COMPLIANCE CALENDAR & GUARANTEE -->
+<section class="section compliance-calendar-section" style="background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0;">
+	<div class="container">
+		<div class="section-head text-center">
+			<span class="eyebrow-badge eyebrow-badge-dark"><?php echo sam_icon('shield'); ?> 100% On-Schedule Assurance</span>
+			<h2>Indian Statutory Compliance Calendar Managed by SAM</h2>
+			<p>We handle all statutory deductions, challan generation, and government portal filings with a 0-penalty guarantee.</p>
+		</div>
+
+		<div class="grid-4" style="margin-top:32px; gap:20px;">
+			<div style="background:#fff; border-radius:14px; padding:24px; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+				<div style="font-size:0.8rem; font-weight:700; color:#2563EB; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">By 7th of Every Month</div>
+				<h3 style="font-size:1.15rem; margin-bottom:8px; color:#0F172A;">TDS Remittance</h3>
+				<p style="font-size:0.88rem; color:#64748B; line-height:1.5;">Income tax withheld from employee salaries computed, audited, and deposited via NSDL challans on time.</p>
+				<div style="margin-top:14px; font-size:0.82rem; font-weight:600; color:#10B981; display:flex; align-items:center; gap:6px;">
+					<?php echo sam_icon('check'); ?> Section 192 compliant
+				</div>
+			</div>
+
+			<div style="background:#fff; border-radius:14px; padding:24px; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+				<div style="font-size:0.8rem; font-weight:700; color:#2563EB; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">By 15th of Every Month</div>
+				<h3 style="font-size:1.15rem; margin-bottom:8px; color:#0F172A;">EPF &amp; MP Act Challan</h3>
+				<p style="font-size:0.88rem; color:#64748B; line-height:1.5;">Monthly Electronic Challan cum Return (ECR) generation and EPFO payment reconciliation for all eligible staff.</p>
+				<div style="margin-top:14px; font-size:0.82rem; font-weight:600; color:#10B981; display:flex; align-items:center; gap:6px;">
+					<?php echo sam_icon('check'); ?> UAN mapping &amp; verification
+				</div>
+			</div>
+
+			<div style="background:#fff; border-radius:14px; padding:24px; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+				<div style="font-size:0.8rem; font-weight:700; color:#2563EB; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">By 15th of Every Month</div>
+				<h3 style="font-size:1.15rem; margin-bottom:8px; color:#0F172A;">ESIC Contribution</h3>
+				<p style="font-size:0.88rem; color:#64748B; line-height:1.5;">Employee State Insurance returns filed online, TIC cards issued, and dispensaries mapped for employee coverage.</p>
+				<div style="margin-top:14px; font-size:0.82rem; font-weight:600; color:#10B981; display:flex; align-items:center; gap:6px;">
+					<?php echo sam_icon('check'); ?> Zero default tracking
+				</div>
+			</div>
+
+			<div style="background:#fff; border-radius:14px; padding:24px; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+				<div style="font-size:0.8rem; font-weight:700; color:#2563EB; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Monthly &amp; Quarterly</div>
+				<h3 style="font-size:1.15rem; margin-bottom:8px; color:#0F172A;">PT, LWF &amp; Form 24Q</h3>
+				<p style="font-size:0.88rem; color:#64748B; line-height:1.5;">State-wise Professional Tax, Labour Welfare Fund deductions, and quarterly Form 24Q TDS filing with Form 16 issuance.</p>
+				<div style="margin-top:14px; font-size:0.82rem; font-weight:600; color:#10B981; display:flex; align-items:center; gap:6px;">
+					<?php echo sam_icon('check'); ?> PAN-India state portal coverage
+				</div>
+			</div>
+		</div>
+
+		<!-- Zero-Penalty Guarantee Box -->
+		<div style="margin-top:32px; background:linear-gradient(135deg, #0A1024 0%, #172554 100%); border-radius:16px; padding:28px 36px; color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+			<div style="max-width:700px;">
+				<h3 style="color:#fff; font-size:1.25rem; margin-bottom:6px;">SAM Zero-Penalty SLA Guarantee</h3>
+				<p style="color:#94A3B8; font-size:0.92rem; margin:0; line-height:1.5;">If any statutory filing is delayed due to an oversight by our payroll team, SAM covers 100% of any government penalties or interest accrued. That is our written commitment to your finance leadership.</p>
+			</div>
+			<div>
+				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary" style="white-space:nowrap;"><?php echo sam_icon('wallet'); ?> Request a Payroll Proposal</a>
+			</div>
+		</div>
+	</div>
+</section>
+
 <!-- STATS -->
 <section class="stats-strip">
 	<div class="container stats-grid">

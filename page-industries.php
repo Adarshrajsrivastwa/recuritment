@@ -37,6 +37,9 @@ get_header();
 				array(
 					'icon'  => 'laptop',
 					'title' => 'Tech & IT Services',
+					'tat'   => '15–25 Days',
+					'pool'  => '42,000+ Engineers',
+					'sla'   => '48h First Profiles',
 					'roles' => array(
 						'Full-Stack & Backend Developers (Java, Python, .NET, Node.js)',
 						'Frontend Engineers (React, Angular, Vue)',
@@ -53,6 +56,9 @@ get_header();
 				array(
 					'icon'  => 'wallet',
 					'title' => 'Banking, Financial Services & Insurance (BFSI)',
+					'tat'   => '14–21 Days',
+					'pool'  => '28,000+ Specialists',
+					'sla'   => '48h First Profiles',
 					'roles' => array(
 						'Credit Underwriters & Risk Analysts',
 						'Wealth Managers & Relationship Managers',
@@ -69,6 +75,9 @@ get_header();
 				array(
 					'icon'  => 'target',
 					'title' => 'Industrial & Manufacturing',
+					'tat'   => '10–20 Days',
+					'pool'  => '34,000+ Certified Leads',
+					'sla'   => '72h Plant Shortlists',
 					'roles' => array(
 						'Plant & Production Managers',
 						'QA/QC Engineers & Inspectors',
@@ -85,6 +94,9 @@ get_header();
 				array(
 					'icon'  => 'star',
 					'title' => 'E-Commerce & Modern Retail',
+					'tat'   => '7–15 Days',
+					'pool'  => '25,000+ Candidates',
+					'sla'   => '24-48h Sprints',
 					'roles' => array(
 						'Category & Merchandising Managers',
 						'Last-Mile Logistics & Delivery Leads',
@@ -101,6 +113,9 @@ get_header();
 				array(
 					'icon'  => 'users',
 					'title' => 'Commercial Sales & Business Growth',
+					'tat'   => '10–18 Days',
+					'pool'  => '50,000+ Sales Execs',
+					'sla'   => '48h First Profiles',
 					'roles' => array(
 						'Enterprise & B2B Account Executives',
 						'Channel Development & Partnership Managers',
@@ -117,6 +132,9 @@ get_header();
 				array(
 					'icon'  => 'briefcase',
 					'title' => 'Operations & Shared Services',
+					'tat'   => '7–14 Days',
+					'pool'  => '38,000+ Verified Staff',
+					'sla'   => '48h Delivery',
 					'roles' => array(
 						'Operations & Process Excellence Leads',
 						'Customer Support & Service Desk Teams',
@@ -133,17 +151,30 @@ get_header();
 			);
 			foreach ( $industries as $ind ) :
 			?>
-			<div class="focus-card ind-card">
-				<div class="icon-badge ind-icon-badge" style="background:<?php echo esc_attr( $ind['bg'] ); ?>; color:<?php echo esc_attr( $ind['color'] ); ?>;">
-					<?php echo sam_icon( $ind['icon'] ); ?>
+			<div class="focus-card ind-card" style="display:flex; flex-direction:column; justify-content:space-between; border:1px solid #E2E8F0; border-radius:16px; padding:28px; background:#fff; box-shadow:0 6px 20px rgba(0,0,0,0.03); transition:transform .2s ease, box-shadow .2s ease;">
+				<div>
+					<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+						<div class="icon-badge ind-icon-badge" style="background:<?php echo esc_attr( $ind['bg'] ); ?>; color:<?php echo esc_attr( $ind['color'] ); ?>;">
+							<?php echo sam_icon( $ind['icon'] ); ?>
+						</div>
+						<span style="font-size:0.75rem; font-weight:700; color:#16A34A; background:#DCFCE7; padding:4px 10px; border-radius:20px;">
+							⚡ <?php echo esc_html( $ind['tat'] ); ?>
+						</span>
+					</div>
+					<h3 style="font-size:1.25rem; font-weight:700; margin-bottom:12px; color:#0F172A;"><?php echo esc_html( $ind['title'] ); ?></h3>
+					
+					<div style="display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+						<span style="font-size:0.75rem; background:#F1F5F9; color:#475569; padding:3px 8px; border-radius:6px; font-weight:600;">👥 <?php echo esc_html( $ind['pool'] ); ?></span>
+						<span style="font-size:0.75rem; background:#EFF6FF; color:#1D4ED8; padding:3px 8px; border-radius:6px; font-weight:600;">⏱️ <?php echo esc_html( $ind['sla'] ); ?></span>
+					</div>
+
+					<ul class="ind-roles-list">
+						<?php foreach ( $ind['roles'] as $role ) : ?>
+						<li><?php echo sam_icon('check'); ?><?php echo esc_html( $role ); ?></li>
+						<?php endforeach; ?>
+					</ul>
 				</div>
-				<h3><?php echo esc_html( $ind['title'] ); ?></h3>
-				<ul class="ind-roles-list">
-					<?php foreach ( $ind['roles'] as $role ) : ?>
-					<li><?php echo sam_icon('check'); ?><?php echo esc_html( $role ); ?></li>
-					<?php endforeach; ?>
-				</ul>
-				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="text-link" style="margin-top:16px;">Hire for This Industry <?php echo sam_icon('arrow'); ?></a>
+				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary" style="margin-top:20px; text-align:center; justify-content:center; width:100%; font-size:0.88rem;">Hire in <?php echo esc_html( $ind['title'] ); ?> <?php echo sam_icon('arrow'); ?></a>
 			</div>
 			<?php endforeach; ?>
 		</div>
