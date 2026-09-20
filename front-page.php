@@ -943,15 +943,6 @@ get_header();
 	</div>
 </section>
 
-<!-- ===================================================================
-     SECTION 17 — FOOTER SEO DIRECTORY COPY
-     (Hidden visually but crawlable — placed before footer)
-     =================================================================== -->
-<section class="fp-seo-copy-section" aria-label="About SAM Manpower and Career Services">
-	<div class="container">
-		<p>SAM Manpower &amp; Career Services LLP delivers strategic recruitment, fast-turnaround hiring, and workforce management solutions to enterprises across India. Our core offerings include permanent talent acquisition, 0-to-30-day fast-track hiring, IT staff augmentation, contract-to-hire engagements, turnkey volume recruitment, and automated payroll operations. Headquartered in Greater Noida, we support corporate talent needs throughout Delhi NCR, Mumbai, Bengaluru, Hyderabad, and across India.</p>
-	</div>
-</section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
