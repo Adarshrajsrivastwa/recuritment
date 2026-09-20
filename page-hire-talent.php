@@ -9,11 +9,10 @@ $status  = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form
 $phone   = get_theme_mod( 'sam_phone', '+91 98765 43210' );
 $email   = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
 $prefill_role = isset( $_GET['role'] ) ? sanitize_text_field( wp_unslash( $_GET['role'] ) ) : '';
-$prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_GET['domain'] ) ) : '';
 ?>
 
 <!-- ===================================================================
-     HERO SECTION — Modern Dark Gradient with Glow Orbs
+     HERO SECTION
      =================================================================== -->
 <section class="fp-hero-v2 hire-page-hero" id="hire-hero">
 	<div class="fp-glow-orb fp-glow-orb-1" aria-hidden="true"></div>
@@ -32,11 +31,11 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 			</div>
 
 			<h1 class="fp-hero-h1" style="max-width:900px; margin:0 auto 18px; text-align:center;">
-				Drop Your Hiring Mandate: <span class="fp-text-gradient">Connect With Pre-Vetted Talent</span> Ready in <span class="fp-tag-days">0–30 Days</span>
+				Share Your Hiring Requirement: <span class="fp-text-gradient">Get Pre-Vetted Talent</span> Ready in <span class="fp-tag-days">0–30 Days</span>
 			</h1>
 
 			<p class="fp-hero-lead" style="max-width:760px; margin:0 auto 28px; text-align:center;">
-				Stop losing momentum to 90-day waiting periods and offer dropouts. Share your requirements below and our specialized recruiters will deliver an interview-ready shortlist within 48 to 72 hours.
+				Stop losing momentum to 90-day waiting periods and offer dropouts. Submit your open positions below and our specialized recruiters will deliver an interview-ready shortlist within 48 to 72 hours.
 			</p>
 
 			<div class="hero-stats-row" style="justify-content:center; margin-top:0;">
@@ -51,39 +50,39 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 </section>
 
 <!-- ===================================================================
-     MAIN TWO-COLUMN SECTION: FORM + SIDEBAR ROADMAP
+     MAIN SECTION: CLEAN STREAMLINED FORM + SIDEBAR ROADMAP
      =================================================================== -->
 <section class="section hire-main-section">
 	<div class="container">
 		
 		<div class="hire-split-grid">
 
-			<!-- LEFT COLUMN: The Rich Mandate Form -->
+			<!-- LEFT COLUMN: Clean, Direct Requirement Submission Form -->
 			<div class="hire-form-col">
 
-				<!-- Notices -->
+				<!-- Status Notices -->
 				<?php if ( 'success' === $status ) : ?>
 					<div class="form-notice form-notice-success" role="status" style="margin-bottom:24px;">
 						<span style="font-size:1.4rem;">🎉</span>
 						<div>
-							<strong>Hiring Mandate Received Successfully!</strong>
-							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Our industry practice head is reviewing your requirements and will contact you within 2 to 4 business hours to confirm your candidate calibration.</p>
+							<strong>Requirement Submitted Successfully!</strong>
+							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Our industry practice lead will review your mandate and contact you within 2 to 4 business hours with candidate availability.</p>
 						</div>
 					</div>
 				<?php elseif ( 'error' === $status ) : ?>
 					<div class="form-notice form-notice-error" role="alert" style="margin-bottom:24px;">
 						<span>⚠️</span>
 						<div>
-							<strong>Incomplete Form Submission</strong>
-							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Please ensure all required fields (Name, Company, Work Email, Phone, Roles, and Joining Timeline) are completed.</p>
+							<strong>Please Fill Required Fields</strong>
+							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Please ensure Name, Company, Work Email, Phone, Roles Required, and Joining Timeline are completed.</p>
 						</div>
 					</div>
 				<?php elseif ( 'mail-error' === $status ) : ?>
 					<div class="form-notice form-notice-error" role="alert" style="margin-bottom:24px;">
 						<span>⚠️</span>
 						<div>
-							<strong>Mandate Saved In Our System</strong>
-							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Your requirement has been securely saved, though automatic email dispatch encountered a temporary delay. Our team is already notified and will contact you shortly.</p>
+							<strong>Requirement Saved Successfully</strong>
+							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Your requirement is securely saved in our system. Our team is already notified and will contact you shortly.</p>
 						</div>
 					</div>
 				<?php elseif ( 'invalid' === $status ) : ?>
@@ -91,198 +90,107 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 						<span>⚠️</span>
 						<div>
 							<strong>Session Expired</strong>
-							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Please refresh the page and submit your mandate again.</p>
+							<p style="margin:4px 0 0; font-size:.9rem; font-weight:normal;">Please refresh the page and submit your requirement again.</p>
 						</div>
 					</div>
 				<?php endif; ?>
 
-				<form class="hire-mandate-card" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-					<input type="hidden" name="action" value="sam_submit_hiring_requirement">
-					<?php wp_nonce_field( 'sam_submit_hiring_requirement', 'sam_hiring_nonce' ); ?>
-
-					<div class="form-honeypot" aria-hidden="true">
-						<label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+				<div class="hire-mandate-card">
+					<div class="hire-card-header">
+						<h2>Submit Your Hiring Requirement</h2>
+						<p>Fill out the details below to receive pre-screened candidate profiles matched to your exact role requirements.</p>
 					</div>
 
-					<!-- STEP 1: Employer Details -->
-					<div class="mandate-step-box">
-						<div class="mandate-step-head">
-							<span class="step-badge">Step 01</span>
-							<div>
-								<h3>Your Coordinates</h3>
-								<p>Tell us who to contact with the candidate shortlist.</p>
-							</div>
+					<form class="hire-mandate-form hiring-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+						<input type="hidden" name="action" value="sam_submit_hiring_requirement">
+						<?php wp_nonce_field( 'sam_submit_hiring_requirement', 'sam_hiring_nonce' ); ?>
+
+						<div class="form-honeypot" aria-hidden="true">
+							<label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+						</div>
+
+						<!-- Section A: Contact Details -->
+						<div class="form-subheading">
+							<span>01</span> Contact Details
 						</div>
 
 						<div class="form-grid">
-							<p>
-								<label for="name">Your Full Name <span>*</span></label>
-								<input id="name" name="name" type="text" required placeholder="e.g. Vikram Malhotra (VP HR / Founder)">
-							</p>
-							<p>
-								<label for="company">Company / Organization Name <span>*</span></label>
-								<input id="company" name="company" type="text" required placeholder="e.g. Nexus Technologies Pvt Ltd">
-							</p>
-							<p>
-								<label for="email">Work Email Address <span>*</span></label>
-								<input id="email" name="email" type="email" required placeholder="e.g. vikram@company.com">
-							</p>
-							<p>
-								<label for="phone">Phone / WhatsApp Number <span>*</span></label>
+							<div class="form-field">
+								<label for="name">Your Name <span>*</span></label>
+								<input id="name" name="name" type="text" required placeholder="e.g. Rahul Sharma">
+							</div>
+
+							<div class="form-field">
+								<label for="company">Company Name <span>*</span></label>
+								<input id="company" name="company" type="text" required placeholder="e.g. ABC Technologies Pvt Ltd">
+							</div>
+
+							<div class="form-field">
+								<label for="email">Work Email <span>*</span></label>
+								<input id="email" name="email" type="email" required placeholder="e.g. hr@company.com">
+							</div>
+
+							<div class="form-field">
+								<label for="phone">Phone / WhatsApp <span>*</span></label>
 								<input id="phone" name="phone" type="tel" required placeholder="e.g. +91 98765 43210">
-							</p>
-						</div>
-					</div>
-
-					<!-- STEP 2: Engagement Model Selection -->
-					<div class="mandate-step-box">
-						<div class="mandate-step-head">
-							<span class="step-badge">Step 02</span>
-							<div>
-								<h3>Preferred Engagement Model</h3>
-								<p>Select how you want the talent to be deployed.</p>
 							</div>
 						</div>
 
-						<div class="engagement-cards-grid">
-							<label class="engagement-card">
-								<input type="radio" name="engagement_model" value="Permanent Direct Placement" checked>
-								<div class="eng-card-inner">
-									<span class="eng-icon">🎯</span>
-									<strong>Permanent Direct Hire</strong>
-									<small>Full-time role &bull; 90-Day replacement guarantee</small>
-								</div>
-							</label>
-
-							<label class="engagement-card">
-								<input type="radio" name="engagement_model" value="Immediate & 30-Day Hiring">
-								<div class="eng-card-inner">
-									<span class="eng-icon">⚡</span>
-									<strong>Immediate &amp; 30-Day</strong>
-									<small>Urgent vacancies &bull; Candidates serving notice</small>
-								</div>
-							</label>
-
-							<label class="engagement-card">
-								<input type="radio" name="engagement_model" value="IT Contract Staffing">
-								<div class="eng-card-inner">
-									<span class="eng-icon">💻</span>
-									<strong>IT Contract Staffing</strong>
-									<small>On SAM payroll &bull; Scalable tech teams</small>
-								</div>
-							</label>
-
-							<label class="engagement-card">
-								<input type="radio" name="engagement_model" value="Contract-to-Hire (SAM Assured)">
-								<div class="eng-card-inner">
-									<span class="eng-icon">🔄</span>
-									<strong>Contract-to-Hire</strong>
-									<small>3–6 month trial before permanent onboard</small>
-								</div>
-							</label>
-
-							<label class="engagement-card">
-								<input type="radio" name="engagement_model" value="Managed Workforce & Payroll">
-								<div class="eng-card-inner">
-									<span class="eng-icon">💼</span>
-									<strong>Managed Workforce / Payroll</strong>
-									<small>Turnkey contingent teams &bull; 100% compliance</small>
-								</div>
-							</label>
-						</div>
-					</div>
-
-					<!-- STEP 3: Mandate Specifics -->
-					<div class="mandate-step-box">
-						<div class="mandate-step-head">
-							<span class="step-badge">Step 03</span>
-							<div>
-								<h3>Mandate Specifications</h3>
-								<p>Define the exact role, seniority, and timeline parameters.</p>
-							</div>
+						<!-- Section B: Requirement Details -->
+						<div class="form-subheading" style="margin-top:28px;">
+							<span>02</span> Requirement Details
 						</div>
 
-						<p>
-							<label for="roles">Target Role(s) &amp; Designations <span>*</span></label>
-							<textarea id="roles" name="roles" rows="3" required placeholder="e.g. 2 Senior React Developers, 1 Lead DevOps Engineer, 1 Quality Head"><?php echo esc_textarea( $prefill_role ); ?></textarea>
-						</p>
+						<div class="form-field full-width">
+							<label for="roles">Roles Required <span>*</span></label>
+							<textarea id="roles" name="roles" rows="3" required placeholder="e.g. 2 Senior React Developers, 1 DevOps Engineer, 1 Plant Quality Manager"><?php echo esc_textarea( $prefill_role ); ?></textarea>
+						</div>
 
 						<div class="form-grid">
-							<p>
-								<label for="domain">Primary Industry / Domain</label>
-								<select id="domain" name="domain">
-									<option value="">Select Domain Vertical</option>
-									<option value="IT, Cloud & SaaS" <?php selected( $prefill_domain, 'tech' ); ?>>IT, Cloud, AI/ML &amp; SaaS</option>
-									<option value="Manufacturing & Automotive" <?php selected( $prefill_domain, 'mfg' ); ?>>Manufacturing &amp; Automotive</option>
-									<option value="BFSI, FinTech & Banking" <?php selected( $prefill_domain, 'corporate' ); ?>>BFSI, FinTech &amp; Banking</option>
-									<option value="Supply Chain, Logistics & E-Commerce">Supply Chain, Logistics &amp; E-Commerce</option>
-									<option value="Healthcare & Life Sciences">Healthcare &amp; Life Sciences</option>
-									<option value="EPC, Real Estate & Infrastructure">EPC, Infrastructure &amp; Construction</option>
-									<option value="Other Industry">Other Domain</option>
-								</select>
-							</p>
-
-							<p>
-								<label for="headcount">Total Positions / Headcount</label>
+							<div class="form-field">
+								<label for="headcount">Total Headcount</label>
 								<input id="headcount" name="headcount" type="number" min="1" placeholder="e.g. 3">
-							</p>
-						</div>
+							</div>
 
-						<div class="form-grid">
-							<p>
-								<label for="timeline">Target Joining Timeline <span>*</span></label>
+							<div class="form-field">
+								<label for="timeline">Joining Timeline <span>*</span></label>
 								<select id="timeline" name="timeline" required>
-									<option value="">Select Joining Timeline</option>
-									<option value="Immediate (0–7 Days)" selected>⚡ Immediate (0–7 Days) — Critical</option>
-									<option value="Within 15 Days">⏱ Fast-Track (Within 15 Days)</option>
-									<option value="Within 30 Days">📅 Standard (Within 30 Days)</option>
-									<option value="30–60 Days">🔄 30–60 Days (Future Pipeline)</option>
-									<option value="Flexible">Flexible Timeline</option>
+									<option value="">Select joining timeline</option>
+									<option value="Immediate (0–7 Days)" selected>Immediate (0–7 Days) &mdash; Urgent</option>
+									<option value="Within 15 Days">Within 15 Days</option>
+									<option value="Within 30 Days">Within 30 Days (Serving Notice)</option>
+									<option value="30–60 Days">30–60 Days</option>
+									<option value="Flexible">Flexible</option>
 								</select>
-							</p>
+							</div>
 
-							<p>
-								<label for="location">Work Location &amp; Model</label>
-								<input id="location" name="location" type="text" placeholder="e.g. Noida / Onsite OR Bengaluru / Hybrid">
+							<div class="form-field">
+								<label for="location">Location &amp; Work Model</label>
+								<input id="location" name="location" type="text" placeholder="e.g. Noida / Onsite OR Hybrid">
+							</div>
+
+							<div class="form-field">
+								<label for="budget">Budget / CTC Band</label>
+								<input id="budget" name="budget" type="text" placeholder="e.g. ₹18 &ndash; ₹24 LPA or Flexible">
+							</div>
+						</div>
+
+						<div class="form-field full-width" style="margin-top:4px;">
+							<label for="message">Additional Details / Must-Have Skills</label>
+							<textarea id="message" name="message" rows="4" placeholder="Brief notes on must-have technologies, experience band, interview rounds, or any specific preferences..."></textarea>
+						</div>
+
+						<div class="form-submit-row" style="margin-top:24px;">
+							<button type="submit" class="btn fp-btn-primary btn-block" style="padding:16px 28px; font-size:1.05rem; justify-content:center; width:100%;">
+								<?php echo sam_icon('users'); ?> Submit Requirement &mdash; Get Shortlist in 48h &rarr;
+							</button>
+							<p class="mandate-disclaimer">
+								🛡️ <strong>100% Confidential &amp; Zero Risk:</strong> Your requirements are kept confidential. Zero upfront retainer fee &bull; Pay only upon successful candidate onboarding.
 							</p>
 						</div>
 
-						<div class="form-grid">
-							<p>
-								<label for="experience">Experience Band</label>
-								<select id="experience" name="experience">
-									<option value="">Select Experience Level</option>
-									<option value="Early Lateral (1–3 Years)">Early Lateral (1–3 Years)</option>
-									<option value="Mid-Senior (4–7 Years)">Mid-Senior (4–7 Years)</option>
-									<option value="Senior / Specialist (8–12 Years)">Senior / Specialist (8–12 Years)</option>
-									<option value="Leadership / Executive (12+ Years)">Leadership / Executive (12+ Years)</option>
-								</select>
-							</p>
-
-							<p>
-								<label for="budget">Target CTC / Budget Band (Per Annum)</label>
-								<input id="budget" name="budget" type="text" placeholder="e.g. ₹18 – ₹25 LPA or Flexible">
-							</p>
-						</div>
-
-						<p>
-							<label for="message">Key Skills, Deliverables or JD Highlights</label>
-							<textarea id="message" name="message" rows="4" placeholder="Paste must-have skills, key projects, notice buyout flexibility, or specific instructions for our search team..."></textarea>
-						</p>
-
-					</div>
-
-					<!-- STEP 4: Submit CTA -->
-					<div class="mandate-submit-box">
-						<button type="submit" class="btn fp-btn-primary btn-block" style="padding:18px 30px; font-size:1.08rem; justify-content:center; width:100%;">
-							<?php echo sam_icon('users'); ?> Submit Hiring Mandate &mdash; Get Shortlist in 48h &rarr;
-						</button>
-						<p class="mandate-disclaimer">
-							🛡️ <strong>100% Confidential &amp; Zero Risk:</strong> We never publicly post your company name without explicit approval. No upfront fee &bull; Pay only upon successful candidate onboarding.
-						</p>
-					</div>
-
-				</form>
+					</form>
+				</div>
 
 			</div>
 
@@ -291,16 +199,16 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 
 				<!-- Card 1: 48-Hour SLA Journey -->
 				<div class="hire-sidebar-card">
-					<div class="sidebar-card-badge">⚡ Guaranteed Turnaround</div>
+					<div class="sidebar-card-badge">⚡ Turnaround SLA</div>
 					<h4>What Happens Next</h4>
-					<p class="sidebar-sub">Our strict 3-stage delivery SLA ensures your open requisition doesn't sit idle.</p>
+					<p class="sidebar-sub">Our strict delivery SLA ensures your open requisition gets immediate recruiter action.</p>
 
 					<div class="sla-steps-track">
 						<div class="sla-step">
 							<div class="sla-step-num">01</div>
 							<div class="sla-step-content">
 								<strong>Within 2 Hours &bull; Calibration</strong>
-								<p>A specialized practice leader calls to review culture, tech stack &amp; compensation parameters.</p>
+								<p>A specialized recruiter calls to confirm your exact job specs, compensation &amp; culture fit.</p>
 							</div>
 						</div>
 
@@ -308,7 +216,7 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 							<div class="sla-step-num">02</div>
 							<div class="sla-step-content">
 								<strong>Within 24–48 Hours &bull; Screening</strong>
-								<p>We source exclusively from our active 0–30 day talent bench with dual peer-level technical vetting.</p>
+								<p>Sourcing directly from our verified 0–30 day talent bench with technical pre-screening.</p>
 							</div>
 						</div>
 
@@ -316,7 +224,7 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 							<div class="sla-step-num">03</div>
 							<div class="sla-step-content">
 								<strong>Within 48–72 Hours &bull; Presentation</strong>
-								<p>Receive 3–5 curated, interview-ready candidate profiles on your calendar.</p>
+								<p>Receive 3–5 interview-ready candidate profiles straight to your interview schedule.</p>
 							</div>
 						</div>
 					</div>
@@ -325,8 +233,8 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 				<!-- Card 2: Urgent Recruiter Hotline -->
 				<div class="hire-sidebar-card hotline-card">
 					<div class="sidebar-card-badge" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A;">📞 Priority Hotline</div>
-					<h4>Need to Hire Today?</h4>
-					<p>Speak directly with an executive recruiter handling active immediate-start candidate pools right now.</p>
+					<h4>Have an Urgent Role Today?</h4>
+					<p>Speak directly with an executive recruiter managing active candidates ready to join immediately.</p>
 					
 					<div class="hotline-contact-list">
 						<a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>" class="hotline-btn hotline-call">
@@ -337,7 +245,7 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 							</div>
 						</a>
 
-						<a href="https://wa.me/<?php echo esc_attr( preg_replace('/[^0-9]/', '', $phone) ); ?>?text=Hello%20SAM%20Manpower,%20I%20have%20an%20urgent%20hiring%20mandate" target="_blank" rel="noopener noreferrer" class="hotline-btn hotline-wa">
+						<a href="https://wa.me/<?php echo esc_attr( preg_replace('/[^0-9]/', '', $phone) ); ?>?text=Hello%20SAM%20Manpower,%20I%20have%20an%20urgent%20hiring%20requirement" target="_blank" rel="noopener noreferrer" class="hotline-btn hotline-wa">
 							<span style="font-size:1.4rem;">💬</span>
 							<div>
 								<small>Instant WhatsApp</small>
@@ -345,7 +253,7 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 							</div>
 						</a>
 
-						<a href="mailto:<?php echo esc_attr( $email ); ?>?subject=Urgent%20Hiring%20Mandate" class="hotline-btn hotline-email">
+						<a href="mailto:<?php echo esc_attr( $email ); ?>?subject=Urgent%20Hiring%20Requirement" class="hotline-btn hotline-email">
 							<?php echo sam_icon('bell'); ?>
 							<div>
 								<small>Direct Email</small>
@@ -368,19 +276,19 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 					<ul class="shield-perks-list">
 						<li>
 							<span>✓</span>
-							<div><strong>90-Day Free Replacement:</strong> If a candidate leaves or fails evaluation, we backfill on top priority at zero fee.</div>
+							<div><strong>90-Day Free Replacement:</strong> If a candidate departs or fails trial, we provide an immediate replacement at zero cost.</div>
 						</li>
 						<li>
 							<span>✓</span>
-							<div><strong>Verified Resignation Letters:</strong> We eliminate counter-offer dropouts by confirming official separation documents.</div>
+							<div><strong>Verified Notice Periods:</strong> Real resignation documentation check to eliminate counter-offer dropouts.</div>
 						</li>
 						<li>
 							<span>✓</span>
-							<div><strong>Zero Upfront Commitment:</strong> Pay solely upon successful onboarding of your chosen hire.</div>
+							<div><strong>Zero Upfront Retainer:</strong> Pay solely upon successful onboarding of your selected candidate.</div>
 						</li>
 						<li>
 							<span>✓</span>
-							<div><strong>ISO 9001:2015 Certified:</strong> Standardized quality workflows ensure enterprise compliance.</div>
+							<div><strong>ISO 9001:2015 Certified:</strong> Standardized quality workflows ensure regulatory and process compliance.</div>
 						</li>
 					</ul>
 				</div>
@@ -405,22 +313,22 @@ $prefill_domain = isset( $_GET['domain'] ) ? sanitize_text_field( wp_unslash( $_
 
 		<div class="faq-stack">
 			<div class="faq-item-card">
-				<h4>How can SAM deliver shortlists within 48 to 72 hours?</h4>
-				<p>Unlike conventional agencies that begin searching external job portals only after you post a requisition, we maintain dedicated, pre-vetted talent pipelines of candidates who are actively serving notice periods (15–30 days) or available immediately across Tier-1 IT, manufacturing, and BFSI domains.</p>
+				<h4>How can SAM deliver candidate shortlists within 48 to 72 hours?</h4>
+				<p>Unlike conventional agencies that begin searching external job portals only after you post a requisition, we maintain dedicated, pre-vetted talent pipelines of candidates who are actively serving notice periods (15–30 days) or available immediately across Tier-1 IT, manufacturing, and corporate domains.</p>
 			</div>
 
 			<div class="faq-item-card">
-				<h4>What is your fee structure and payment terms?</h4>
-				<p>For permanent placements, we work on a pure contingency model with zero upfront retainer fees. You are invoiced only after the candidate successfully joins your organization, typically with 30-day payment terms. Contract and C2H models are billed on approved monthly timesheets.</p>
+				<h4>What is your fee structure and commercial terms?</h4>
+				<p>For permanent direct placements, we work on a contingency model with zero upfront retainer fees. You are invoiced only after the candidate successfully joins your organization, typically with 30-day payment terms. Contract staffing is billed on approved monthly timesheets.</p>
 			</div>
 
 			<div class="faq-item-card">
 				<h4>How does the 90-day replacement guarantee work?</h4>
-				<p>If any placed candidate resigns or does not meet agreed performance benchmarks within 90 days of joining, our search team initiates a priority replacement sprint at absolutely zero additional fee.</p>
+				<p>If any placed candidate resigns or does not meet performance expectations within 90 days of joining, our recruitment team initiates a priority replacement sprint at absolutely zero additional fee.</p>
 			</div>
 
 			<div class="faq-item-card">
-				<h4>Can you help manage notice period buyouts?</h4>
+				<h4>Can you assist with notice period buyouts?</h4>
 				<p>Yes. Many high-demand candidates have 60 to 90-day contractual notice periods but are eligible for official company buyouts. We help calculate buyout dues, verify employer policies, and structure buyout bonuses to bring candidate start dates down to 10–15 days.</p>
 			</div>
 		</div>
