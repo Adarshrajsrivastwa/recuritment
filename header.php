@@ -1,9 +1,9 @@
 <?php
 /**
- * The header for our theme
+ * The header for our theme — with dropdown nav support
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
-?><!DOCTYPE html>
+?><?php // phpcs:ignore ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -25,14 +25,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<nav class="main-navigation" id="main-navigation" aria-label="Primary">
 			<?php sam_one_page_primary_menu(); ?>
 			<div class="mobile-nav-cta">
-				<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm">Login as Employee</a>
-				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
+				<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm">Employee Login</a>
+				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm"><?php echo sam_icon('users'); ?> Hire Talent</a>
 			</div>
 		</nav>
 
 		<div class="header-cta">
-			<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm">Login as Employee</a>
-			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm">Hire Talent</a>
+			<a href="<?php echo esc_url( sam_employee_login_url() ); ?>" class="btn btn-outline btn-sm">Employee Login</a>
+			<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary btn-sm"><?php echo sam_icon('users'); ?> Hire Talent</a>
 		</div>
 
 		<button class="menu-toggle" id="menu-toggle" aria-controls="main-navigation" aria-expanded="false">
@@ -43,3 +43,4 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 </header>
 
 <main id="main" class="site-main">
+

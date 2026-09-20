@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.18' );
+define( 'SAM_THEME_VERSION', '1.2.0' );
 
 /**
  * Theme setup
@@ -137,29 +137,84 @@ function sam_fallback_primary_menu() {
 }
 
 /**
- * Primary navigation. Every visible navigation item has its own crawlable
- * WordPress page instead of linking to a section on the home page.
+ * Helper URL functions for new service pages.
+ */
+function sam_immediate_hiring_url() { return sam_get_page_url_by_slug( 'immediate-hiring' ); }
+function sam_contract_staffing_url() { return sam_get_page_url_by_slug( 'contract-staffing' ); }
+function sam_contract_to_hire_url() { return sam_get_page_url_by_slug( 'contract-to-hire' ); }
+function sam_managed_workforce_url() { return sam_get_page_url_by_slug( 'managed-workforce' ); }
+function sam_industries_url() { return sam_get_page_url_by_slug( 'industries' ); }
+function sam_jobs_url() { return sam_get_page_url_by_slug( 'jobs' ); }
+function sam_case_studies_url() { return sam_get_page_url_by_slug( 'case-studies' ); }
+function sam_blog_url() { return sam_get_page_url_by_slug( 'blog' ); }
+
+/**
+ * Primary navigation with dropdown support.
+ * Outputs a flat <ul> with one .has-dropdown parent for Our Services.
  */
 function sam_one_page_primary_menu() {
-	$items = array(
-		'Home'          => home_url( '/' ),
-		'SAM Assured'   => sam_get_page_url_by_slug( 'sam-assured' ),
-		'Payroll'       => sam_get_page_url_by_slug( 'payroll' ),
-		'About Us'      => sam_get_page_url_by_slug( 'about-us' ),
-		'Contact Us'    => sam_contact_url(),
+	$current_url = trailingslashit( home_url( $_SERVER['REQUEST_URI'] ) );
+
+	$service_children = array(
+		'Permanent Hiring'       => sam_get_page_url_by_slug( 'for-employers' ),
+		'Immediate & 30-Day'     => sam_get_page_url_by_slug( 'immediate-hiring' ),
+		'Contract Staffing'      => sam_get_page_url_by_slug( 'contract-staffing' ),
+		'Contract-to-Hire'       => sam_get_page_url_by_slug( 'contract-to-hire' ),
+		'Managed Workforce'      => sam_get_page_url_by_slug( 'managed-workforce' ),
+		'Payroll Services'       => sam_get_page_url_by_slug( 'payroll' ),
+	);
+
+	// Determine if current page is one of the service children
+	$services_active = false;
+	if ( is_page() ) {
+		$cur = untrailingslashit( get_permalink( get_queried_object_id() ) );
+		foreach ( $service_children as $child_url ) {
+			if ( untrailingslashit( $child_url ) === $cur ) {
+				$services_active = true;
+				break;
+			}
+		}
+	}
+
+	$top_items = array(
+		'Home'         => home_url( '/' ),
+		'About Us'     => sam_get_page_url_by_slug( 'about-us' ),
+		'Industries'   => sam_get_page_url_by_slug( 'industries' ),
+		'Contact Us'   => sam_contact_url(),
 	);
 
 	echo '<ul id="primary-menu" class="nav-menu">';
-	foreach ( $items as $label => $url ) {
-		if ( 'Home' === $label ) {
-			$is_current = is_front_page();
-		} elseif ( is_page() ) {
-			$is_current = untrailingslashit( $url ) === untrailingslashit( get_permalink( get_queried_object_id() ) );
-		} else {
-			$is_current = false;
-		}
-		echo '<li class="' . ( $is_current ? 'current-menu-item' : '' ) . '"><a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
+
+	// Home
+	$is_home = is_front_page();
+	echo '<li class="' . ( $is_home ? 'current-menu-item' : '' ) . '"><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li>';
+
+	// About
+	$about_url = sam_get_page_url_by_slug( 'about-us' );
+	$is_about  = is_page() && untrailingslashit( $about_url ) === untrailingslashit( get_permalink( get_queried_object_id() ) );
+	echo '<li class="' . ( $is_about ? 'current-menu-item' : '' ) . '"><a href="' . esc_url( $about_url ) . '">About Us</a></li>';
+
+	// Our Services — dropdown parent
+	echo '<li class="has-dropdown' . ( $services_active ? ' current-menu-parent' : '' ) . '">';
+	echo '<a href="' . esc_url( sam_get_page_url_by_slug( 'for-employers' ) ) . '" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Our Services <span class="nav-arrow" aria-hidden="true">&#9660;</span></a>';
+	echo '<ul class="dropdown-menu" role="menu">';
+	foreach ( $service_children as $child_label => $child_url ) {
+		$is_child = is_page() && untrailingslashit( $child_url ) === untrailingslashit( get_permalink( get_queried_object_id() ) );
+		echo '<li class="' . ( $is_child ? 'current-menu-item' : '' ) . '" role="none"><a href="' . esc_url( $child_url ) . '" role="menuitem">' . esc_html( $child_label ) . '</a></li>';
 	}
+	echo '</ul>';
+	echo '</li>';
+
+	// Industries
+	$ind_url    = sam_get_page_url_by_slug( 'industries' );
+	$is_ind     = is_page() && untrailingslashit( $ind_url ) === untrailingslashit( get_permalink( get_queried_object_id() ) );
+	echo '<li class="' . ( $is_ind ? 'current-menu-item' : '' ) . '"><a href="' . esc_url( $ind_url ) . '">Industries</a></li>';
+
+	// Contact
+	$con_url  = sam_contact_url();
+	$is_con   = is_page() && untrailingslashit( $con_url ) === untrailingslashit( get_permalink( get_queried_object_id() ) );
+	echo '<li class="' . ( $is_con ? 'current-menu-item' : '' ) . '"><a href="' . esc_url( $con_url ) . '">Contact Us</a></li>';
+
 	echo '</ul>';
 }
 
@@ -218,12 +273,32 @@ function sam_create_default_pages_and_menu() {
 			'template' => 'page-about.php',
 		),
 		'employers' => array(
-			'title'    => 'For Employers',
+			'title'    => 'Permanent Hiring',
 			'slug'     => 'for-employers',
 			'template' => 'page-for-employers.php',
 		),
+		'immediate' => array(
+			'title'    => 'Immediate & 30-Day Hiring',
+			'slug'     => 'immediate-hiring',
+			'template' => 'page-immediate-hiring.php',
+		),
+		'contract_staffing' => array(
+			'title'    => 'Contract Staffing',
+			'slug'     => 'contract-staffing',
+			'template' => 'page-contract-staffing.php',
+		),
+		'c2h' => array(
+			'title'    => 'Contract-to-Hire',
+			'slug'     => 'contract-to-hire',
+			'template' => 'page-contract-to-hire.php',
+		),
+		'managed' => array(
+			'title'    => 'Managed Workforce',
+			'slug'     => 'managed-workforce',
+			'template' => 'page-managed-workforce.php',
+		),
 		'payroll' => array(
-			'title'    => 'Payroll',
+			'title'    => 'Payroll Services',
 			'slug'     => 'payroll',
 			'template' => 'page-payroll.php',
 		),
@@ -231,6 +306,26 @@ function sam_create_default_pages_and_menu() {
 			'title'    => 'SAM Assured',
 			'slug'     => 'sam-assured',
 			'template' => 'page-sam-assured.php',
+		),
+		'industries' => array(
+			'title'    => 'Industries We Serve',
+			'slug'     => 'industries',
+			'template' => 'page-industries.php',
+		),
+		'jobs' => array(
+			'title'    => 'Jobs & Career',
+			'slug'     => 'jobs',
+			'template' => 'page-jobs.php',
+		),
+		'case_studies' => array(
+			'title'    => 'Case Studies',
+			'slug'     => 'case-studies',
+			'template' => 'page-case-studies.php',
+		),
+		'blog' => array(
+			'title'    => 'Blog & Resources',
+			'slug'     => 'blog',
+			'template' => 'page-blog.php',
 		),
 		'hire' => array(
 			'title'    => 'Hire Talent',
@@ -384,7 +479,7 @@ function sam_ensure_default_pages_and_menu_on_init() {
 	}
 
 	if ( ! is_admin() ) {
-		$required_slugs = array( 'about-us', 'for-employers', 'payroll', 'sam-assured', 'hire-talent', 'candidate-form', 'contact', 'employee-login', 'privacy-policy', 'terms-of-service', 'cookie-policy' );
+		$required_slugs = array( 'about-us', 'for-employers', 'immediate-hiring', 'contract-staffing', 'contract-to-hire', 'managed-workforce', 'payroll', 'sam-assured', 'industries', 'jobs', 'case-studies', 'blog', 'hire-talent', 'candidate-form', 'contact', 'employee-login', 'privacy-policy', 'terms-of-service', 'cookie-policy' );
 		foreach ( $required_slugs as $slug ) {
 			$page = get_page_by_path( $slug, OBJECT, 'page' );
 			if ( ! $page || 'publish' !== $page->post_status ) {
