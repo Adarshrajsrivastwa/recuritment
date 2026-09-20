@@ -2588,3 +2588,355 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 @media (max-width: 640px){
 	.candidate-radio-pills{ grid-template-columns:1fr; }
 }
+
+/* ==========================================================================
+   ANIMATIONS — Home Page (v2.3.0)
+   ========================================================================== */
+
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes sam-fadeInUp {
+	from { opacity:0; transform:translateY(28px); }
+	to   { opacity:1; transform:translateY(0);    }
+}
+@keyframes sam-fadeInLeft {
+	from { opacity:0; transform:translateX(-32px); }
+	to   { opacity:1; transform:translateX(0);     }
+}
+@keyframes sam-fadeInRight {
+	from { opacity:0; transform:translateX(32px); }
+	to   { opacity:1; transform:translateX(0);    }
+}
+@keyframes sam-fadeIn {
+	from { opacity:0; }
+	to   { opacity:1; }
+}
+@keyframes sam-scaleIn {
+	from { opacity:0; transform:scale(.88); }
+	to   { opacity:1; transform:scale(1);   }
+}
+@keyframes sam-slideDown {
+	from { opacity:0; transform:translateY(-18px); }
+	to   { opacity:1; transform:translateY(0);     }
+}
+@keyframes sam-bob {
+	0%,100% { transform:translateY(0);    }
+	50%      { transform:translateY(-8px); }
+}
+@keyframes sam-pulse-ring {
+	0%   { transform:scale(1);   opacity:.7; }
+	100% { transform:scale(2.2); opacity:0;  }
+}
+@keyframes sam-spin-slow {
+	to { transform:rotate(360deg); }
+}
+@keyframes sam-draw-line {
+	from { height:0; }
+	to   { height:100%; }
+}
+@keyframes sam-count-up {
+	from { opacity:0; transform:translateY(6px); }
+	to   { opacity:1; transform:translateY(0);   }
+}
+@keyframes sam-shimmer {
+	0%   { background-position: -200% center; }
+	100% { background-position:  200% center; }
+}
+@keyframes sam-gradient-shift {
+	0%   { background-position:0%   50%; }
+	50%  { background-position:100% 50%; }
+	100% { background-position:0%   50%; }
+}
+@keyframes sam-card-glow {
+	0%,100% { box-shadow:0 0 0 0 rgba(47,95,214,.15); }
+	50%      { box-shadow:0 0 24px 4px rgba(47,95,214,.22); }
+}
+
+/* ── Respect prefers-reduced-motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration:.01ms !important;
+		animation-iteration-count:1 !important;
+		transition-duration:.01ms !important;
+	}
+}
+
+/* ── Scroll-Reveal Utility ─────────────────────────────────────────────── */
+.sam-reveal {
+	opacity:0;
+	transform:translateY(32px);
+	transition:opacity .65s cubic-bezier(.22,.68,0,1.2), transform .65s cubic-bezier(.22,.68,0,1.2);
+}
+.sam-reveal.sam-reveal--left {
+	transform:translateX(-32px);
+}
+.sam-reveal.sam-reveal--right {
+	transform:translateX(32px);
+}
+.sam-reveal.sam-reveal--scale {
+	transform:scale(.92);
+}
+.sam-reveal.is-visible {
+	opacity:1;
+	transform:none;
+}
+/* Staggered children */
+.sam-stagger > * {
+	opacity:0;
+	transform:translateY(24px);
+	transition:opacity .55s ease, transform .55s ease;
+}
+.sam-stagger.is-visible > *:nth-child(1)  { opacity:1; transform:none; transition-delay:.05s; }
+.sam-stagger.is-visible > *:nth-child(2)  { opacity:1; transform:none; transition-delay:.13s; }
+.sam-stagger.is-visible > *:nth-child(3)  { opacity:1; transform:none; transition-delay:.21s; }
+.sam-stagger.is-visible > *:nth-child(4)  { opacity:1; transform:none; transition-delay:.29s; }
+.sam-stagger.is-visible > *:nth-child(5)  { opacity:1; transform:none; transition-delay:.37s; }
+.sam-stagger.is-visible > *:nth-child(6)  { opacity:1; transform:none; transition-delay:.45s; }
+.sam-stagger.is-visible > *:nth-child(n+7){ opacity:1; transform:none; transition-delay:.52s; }
+
+/* ── HERO — Entrance Sequence ──────────────────────────────────────────── */
+.fp-live-status-pill {
+	animation:sam-slideDown .6s cubic-bezier(.22,.68,0,1.2) .1s both;
+}
+.fp-hero-h1 {
+	animation:sam-fadeInUp .75s cubic-bezier(.22,.68,0,1.2) .25s both;
+}
+.fp-hero-lead {
+	animation:sam-fadeInUp .7s ease .42s both;
+}
+.fp-caps-chips {
+	animation:sam-fadeInUp .7s ease .55s both;
+}
+.fp-hero-cta-group {
+	animation:sam-fadeInUp .7s ease .68s both;
+}
+.fp-hero-trust-bar {
+	animation:sam-fadeIn .8s ease .85s both;
+}
+/* Right column — console */
+.fp-radar-card {
+	animation:sam-scaleIn .8s cubic-bezier(.22,.68,0,1.2) .35s both;
+}
+.fp-floating-badge.fp-float-top-right {
+	animation:sam-fadeInRight .65s ease .9s both, sam-bob 3.5s ease-in-out 1.5s infinite;
+}
+.fp-floating-badge.fp-float-bottom-left {
+	animation:sam-fadeInLeft .65s ease 1.0s both, sam-bob 4s ease-in-out 2s infinite;
+}
+
+/* ── STATS STRIP — counter entrance ───────────────────────────────────── */
+.stat-item {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.stat-item:hover {
+	transform:translateY(-4px);
+}
+/* Animated number class added by JS */
+.stat-num.is-counting {
+	animation:sam-count-up .5s ease both;
+}
+
+/* ── CHIP — hover lift ─────────────────────────────────────────────────── */
+.fp-chip {
+	transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.fp-chip:hover {
+	transform:translateY(-3px) scale(1.03);
+	box-shadow:0 8px 20px rgba(47,95,214,.18);
+}
+
+/* ── BOTTLENECK CARDS ──────────────────────────────────────────────────── */
+.fp-problem-card {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.fp-problem-card:hover {
+	transform:translateY(-6px);
+	box-shadow:0 20px 40px rgba(21,43,82,.12);
+}
+
+/* ── DIFFERENCE CARDS ──────────────────────────────────────────────────── */
+.fp-diff-card {
+	transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+	position:relative;
+	overflow:hidden;
+}
+.fp-diff-card::after {
+	content:'';
+	position:absolute;
+	inset:0;
+	background:linear-gradient(135deg, rgba(47,95,214,.06) 0%, transparent 60%);
+	opacity:0;
+	transition:opacity .3s ease;
+}
+.fp-diff-card:hover {
+	transform:translateY(-6px);
+	box-shadow:0 24px 48px rgba(21,43,82,.13);
+}
+.fp-diff-card:hover::after { opacity:1; }
+.fp-diff-num {
+	transition:color .3s ease, transform .3s ease;
+}
+.fp-diff-card:hover .fp-diff-num {
+	color:var(--blue);
+	transform:scale(1.1);
+}
+
+/* ── CAPABILITIES (service cards) ─────────────────────────────────────── */
+.fp-cap-card {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.fp-cap-card:hover {
+	transform:translateY(-7px);
+	box-shadow:0 24px 50px rgba(21,43,82,.14);
+}
+.fp-cap-card .icon-badge {
+	transition:transform .3s ease, background .3s ease;
+}
+.fp-cap-card:hover .icon-badge {
+	transform:scale(1.15) rotate(-4deg);
+	background:var(--blue);
+	color:#fff;
+}
+
+/* ── PROCESS STEPS ────────────────────────────────────────────────────── */
+.fp-process-step {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.fp-process-step:hover {
+	transform:translateY(-5px);
+	box-shadow:0 16px 36px rgba(21,43,82,.12);
+}
+.fp-process-icon {
+	transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.fp-process-step:hover .fp-process-icon {
+	transform:scale(1.18) rotate(6deg);
+}
+
+/* ── DOMAIN CARDS ─────────────────────────────────────────────────────── */
+.fp-domain-card {
+	transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.fp-domain-card:hover {
+	transform:translateY(-6px);
+	box-shadow:0 20px 40px rgba(21,43,82,.12);
+	border-color:rgba(47,95,214,.3);
+}
+.fp-domain-icon {
+	transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.fp-domain-card:hover .fp-domain-icon {
+	transform:scale(1.2) rotate(-5deg);
+}
+
+/* ── PARTNER POINTS ───────────────────────────────────────────────────── */
+.fp-partner-point {
+	transition:transform .25s ease;
+}
+.fp-partner-point:hover {
+	transform:translateX(5px);
+}
+
+/* ── CASE STUDY CARDS ─────────────────────────────────────────────────── */
+.fp-case-card {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.fp-case-card:hover {
+	transform:translateY(-5px);
+	box-shadow:0 24px 48px rgba(21,43,82,.13);
+}
+
+/* ── IMPACT CARDS ─────────────────────────────────────────────────────── */
+.fp-impact-card {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.fp-impact-card:hover {
+	transform:translateY(-5px);
+	box-shadow:0 20px 40px rgba(21,43,82,.12);
+}
+/* Animated number shimmer */
+.fp-impact-num {
+	background:linear-gradient(90deg, var(--navy) 0%, var(--blue) 40%, #6dd5fa 60%, var(--navy) 100%);
+	background-size:200% auto;
+	-webkit-background-clip:text;
+	background-clip:text;
+	-webkit-text-fill-color:transparent;
+	animation:sam-shimmer 3s linear infinite;
+}
+
+/* ── TESTIMONIAL CARDS ───────────────────────────────────────────────── */
+.fp-testimonial-card {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.fp-testimonial-card:hover {
+	transform:translateY(-6px);
+	box-shadow:0 24px 50px rgba(21,43,82,.14);
+}
+
+/* ── TIMELINE (focus section) ─────────────────────────────────────────── */
+.fp-tl-row {
+	transition:background .25s ease, padding .25s ease;
+}
+.fp-tl-row:hover {
+	background:rgba(47,95,214,.06);
+	border-radius:8px;
+	padding-left:6px;
+}
+.fp-tl-dot {
+	transition:transform .3s cubic-bezier(.34,1.56,.64,1), background .3s ease;
+}
+.fp-tl-row:hover .fp-tl-dot {
+	transform:scale(1.5);
+	background:var(--blue);
+}
+
+/* ── SAM ASSURED FLOW ─────────────────────────────────────────────────── */
+.fp-assured-flow span {
+	transition:transform .25s ease, color .25s ease;
+}
+.fp-assured-flow span:not(.fp-flow-arrow):hover {
+	transform:scale(1.06);
+	color:var(--blue);
+}
+.assured-step {
+	transition:transform .3s ease, box-shadow .3s ease;
+}
+.assured-step:hover {
+	transform:translateY(-5px);
+	box-shadow:0 16px 30px rgba(21,43,82,.14);
+}
+
+/* ── FAQ ITEMS ────────────────────────────────────────────────────────── */
+.faq-item {
+	transition:box-shadow .25s ease;
+}
+.faq-item:hover {
+	box-shadow:0 8px 24px rgba(21,43,82,.08);
+}
+
+/* ── CTA BUTTONS — extra pop ──────────────────────────────────────────── */
+.btn {
+	transition:transform .22s ease, box-shadow .22s ease, background .22s ease, color .22s ease;
+}
+.btn:hover {
+	transform:translateY(-2px);
+	box-shadow:0 10px 24px rgba(21,43,82,.18);
+}
+.btn:active {
+	transform:translateY(0);
+}
+
+/* ── HERO RADAR PULSE RING ────────────────────────────────────────────── */
+.fp-radar-pulse-ring {
+	animation:sam-pulse-ring 1.8s cubic-bezier(.215,.61,.355,1) infinite;
+}
+
+/* ── GRADIENT ANIMATED HERO BACKGROUND ────────────────────────────────── */
+.fp-hero-v2 {
+	background-size:200% 200%;
+	animation:sam-gradient-shift 12s ease infinite;
+}
+
+/* ── SECTION ENTRANCE via JS observer ────────────────────────────────── */
+/* Cards targeted by the enhanced IntersectionObserver will have
+   sam-reveal or sam-stagger classes applied dynamically via JS */
+
