@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.3.0' );
+define( 'SAM_THEME_VERSION', '1.4.0' );
 
 /**
  * Theme setup
@@ -1202,14 +1202,19 @@ function sam_handle_hiring_form() {
 	}
 
 	$fields = array(
-		'name'     => sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) ),
-		'company'  => sanitize_text_field( wp_unslash( $_POST['company'] ?? '' ) ),
-		'email'    => sanitize_email( wp_unslash( $_POST['email'] ?? '' ) ),
-		'phone'    => sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) ),
-		'roles'    => sanitize_textarea_field( wp_unslash( $_POST['roles'] ?? '' ) ),
-		'headcount'=> absint( $_POST['headcount'] ?? 0 ),
-		'timeline' => sanitize_text_field( wp_unslash( $_POST['timeline'] ?? '' ) ),
-		'message'  => sanitize_textarea_field( wp_unslash( $_POST['message'] ?? '' ) ),
+		'name'             => sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) ),
+		'company'          => sanitize_text_field( wp_unslash( $_POST['company'] ?? '' ) ),
+		'email'            => sanitize_email( wp_unslash( $_POST['email'] ?? '' ) ),
+		'phone'            => sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) ),
+		'engagement_model' => sanitize_text_field( wp_unslash( $_POST['engagement_model'] ?? '' ) ),
+		'domain'           => sanitize_text_field( wp_unslash( $_POST['domain'] ?? '' ) ),
+		'roles'            => sanitize_textarea_field( wp_unslash( $_POST['roles'] ?? '' ) ),
+		'headcount'        => absint( $_POST['headcount'] ?? 0 ),
+		'timeline'         => sanitize_text_field( wp_unslash( $_POST['timeline'] ?? '' ) ),
+		'location'         => sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) ),
+		'experience'       => sanitize_text_field( wp_unslash( $_POST['experience'] ?? '' ) ),
+		'budget'           => sanitize_text_field( wp_unslash( $_POST['budget'] ?? '' ) ),
+		'message'          => sanitize_textarea_field( wp_unslash( $_POST['message'] ?? '' ) ),
 	);
 
 	if ( ! $fields['name'] || ! $fields['company'] || ! is_email( $fields['email'] ) || ! $fields['phone'] || ! $fields['roles'] || ! $fields['timeline'] ) {
@@ -1218,9 +1223,23 @@ function sam_handle_hiring_form() {
 	}
 
 	$body = "New hiring requirement received:\n\n";
-	$labels = array( 'name' => 'Name', 'company' => 'Company', 'email' => 'Email', 'phone' => 'Phone', 'roles' => 'Roles required', 'headcount' => 'Headcount', 'timeline' => 'Joining timeline', 'message' => 'Additional details' );
+	$labels = array(
+		'name'             => 'Name',
+		'company'          => 'Company',
+		'email'            => 'Email',
+		'phone'            => 'Phone',
+		'engagement_model' => 'Engagement Model',
+		'domain'           => 'Domain / Industry',
+		'roles'            => 'Roles required',
+		'headcount'        => 'Headcount',
+		'timeline'         => 'Joining timeline',
+		'location'         => 'Location & Work Model',
+		'experience'       => 'Experience Band',
+		'budget'           => 'Budget / CTC Range',
+		'message'          => 'Additional details',
+	);
 	foreach ( $labels as $key => $label ) {
-		$body .= $label . ': ' . ( $fields[ $key ] ? $fields[ $key ] : 'Not provided' ) . "\n";
+		$body .= $label . ': ' . ( ! empty( $fields[ $key ] ) ? $fields[ $key ] : 'Not provided' ) . "\n";
 	}
 
 	sam_store_form_submission(

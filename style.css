@@ -1679,3 +1679,366 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 	.upload-cta-card, .featured-blog-card, .case-card-expanded, .contact-form-styled{ padding:24px; }
 	.newsletter-input-group{ flex-direction:column; }
 }
+
+/* ==========================================================================
+   HIRE TALENT PAGE — NEW STYLE
+   ========================================================================== */
+.hire-page-hero{ padding:100px 0 80px; }
+.hire-hero-header{ text-align:center; display:flex; flex-direction:column; align-items:center; }
+.hire-main-section{ padding-top:0; margin-top:-30px; position:relative; z-index:20; }
+
+.hire-split-grid{
+	display:grid;
+	grid-template-columns:1.8fr 1.05fr;
+	gap:44px;
+	align-items:start;
+}
+
+/* Form Card */
+.hire-mandate-card{
+	background:#fff;
+	border:1px solid var(--border);
+	border-radius:20px;
+	padding:40px;
+	box-shadow:0 12px 40px rgba(15,23,42,.08);
+}
+
+.mandate-step-box{
+	padding-bottom:32px;
+	margin-bottom:32px;
+	border-bottom:1px solid var(--border-light);
+}
+.mandate-step-box:last-of-type{
+	padding-bottom:10px;
+	margin-bottom:24px;
+	border-bottom:none;
+}
+.mandate-step-head{
+	display:flex;
+	align-items:flex-start;
+	gap:14px;
+	margin-bottom:22px;
+}
+.step-badge{
+	background:#EFF6FF;
+	color:#1D4ED8;
+	font-size:.76rem;
+	font-weight:800;
+	padding:5px 12px;
+	border-radius:999px;
+	border:1px solid #BFDBFE;
+	text-transform:uppercase;
+	letter-spacing:.04em;
+	flex-shrink:0;
+	margin-top:2px;
+}
+.mandate-step-head h3{
+	font-size:1.25rem;
+	font-weight:700;
+	color:#0F172A;
+	margin:0 0 4px;
+}
+.mandate-step-head p{
+	font-size:.88rem;
+	color:var(--text-muted);
+	margin:0;
+}
+
+/* Engagement Cards Selector */
+.engagement-cards-grid{
+	display:grid;
+	grid-template-columns:repeat(2, 1fr);
+	gap:12px;
+}
+.engagement-card{
+	position:relative;
+	cursor:pointer;
+	margin:0;
+}
+.engagement-card input[type="radio"]{
+	position:absolute;
+	opacity:0;
+	pointer-events:none;
+}
+.eng-card-inner{
+	background:var(--bg-soft);
+	border:1.5px solid var(--border);
+	border-radius:12px;
+	padding:16px 14px;
+	display:flex;
+	flex-direction:column;
+	gap:4px;
+	transition:all .2s ease;
+	height:100%;
+}
+.engagement-card:hover .eng-card-inner{
+	border-color:#93C5FD;
+	background:#F8FAFC;
+}
+.engagement-card input[type="radio"]:checked + .eng-card-inner{
+	border-color:#2563EB;
+	background:#EFF6FF;
+	box-shadow:0 0 0 1px #2563EB;
+}
+.eng-icon{
+	font-size:1.3rem;
+	margin-bottom:4px;
+}
+.eng-card-inner strong{
+	font-size:.88rem;
+	color:#0F172A;
+	font-weight:700;
+	line-height:1.2;
+}
+.eng-card-inner small{
+	font-size:.76rem;
+	color:var(--text-muted);
+	line-height:1.3;
+}
+
+.mandate-submit-box{
+	margin-top:10px;
+}
+.mandate-disclaimer{
+	font-size:.8rem;
+	color:var(--text-muted);
+	line-height:1.5;
+	text-align:center;
+	margin-top:14px;
+	padding:12px 16px;
+	background:var(--bg-soft);
+	border-radius:8px;
+}
+
+/* Sidebar Styles */
+.hire-sidebar-col{
+	display:flex;
+	flex-direction:column;
+	gap:24px;
+}
+.hire-sidebar-card{
+	background:#fff;
+	border:1px solid var(--border);
+	border-radius:18px;
+	padding:30px;
+	box-shadow:0 8px 30px rgba(15,23,42,.05);
+}
+.sidebar-card-badge{
+	display:inline-block;
+	background:#EFF6FF;
+	color:#1D4ED8;
+	border:1px solid #BFDBFE;
+	font-size:.75rem;
+	font-weight:700;
+	padding:4px 10px;
+	border-radius:999px;
+	margin-bottom:12px;
+	text-transform:uppercase;
+	letter-spacing:.04em;
+}
+.hire-sidebar-card h4{
+	font-size:1.2rem;
+	font-weight:700;
+	color:#0F172A;
+	margin:0 0 6px;
+}
+.sidebar-sub{
+	font-size:.86rem;
+	color:var(--text-muted);
+	line-height:1.5;
+	margin:0 0 20px;
+}
+
+/* SLA Steps */
+.sla-steps-track{
+	display:flex;
+	flex-direction:column;
+	gap:16px;
+	position:relative;
+}
+.sla-step{
+	display:flex;
+	gap:14px;
+	align-items:flex-start;
+	position:relative;
+}
+.sla-step::before{
+	content:'';
+	position:absolute;
+	left:17px;
+	top:36px;
+	bottom:-16px;
+	width:2px;
+	background:#E2E8F0;
+}
+.sla-step.is-final::before{ display:none; }
+.sla-step-num{
+	width:34px;
+	height:34px;
+	border-radius:50%;
+	background:#EFF6FF;
+	color:#2563EB;
+	border:2px solid #BFDBFE;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-weight:800;
+	font-size:.82rem;
+	flex-shrink:0;
+	position:relative;
+	z-index:2;
+}
+.sla-step.is-final .sla-step-num{
+	background:#10B981;
+	border-color:#059669;
+	color:#fff;
+}
+.sla-step-content strong{
+	display:block;
+	font-size:.88rem;
+	color:#0F172A;
+	margin-bottom:2px;
+}
+.sla-step-content p{
+	font-size:.8rem;
+	color:var(--text-muted);
+	line-height:1.45;
+	margin:0;
+}
+
+/* Hotline Card */
+.hotline-card{
+	background:linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+	color:#fff;
+	border-color:rgba(255,255,255,.1);
+}
+.hotline-card h4{ color:#fff; }
+.hotline-card p{ color:rgba(255,255,255,.75); }
+.hotline-contact-list{
+	display:flex;
+	flex-direction:column;
+	gap:10px;
+	margin:16px 0;
+}
+.hotline-btn{
+	display:flex;
+	align-items:center;
+	gap:12px;
+	background:rgba(255,255,255,.08);
+	border:1px solid rgba(255,255,255,.16);
+	border-radius:10px;
+	padding:12px 16px;
+	color:#fff;
+	text-decoration:none;
+	transition:all .2s ease;
+}
+.hotline-btn:hover{
+	background:rgba(255,255,255,.16);
+	border-color:rgba(255,255,255,.3);
+	color:#fff;
+	transform:translateY(-2px);
+}
+.hotline-btn svg{ width:20px; height:20px; color:#38BDF8; flex-shrink:0; }
+.hotline-btn small{ display:block; font-size:.72rem; color:rgba(255,255,255,.6); }
+.hotline-btn strong{ font-size:.9rem; color:#fff; font-weight:700; }
+.hotline-hours{
+	display:block;
+	font-size:.74rem;
+	color:rgba(255,255,255,.5);
+	text-align:center;
+}
+
+/* Shield Card */
+.shield-card-header{
+	display:flex;
+	align-items:center;
+	gap:14px;
+	margin-bottom:18px;
+}
+.shield-icon-badge{
+	width:44px;
+	height:44px;
+	border-radius:12px;
+	background:#ECFDF5;
+	color:#059669;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	flex-shrink:0;
+}
+.shield-icon-badge svg{ width:22px; height:22px; }
+.shield-card-header h4{ font-size:1.15rem; margin:0 0 2px; }
+.shield-card-header small{ font-size:.78rem; color:var(--text-muted); }
+.shield-perks-list{
+	list-style:none;
+	padding:0;
+	margin:0;
+	display:flex;
+	flex-direction:column;
+	gap:12px;
+}
+.shield-perks-list li{
+	display:flex;
+	gap:10px;
+	align-items:flex-start;
+	font-size:.84rem;
+	line-height:1.45;
+	color:var(--text);
+}
+.shield-perks-list li > span{
+	color:#059669;
+	font-weight:bold;
+	font-size:1rem;
+	flex-shrink:0;
+	margin-top:-1px;
+}
+
+/* FAQ Stack */
+.faq-stack{
+	display:grid;
+	gap:14px;
+	max-width:820px;
+	margin:0 auto;
+}
+.faq-item-card{
+	background:#fff;
+	border:1px solid var(--border);
+	border-radius:12px;
+	padding:22px 26px;
+	box-shadow:0 4px 14px rgba(15,23,42,.03);
+}
+.faq-item-card h4{
+	font-size:1.02rem;
+	font-weight:700;
+	color:#0F172A;
+	margin:0 0 8px;
+}
+.faq-item-card p{
+	font-size:.88rem;
+	color:var(--text-muted);
+	line-height:1.55;
+	margin:0;
+}
+
+/* Responsive */
+@media (max-width: 1024px){
+	.hire-split-grid{
+		grid-template-columns:1fr;
+		gap:36px;
+	}
+	.hire-mandate-card{
+		padding:28px 22px;
+	}
+	.mandate-step-head{
+		flex-direction:column;
+		gap:8px;
+	}
+}
+@media (max-width: 640px){
+	.engagement-cards-grid{
+		grid-template-columns:1fr;
+	}
+	.hire-mandate-card{
+		padding:20px 16px;
+	}
+}
