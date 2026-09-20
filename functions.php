@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SAM_THEME_VERSION', '1.0.17' );
+define( 'SAM_THEME_VERSION', '1.0.18' );
 
 /**
  * Theme setup
@@ -809,6 +809,19 @@ function sam_register_post_types() {
 		'menu_icon'    => 'dashicons-id-alt',
 		'supports'     => array( 'title', 'custom-fields' ),
 	) );
+
+	register_post_type( 'sam_inquiry', array(
+		'labels' => array(
+			'name'          => 'Form Submissions',
+			'singular_name' => 'Form Submission',
+			'add_new_item'  => 'Add New Submission',
+		),
+		'public'       => false,
+		'show_ui'      => true,
+		'show_in_menu' => true,
+		'menu_icon'    => 'dashicons-email-alt',
+		'supports'     => array( 'title', 'editor' ),
+	) );
 }
 add_action( 'init', 'sam_register_post_types' );
 
@@ -937,10 +950,10 @@ function sam_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'sam_address', array( 'default' => 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ) );
 	$wp_customize->add_control( 'sam_address', array( 'label' => 'Office Address', 'section' => 'sam_contact', 'type' => 'textarea' ) );
 	$wp_customize->add_setting( 'sam_smtp_user', array( 'default' => '', 'sanitize_callback' => 'sanitize_email' ) );
-	$wp_customize->add_control( 'sam_smtp_user', array( 'label' => 'Gmail SMTP Email (Sender)', 'description' => 'Enter your Gmail address used to send form emails.', 'section' => 'sam_contact', 'type' => 'email' ) );
+	$wp_customize->add_control( 'sam_smtp_user', array( 'label' => 'Gmail SMTP Email (Sender)', 'description' => 'Required for Contact and Hire Talent forms to send email on XAMPP/local hosting.', 'section' => 'sam_contact', 'type' => 'email' ) );
 
 	$wp_customize->add_setting( 'sam_smtp_pass', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
-	$wp_customize->add_control( 'sam_smtp_pass', array( 'label' => 'Gmail App Password', 'description' => 'Use a Gmail App Password (not your regular password). Generate at myaccount.google.com > Security > App passwords.', 'section' => 'sam_contact', 'type' => 'text' ) );
+	$wp_customize->add_control( 'sam_smtp_pass', array( 'label' => 'Gmail App Password', 'description' => 'Required. Create at Google Account > Security > 2-Step Verification > App passwords. Use the 16-character app password here.', 'section' => 'sam_contact', 'type' => 'password' ) );
 
 	$wp_customize->add_section( 'sam_social', array( 'title' => 'SAM Social Media', 'priority' => 31 ) );
 
@@ -954,6 +967,70 @@ function sam_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'sam_facebook_url', array( 'label' => 'Facebook Page URL', 'section' => 'sam_social', 'type' => 'url' ) );
 }
 add_action( 'customize_register', 'sam_customize_register' );
+
+/**
+ * Whether Gmail SMTP credentials are configured in the theme customizer.
+ */
+function sam_is_mail_configured() {
+	$smtp_user = get_theme_mod( 'sam_smtp_user', '' );
+	$smtp_pass = get_theme_mod( 'sam_smtp_pass', '' );
+	return ! empty( $smtp_user ) && ! empty( $smtp_pass );
+}
+
+/**
+ * Recipient inbox for all theme form notifications.
+ */
+function sam_get_form_recipient() {
+	$recipient = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
+	return is_email( $recipient ) ? $recipient : get_option( 'admin_email' );
+}
+
+/**
+ * Store a form submission in wp-admin as a backup when email delivery fails.
+ */
+function sam_store_form_submission( $type, $title, $body, $meta = array() ) {
+	$post_id = wp_insert_post(
+		array(
+			'post_title'   => sanitize_text_field( $title ),
+			'post_content' => wp_kses_post( $body ),
+			'post_type'    => 'sam_inquiry',
+			'post_status'  => 'publish',
+		),
+		true
+	);
+
+	if ( is_wp_error( $post_id ) || ! $post_id ) {
+		return 0;
+	}
+
+	update_post_meta( $post_id, '_sam_inquiry_type', sanitize_key( $type ) );
+	foreach ( $meta as $key => $value ) {
+		update_post_meta( $post_id, '_' . sanitize_key( $key ), sanitize_textarea_field( (string) $value ) );
+	}
+
+	return (int) $post_id;
+}
+
+/**
+ * Send a plain-text notification email with consistent headers.
+ */
+function sam_send_notification_email( $subject, $body, $reply_name = '', $reply_email = '', $attachments = array() ) {
+	$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
+
+	if ( $reply_name && is_email( $reply_email ) ) {
+		$headers[] = 'Reply-To: ' . sanitize_text_field( $reply_name ) . ' <' . sanitize_email( $reply_email ) . '>';
+	}
+
+	$GLOBALS['sam_last_mail_error'] = '';
+
+	$sent = wp_mail( sam_get_form_recipient(), $subject, $body, $headers, $attachments );
+
+	if ( ! $sent && defined( 'WP_DEBUG' ) && WP_DEBUG && ! empty( $GLOBALS['sam_last_mail_error'] ) ) {
+		error_log( 'SAM Manpower mail error: ' . $GLOBALS['sam_last_mail_error'] );
+	}
+
+	return $sent;
+}
 
 /**
  * Configure PHPMailer to use Gmail SMTP so form emails are delivered on localhost & production.
@@ -971,12 +1048,31 @@ function sam_configure_smtp( $phpmailer ) {
 	$phpmailer->SMTPAuth   = true;
 	$phpmailer->Port       = 587;
 	$phpmailer->SMTPSecure = 'tls';
+	$phpmailer->SMTPAutoTLS = true;
+	$phpmailer->CharSet    = 'UTF-8';
 	$phpmailer->Username   = $smtp_user;
 	$phpmailer->Password   = $smtp_pass;
 	$phpmailer->From       = $smtp_user;
 	$phpmailer->FromName   = get_bloginfo( 'name' );
+	$phpmailer->SMTPOptions = array(
+		'ssl' => array(
+			'verify_peer'       => false,
+			'verify_peer_name'  => false,
+			'allow_self_signed' => true,
+		),
+	);
 }
 add_action( 'phpmailer_init', 'sam_configure_smtp' );
+
+/**
+ * Capture the last wp_mail() error for debugging.
+ */
+function sam_capture_mail_error( $error ) {
+	if ( is_wp_error( $error ) ) {
+		$GLOBALS['sam_last_mail_error'] = $error->get_error_message();
+	}
+}
+add_action( 'wp_mail_failed', 'sam_capture_mail_error' );
 
 /**
  * Override WordPress default "from" email so it matches the Gmail SMTP sender.
@@ -1032,8 +1128,20 @@ function sam_handle_hiring_form() {
 		$body .= $label . ': ' . ( $fields[ $key ] ? $fields[ $key ] : 'Not provided' ) . "\n";
 	}
 
-	$recipient = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
-	$sent      = wp_mail( $recipient, 'New hiring requirement from ' . $fields['company'], $body, array( 'Reply-To: ' . $fields['name'] . ' <' . $fields['email'] . '>' ) );
+	sam_store_form_submission(
+		'hiring',
+		'Hiring: ' . $fields['company'] . ' - ' . $fields['name'],
+		$body,
+		$fields
+	);
+
+	$sent = sam_send_notification_email(
+		'New hiring requirement from ' . $fields['company'],
+		$body,
+		$fields['name'],
+		$fields['email']
+	);
+
 	wp_safe_redirect( add_query_arg( 'form_status', $sent ? 'success' : 'mail-error', $redirect_url ) );
 	exit;
 }
@@ -1159,16 +1267,15 @@ function sam_handle_candidate_form() {
 		$body .= "Notice Period Document Link: " . $notice_doc_url . "\n";
 	}
 
-	$recipient = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
-	$sent      = wp_mail(
-		$recipient,
+	$sent = sam_send_notification_email(
 		'New Candidate Submission: ' . $fields['full_name'] . ' (' . $fields['primary_skill'] . ')',
 		$body,
-		array( 'Reply-To: ' . $fields['full_name'] . ' <' . $fields['email'] . '>' ),
+		$fields['full_name'],
+		$fields['email'],
 		$attachments
 	);
 
-	wp_safe_redirect( add_query_arg( 'form_status', 'success', $redirect_url ) );
+	wp_safe_redirect( add_query_arg( 'form_status', $sent ? 'success' : 'mail-error', $redirect_url ) );
 	exit;
 }
 add_action( 'admin_post_nopriv_sam_submit_candidate_profile', 'sam_handle_candidate_form' );
@@ -1208,21 +1315,26 @@ function sam_handle_contact_form() {
 	$body .= "Inquiry Type: " . $subject . "\n\n";
 	$body .= "Message:\n" . $message . "\n";
 
-	$recipient = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
-	$headers   = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
-
-	$sent = wp_mail(
-		$recipient,
-		'Contact Inquiry from ' . $name . ' [' . $subject . ']',
+	sam_store_form_submission(
+		'contact',
+		'Contact: ' . $name . ' [' . $subject . ']',
 		$body,
-		$headers
+		array(
+			'name'    => $name,
+			'email'   => $email,
+			'phone'   => $phone,
+			'subject' => $subject,
+		)
 	);
 
-	if ( $sent ) {
-		wp_safe_redirect( add_query_arg( 'form_status', 'success', $redirect_url ) );
-	} else {
-		wp_safe_redirect( add_query_arg( 'form_status', 'mail-error', $redirect_url ) );
-	}
+	$sent = sam_send_notification_email(
+		'Contact Inquiry from ' . $name . ' [' . $subject . ']',
+		$body,
+		$name,
+		$email
+	);
+
+	wp_safe_redirect( add_query_arg( 'form_status', $sent ? 'success' : 'mail-error', $redirect_url ) );
 	exit;
 }
 add_action( 'admin_post_nopriv_sam_submit_contact_message', 'sam_handle_contact_form' );
