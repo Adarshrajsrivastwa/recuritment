@@ -12,29 +12,6 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 
 <footer class="site-footer">
 
-	<!-- Pre-Footer Executive CTA Banner -->
-	<div class="footer-pre-banner">
-		<div class="container">
-			<div class="footer-pre-inner">
-				<div class="footer-pre-copy">
-					<span class="footer-pre-badge">
-						<span class="pulse-dot" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981; margin-right:6px; box-shadow:0 0 8px #10B981;"></span>
-						Immediate &amp; Fast-Track Hiring Network
-					</span>
-					<h3>Ready to eliminate the 90-day hiring bottleneck?</h3>
-					<p>Connect with pre-vetted professionals ready to onboard in 0–30 days. No resume spam, guaranteed turnarounds.</p>
-				</div>
-				<div class="footer-pre-actions">
-					<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary footer-btn-mandate">
-						<?php echo sam_icon('users'); ?> Post a Hiring Mandate
-					</a>
-					<a href="<?php echo esc_url( sam_candidate_form_url() ); ?>" class="btn btn-outline-light footer-btn-cv">
-						<?php echo sam_icon('briefcase'); ?> Submit Resume / CV
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<!-- Main Footer Columns -->
 	<div class="container footer-main-wrapper">

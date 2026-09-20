@@ -922,23 +922,34 @@ get_header();
 </section>
 
 <!-- ===================================================================
-     SECTION 16 — FINAL CALL TO ACTION
+     SECTION 16 — FINAL CALL TO ACTION (MERGED & ENHANCED)
      =================================================================== -->
 <section class="section fp-final-cta-section" id="final-cta">
 	<div class="container fp-final-cta-inner">
 		<div class="fp-fcta-content">
-			<span class="eyebrow-badge eyebrow-badge-light"><?php echo sam_icon('target'); ?> Don't Wait</span>
-			<h2>Don't Let Open Requisitions Stall Your Next Milestone</h2>
-			<p>Every week a critical position sits vacant is a week your competitors gain ground. Tell us what your team needs, and we'll introduce you to pre-vetted professionals ready to interview this week and join this month.</p>
+			<span class="eyebrow-badge" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); color:#34D399; margin-bottom:18px; display:inline-flex; align-items:center;">
+				<span class="pulse-dot" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981; margin-right:8px; box-shadow:0 0 8px #10B981;"></span>
+				Immediate &amp; Fast-Track Hiring Network
+			</span>
+			<h2>Ready to Eliminate the 90-Day Hiring Bottleneck?</h2>
+			<p>Don’t let open requisitions stall your next milestone. SAM connects your teams with pre-vetted professionals in Tech, Operations, Sales, and Plant Management who are ready to interview this week and onboard in 0–30 days.</p>
 			<div class="fp-fcta-actions">
-				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary" id="final-cta-mandate"><?php echo sam_icon('users'); ?> Share Your Hiring Mandate</a>
-				<a href="<?php echo esc_url( sam_contact_url() ); ?>" class="btn btn-outline-light" id="final-cta-call"><?php echo sam_icon('chat'); ?> Schedule a Call with a Recruiter</a>
+				<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary" id="final-cta-mandate" style="padding:14px 28px; font-weight:700;">
+					<?php echo sam_icon('users'); ?> Post a Hiring Mandate
+				</a>
+				<a href="<?php echo esc_url( sam_contact_url() ); ?>" class="btn btn-outline-light" id="final-cta-call" style="padding:14px 24px;">
+					<?php echo sam_icon('phone'); ?> Schedule Recruiter Call
+				</a>
+				<a href="<?php echo esc_url( sam_candidate_form_url() ); ?>" class="btn btn-outline-light" style="background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.2); padding:14px 22px; color:#fff;">
+					<?php echo sam_icon('briefcase'); ?> Submit Resume / CV
+				</a>
 			</div>
 		</div>
 		<div class="fp-fcta-stat-strip">
-			<div class="fp-fcta-stat"><span>48–72h</span><small>First profiles on your screen</small></div>
+			<div class="fp-fcta-stat"><span>48–72h</span><small>First profiles delivered</small></div>
 			<div class="fp-fcta-stat"><span>0–30</span><small>Days to onboard</small></div>
-			<div class="fp-fcta-stat"><span>500+</span><small>Engagements delivered</small></div>
+			<div class="fp-fcta-stat"><span>500+</span><small>Placements delivered</small></div>
+			<div class="fp-fcta-stat"><span style="color:#10B981;">90-Day</span><small>Free replacement warranty</small></div>
 		</div>
 	</div>
 </section>
