@@ -807,7 +807,7 @@ function sam_seo_schema() {
 		'name'         => 'SAM Manpower & Career Services LLP',
 		'url'          => $site_url,
 		'logo'         => $logo,
-		'email'        => get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' ),
+		'email'        => sam_get_company_email(),
 		'telephone'    => get_theme_mod( 'sam_phone', '+91 98765 43210' ),
 		'address'      => array(
 			'@type'           => 'PostalAddress',
@@ -1042,7 +1042,7 @@ function sam_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'sam_employee_login_url', array( 'default' => 'https://payroll.razorpay.com/login', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_employee_login_url', array( 'label' => 'Employee Login URL', 'description' => 'URL opened when clicking "Login as Employee". Opens in the same tab.', 'section' => 'sam_contact', 'type' => 'url' ) );
 
-	$wp_customize->add_setting( 'sam_hiring_form_recipient', array( 'default' => 'srivastwaadarsh@gmail.com', 'sanitize_callback' => 'sanitize_email' ) );
+	$wp_customize->add_setting( 'sam_hiring_form_recipient', array( 'default' => 'sales@samcareer.com', 'sanitize_callback' => 'sanitize_email' ) );
 	$wp_customize->add_control( 'sam_hiring_form_recipient', array( 'label' => 'Hiring Form Recipient Email', 'section' => 'sam_contact', 'type' => 'email' ) );
 
 	$wp_customize->add_setting( 'sam_address', array( 'default' => 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ) );
@@ -1076,10 +1076,21 @@ function sam_is_mail_configured() {
 }
 
 /**
+ * Corporate / recruiter contact email for display and notifications.
+ */
+function sam_get_company_email() {
+	$email = get_theme_mod( 'sam_hiring_form_recipient', 'sales@samcareer.com' );
+	if ( empty( $email ) || 'srivastwaadarsh@gmail.com' === $email ) {
+		$email = 'sales@samcareer.com';
+	}
+	return sanitize_email( $email );
+}
+
+/**
  * Recipient inbox for all theme form notifications.
  */
 function sam_get_form_recipient() {
-	$recipient = get_theme_mod( 'sam_hiring_form_recipient', 'srivastwaadarsh@gmail.com' );
+	$recipient = sam_get_company_email();
 	return is_email( $recipient ) ? $recipient : get_option( 'admin_email' );
 }
 
