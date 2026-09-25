@@ -172,29 +172,49 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 
 <!-- FREQUENTLY ASKED QUESTIONS -->
 <section class="section bg-soft">
-	<div class="container">
+	<div class="container container-narrow">
 		<div class="section-head">
 			<span class="eyebrow-badge"><?php echo sam_icon('target'); ?> Quick Answers</span>
 			<h2>Frequently Asked Questions</h2>
 			<p>Common questions from employers and job seekers looking to engage with SAM Manpower.</p>
 		</div>
 
-		<div class="faq-grid" style="max-width:860px; margin:0 auto; display:grid; gap:16px;">
-			<div class="faq-item" style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-md); padding:20px;">
-				<h3 style="font-size:1.05rem; margin-bottom:8px; color:var(--text-dark); font-weight:600;">How quickly can you share the first candidate shortlist?</h3>
-				<p style="color:var(--text-muted); margin:0; line-height:1.6;">For standard lateral roles in Tech, Finance, Sales, and Plant Operations, our average turnaround from requirement briefing to the first curated shortlist of 3–5 evaluated candidates is 48 to 72 hours.</p>
+		<div class="faq-accordion">
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>How quickly can you share the first candidate shortlist?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>For standard lateral roles in Tech, Finance, Sales, and Plant Operations, our average turnaround from requirement briefing to the first curated shortlist of 3–5 evaluated candidates is 48 to 72 hours.</p>
+				</div>
 			</div>
-			<div class="faq-item" style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-md); padding:20px;">
-				<h3 style="font-size:1.05rem; margin-bottom:8px; color:var(--text-dark); font-weight:600;">What is SAM's replacement guarantee policy?</h3>
-				<p style="color:var(--text-muted); margin:0; line-height:1.6;">Every permanent direct placement comes backed by a comprehensive 90-day replacement guarantee. If a candidate departs or is found mismatched during this window, we provide a priority backfill at zero extra cost.</p>
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>What is SAM's replacement guarantee policy?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>Every permanent direct placement comes backed by a comprehensive 90-day replacement guarantee. If a candidate departs or is found mismatched during this window, we provide a priority backfill at zero extra cost.</p>
+				</div>
 			</div>
-			<div class="faq-item" style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-md); padding:20px;">
-				<h3 style="font-size:1.05rem; margin-bottom:8px; color:var(--text-dark); font-weight:600;">Do job seekers pay any registration or placement fees?</h3>
-				<p style="color:var(--text-muted); margin:0; line-height:1.6;">Never. All career placement, interview scheduling, and resume review services provided by SAM Manpower are 100% free of charge for candidates. We are compensated solely by our client employers.</p>
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>Do job seekers pay any registration or placement fees?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>Never. All career placement, interview scheduling, and resume review services provided by SAM Manpower are 100% free of charge for candidates. We are compensated solely by our client employers.</p>
+				</div>
 			</div>
-			<div class="faq-item" style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-md); padding:20px;">
-				<h3 style="font-size:1.05rem; margin-bottom:8px; color:var(--text-dark); font-weight:600;">How do you verify candidate notice periods to prevent dropouts?</h3>
-				<p style="color:var(--text-muted); margin:0; line-height:1.6;">We request official resignation acceptance letters or buyout eligibility documentation, perform direct salary slip checks, and conduct scheduled weekly alignment check-ins to monitor counter-offer developments in real time.</p>
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>How do you verify candidate notice periods to prevent dropouts?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>We request official resignation acceptance letters or buyout eligibility documentation, perform direct salary slip checks, and conduct scheduled weekly alignment check-ins to monitor counter-offer developments in real time.</p>
+				</div>
 			</div>
 		</div>
 	</div>

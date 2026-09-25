@@ -294,25 +294,45 @@ $prefill_role = isset( $_GET['role'] ) ? sanitize_text_field( wp_unslash( $_GET[
 			<p>Everything you need to know about our sourcing methodology, timelines, and commercial terms.</p>
 		</div>
 
-		<div class="faq-stack">
-			<div class="faq-item-card">
-				<h4>How can SAM deliver candidate shortlists within 48 to 72 hours?</h4>
-				<p>Unlike conventional agencies that begin searching external job portals only after you post a requisition, we maintain dedicated, pre-vetted talent pipelines of candidates who are actively serving notice periods (15–30 days) or available immediately across Tier-1 IT, manufacturing, and corporate domains.</p>
+		<div class="faq-accordion">
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>How can SAM deliver candidate shortlists within 48 to 72 hours?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>Unlike conventional agencies that begin searching external job portals only after you post a requisition, we maintain dedicated, pre-vetted talent pipelines of candidates who are actively serving notice periods (15–30 days) or available immediately across Tier-1 IT, manufacturing, and corporate domains.</p>
+				</div>
 			</div>
 
-			<div class="faq-item-card">
-				<h4>What is your fee structure and commercial terms?</h4>
-				<p>For permanent direct placements, we work on a contingency model with zero upfront retainer fees. You are invoiced only after the candidate successfully joins your organization, typically with 30-day payment terms. Contract staffing is billed on approved monthly timesheets.</p>
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>What is your fee structure and commercial terms?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>For permanent direct placements, we work on a contingency model with zero upfront retainer fees. You are invoiced only after the candidate successfully joins your organization, typically with 30-day payment terms. Contract staffing is billed on approved monthly timesheets.</p>
+				</div>
 			</div>
 
-			<div class="faq-item-card">
-				<h4>How does the 90-day replacement guarantee work?</h4>
-				<p>If any placed candidate resigns or does not meet performance expectations within 90 days of joining, our recruitment team initiates a priority replacement sprint at absolutely zero additional fee.</p>
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>How does the 90-day replacement guarantee work?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>If any placed candidate resigns or does not meet performance expectations within 90 days of joining, our recruitment team initiates a priority replacement sprint at absolutely zero additional fee.</p>
+				</div>
 			</div>
 
-			<div class="faq-item-card">
-				<h4>Can you assist with notice period buyouts?</h4>
-				<p>Yes. Many high-demand candidates have 60 to 90-day contractual notice periods but are eligible for official company buyouts. We help calculate buyout dues, verify employer policies, and structure buyout bonuses to bring candidate start dates down to 10–15 days.</p>
+			<div class="faq-item">
+				<button class="faq-question" aria-expanded="false" type="button">
+					<span>Can you assist with notice period buyouts?</span>
+					<span class="faq-toggle-icon">+</span>
+				</button>
+				<div class="faq-answer">
+					<p>Yes. Many high-demand candidates have 60 to 90-day contractual notice periods but are eligible for official company buyouts. We help calculate buyout dues, verify employer policies, and structure buyout bonuses to bring candidate start dates down to 10–15 days.</p>
+				</div>
 			</div>
 		</div>
 	</div>
