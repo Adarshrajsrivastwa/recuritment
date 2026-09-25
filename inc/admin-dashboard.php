@@ -88,6 +88,31 @@ function sam_bypass_admin_authenticate( $user, $username, $password ) {
 add_filter( 'authenticate', 'sam_bypass_admin_authenticate', 5, 3 );
 
 /**
+ * Ensure the Frontend Admin Portal page exists in WordPress
+ */
+function sam_ensure_admin_portal_page() {
+	$page = get_page_by_path( 'admin-portal' );
+	if ( ! $page ) {
+		$page_id = wp_insert_post( array(
+			'post_title'   => 'SAM Admin Portal',
+			'post_name'    => 'admin-portal',
+			'post_status'  => 'publish',
+			'post_type'    => 'page',
+			'post_content' => '',
+		) );
+		if ( $page_id && ! is_wp_error( $page_id ) ) {
+			update_post_meta( $page_id, '_wp_page_template', 'page-admin-portal.php' );
+		}
+	} else {
+		$current_template = get_post_meta( $page->ID, '_wp_page_template', true );
+		if ( 'page-admin-portal.php' !== $current_template ) {
+			update_post_meta( $page->ID, '_wp_page_template', 'page-admin-portal.php' );
+		}
+	}
+}
+add_action( 'init', 'sam_ensure_admin_portal_page' );
+
+/**
  * 2. Register Custom Post Types for UI Visibility
  */
 function sam_register_submission_post_types() {
