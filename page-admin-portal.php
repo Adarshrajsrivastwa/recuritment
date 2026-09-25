@@ -63,8 +63,22 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['sam_add_admin'] ) )
 $is_admin_logged_in = current_user_can( 'manage_options' );
 $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'overview';
 
-get_header();
+// Output standalone HTML (no theme header/footer)
 ?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+<meta charset="<?php bloginfo( 'charset' ); ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SAM Admin Portal &mdash; <?php bloginfo( 'name' ); ?></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<?php wp_head(); ?>
+<style>body{margin:0;padding:0;background:#080E1C;font-family:'Inter',sans-serif;} *{box-sizing:border-box;}</style>
+</head>
+<body>
 <div class="sam-portal-wrapper">
 <?php if ( ! $is_admin_logged_in ) : ?>
 <section class="portal-login-section">
@@ -499,8 +513,8 @@ function sam_portal_render_contact( $limit = -1, $table_id = '' ) {
 }
 ?>
 <style>
-.sam-portal-wrapper{background:#080E1C;min-height:calc(100vh - 120px);color:#F8FAFC;font-family:var(--font-body,'Inter',sans-serif);}
-.portal-layout{display:flex;min-height:calc(100vh - 120px);}
+.sam-portal-wrapper{background:#080E1C;min-height:100vh;color:#F8FAFC;font-family:'Inter',sans-serif;}
+.portal-layout{display:flex;min-height:100vh;}
 .portal-sidebar{width:260px;flex-shrink:0;background:#0B1120;border-right:1px solid #1E293B;position:sticky;top:0;height:100vh;overflow-y:auto;overflow-x:hidden;transition:width .25s;z-index:100;scrollbar-width:none;-ms-overflow-style:none;}
 .portal-sidebar::-webkit-scrollbar{display:none;}
 .portal-sidebar.collapsed{width:0;overflow:hidden;}
@@ -649,108 +663,46 @@ function openPortalDocViewer(url, title) {
 	document.getElementById('portalDocViewerDownloadBtn').href = url;
 	document.getElementById('portalDocViewerNewTabBtn').href = url;
 
-	var isDocx  = url.match(/\.(docx?|rtf|odt)$/i);
-	var isPdf   = url.match(/\.pdf$/i);
-	var isLocal = url.includes('localhost') || url.includes('127.0.0.1');
-	var frame   = document.getElementById('portalDocViewerFrame');
-	var frameWrap = frame.parentNode;
+	var isPdf  = url.match(/\.pdf$/i);
+	var frame  = document.getElementById('portalDocViewerFrame');
+	var wrap   = frame.parentNode;
 
-	// Remove any previous overlay
+	// Clear previous
 	var old = document.getElementById('portalDocFallback');
 	if (old) old.remove();
-	frame.style.display = 'block';
+	frame.style.display = 'none';
 	frame.src = '';
 
-	if (isPdf && !isLocal) {
-		// PDF on live server — render natively
-		_showFrameWithLoader(frame, frameWrap, url);
-
-	} else if (isDocx && !isLocal) {
-		// Word doc on live server — Microsoft Office Online viewer (most reliable)
-		var msUrl = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(url);
-		_showFrameWithLoader(frame, frameWrap, msUrl);
-
-	} else if (isLocal && isPdf) {
-		// PDF on localhost — works fine
+	if (isPdf) {
+		// PDF: render natively in iframe
+		frame.style.display = 'block';
 		frame.src = url;
-
 	} else {
-		// Fallback: can't preview (docx on localhost, unknown type, etc.)
-		_showFallback(frame, frameWrap, url, isLocal);
+		// Word / other: show instant action panel
+		var ext = (url.split('.').pop() || 'DOC').toUpperCase();
+		var fb = document.createElement('div');
+		fb.id = 'portalDocFallback';
+		fb.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:22px;padding:40px;text-align:center;background:#0F172A;';
+		fb.innerHTML =
+			'<div style="width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,rgba(2,132,199,.2),rgba(37,99,235,.2));border:1px solid rgba(2,132,199,.35);display:flex;align-items:center;justify-content:center;font-size:2.4rem;">&#128196;</div>'
+			+ '<div>'
+			+   '<p style="color:#F8FAFC;font-size:1.15rem;font-weight:800;margin:0 0 8px;">' + ext + ' — ' + (title || 'Document') + '</p>'
+			+   '<p style="color:#94A3B8;font-size:.9rem;margin:0 0 4px;">Word documents cannot be previewed directly in the browser.</p>'
+			+   '<p style="color:#64748B;font-size:.82rem;margin:0;">Open in a new tab or download to view the full resume.</p>'
+			+ '</div>'
+			+ '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">'
+			+   '<a href="' + url + '" target="_blank" class="portal-doc-btn btn-blue" style="padding:11px 26px;font-size:.95rem;border-radius:8px;">&#8599;&#65039;&nbsp; Open in New Tab</a>'
+			+   '<a href="' + url + '" download class="portal-doc-btn btn-gray" style="padding:11px 24px;font-size:.95rem;border-radius:8px;">&#128229;&nbsp; Download</a>'
+			+ '</div>';
+		wrap.appendChild(fb);
 	}
-
 	document.getElementById('portalDocViewerModal').style.display = 'flex';
-}
-
-function _showFrameWithLoader(frame, wrap, src) {
-	// Show spinner while loading
-	var spinner = document.createElement('div');
-	spinner.id = 'portalDocFallback';
-	spinner.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#0F172A;z-index:2;';
-	spinner.innerHTML = '<div style="width:44px;height:44px;border:3px solid #334155;border-top-color:#0284C7;border-radius:50%;animation:portalSpin 0.8s linear infinite;"></div>'
-		+ '<p style="color:#94A3B8;font-size:.88rem;margin:0;">Loading document...</p>';
-	wrap.style.position = 'relative';
-	wrap.appendChild(spinner);
-
-	// Add spinner keyframe once
-	if (!document.getElementById('portalSpinStyle')) {
-		var style = document.createElement('style');
-		style.id = 'portalSpinStyle';
-		style.textContent = '@keyframes portalSpin{to{transform:rotate(360deg)}}';
-		document.head.appendChild(style);
-	}
-
-	frame.onload = function() {
-		var s = document.getElementById('portalDocFallback');
-		if (s) s.remove();
-		frame.onload = null;
-	};
-
-	// Timeout fallback: if nothing loads in 12s, show action buttons
-	var timer = setTimeout(function() {
-		var s = document.getElementById('portalDocFallback');
-		if (s) {
-			s.innerHTML = '<div style="width:60px;height:60px;border-radius:14px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);display:flex;align-items:center;justify-content:center;font-size:1.8rem;">&#9888;&#65039;</div>'
-				+ '<div style="text-align:center;"><p style="color:#F8FAFC;font-weight:700;margin:0 0 6px;">Preview taking too long</p>'
-				+ '<p style="color:#94A3B8;font-size:.85rem;margin:0;">The document viewer is slow. Open directly:</p></div>'
-				+ '<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">'
-				+ '<a href="' + frame.src.replace('https://view.officeapps.live.com/op/embed.aspx?src=','').replace(encodeURIComponent(''),'') + '" target="_blank" class="portal-doc-btn btn-blue" style="padding:9px 20px;font-size:.9rem;">&#8599; Open in New Tab</a>'
-				+ '<a href="' + document.getElementById('portalDocViewerDownloadBtn').href + '" download class="portal-doc-btn btn-gray" style="padding:9px 18px;font-size:.9rem;">&#128229; Download</a>'
-				+ '</div>';
-		}
-		frame.onload = null;
-	}, 12000);
-
-	frame.addEventListener('load', function clearTimer() {
-		clearTimeout(timer);
-		frame.removeEventListener('load', clearTimer);
-	});
-
-	frame.src = src;
-}
-
-function _showFallback(frame, wrap, url, isLocal) {
-	frame.style.display = 'none';
-	var ext = url.split('.').pop().toUpperCase();
-	var fallback = document.createElement('div');
-	fallback.id = 'portalDocFallback';
-	fallback.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:20px;padding:40px;text-align:center;background:#0F172A;';
-	fallback.innerHTML = '<div style="width:70px;height:70px;border-radius:16px;background:rgba(2,132,199,.15);border:1px solid rgba(2,132,199,.3);display:flex;align-items:center;justify-content:center;font-size:2.2rem;">&#128196;</div>'
-		+ '<div><p style="color:#F8FAFC;font-size:1.1rem;font-weight:700;margin:0 0 8px;">' + ext + ' Document</p>'
-		+ '<p style="color:#94A3B8;font-size:.88rem;margin:0 0 4px;">' + (isLocal ? 'Preview unavailable on local server.' : 'This file type cannot be previewed here.') + '</p>'
-		+ '<p style="color:#64748B;font-size:.82rem;margin:0;">Open or download the file directly.</p></div>'
-		+ '<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">'
-		+ '<a href="' + url + '" target="_blank" class="portal-doc-btn btn-blue" style="padding:10px 22px;font-size:.92rem;">&#8599;&#65039; Open in New Tab</a>'
-		+ '<a href="' + url + '" download class="portal-doc-btn btn-gray" style="padding:10px 22px;font-size:.92rem;">&#128229; Download</a>'
-		+ '</div>';
-	wrap.appendChild(fallback);
 }
 
 function closePortalDocViewer() {
 	var frame = document.getElementById('portalDocViewerFrame');
 	frame.src = '';
 	frame.style.display = 'block';
-	frame.onload = null;
 	var old = document.getElementById('portalDocFallback');
 	if (old) old.remove();
 	document.getElementById('portalDocViewerModal').style.display = 'none';
@@ -793,4 +745,6 @@ document.addEventListener('click',function(e){
 });
 </script>
 
-<?php get_footer(); ?>
+<?php wp_footer(); ?>
+</body>
+</html>
