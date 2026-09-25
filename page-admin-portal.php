@@ -64,6 +64,25 @@ $is_admin_logged_in = current_user_can( 'manage_options' );
 $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'overview';
 
 // Output standalone HTML (no theme header/footer)
+$sam_logo_src = '';
+if ( has_custom_logo() ) {
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$logo_data       = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+	if ( ! empty( $logo_data[0] ) ) {
+		$sam_logo_src = $logo_data[0];
+	}
+}
+if ( ! $sam_logo_src && function_exists( 'sam_default_logo_url' ) ) {
+	$sam_logo_src = sam_default_logo_url();
+}
+if ( ! $sam_logo_src ) {
+	$sam_logo_src = get_template_directory_uri() . '/assets/images/sam-logo.png';
+}
+
+$sam_favicon_src = get_site_icon_url();
+if ( ! $sam_favicon_src ) {
+	$sam_favicon_src = $sam_logo_src;
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -72,6 +91,9 @@ $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'ov
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>SAM Admin Portal &mdash; <?php bloginfo( 'name' ); ?></title>
+<link rel="icon" type="image/png" sizes="32x32" href="<?php echo esc_url( $sam_favicon_src ); ?>">
+<link rel="shortcut icon" href="<?php echo esc_url( $sam_favicon_src ); ?>">
+<link rel="apple-touch-icon" href="<?php echo esc_url( $sam_favicon_src ); ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -85,7 +107,9 @@ $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'ov
 	<div class="portal-login-container">
 		<div class="portal-login-card">
 			<div class="portal-login-head">
-				<div class="portal-badge-logo">SAM</div>
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="display:inline-block;margin-bottom:14px;">
+					<img src="<?php echo esc_url( $sam_logo_src ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" style="height:46px;max-width:220px;width:auto;object-fit:contain;display:block;margin:0 auto;">
+				</a>
 				<h2>SAM Admin Portal</h2>
 				<p>Sign in with your corporate administrator credentials to manage candidate CVs, employer mandates, and inquiries.</p>
 			</div>
@@ -139,11 +163,13 @@ $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'ov
 <aside class="portal-sidebar" id="portalSidebar">
 	<div class="portal-sidebar-inner">
 		<div class="portal-sidebar-brand">
-			<div class="portal-badge-logo">SAM</div>
-			<div class="portal-sidebar-brand-text">
-				<span class="portal-sidebar-brand-title">Admin Portal</span>
-				<span class="portal-sidebar-brand-sub">Executive Desk</span>
-			</div>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+				<img src="<?php echo esc_url( $sam_logo_src ); ?>" alt="SAM Logo" style="height:32px;max-width:130px;width:auto;object-fit:contain;flex-shrink:0;">
+				<div class="portal-sidebar-brand-text">
+					<span class="portal-sidebar-brand-title">Admin Portal</span>
+					<span class="portal-sidebar-brand-sub">Executive Desk</span>
+				</div>
+			</a>
 		</div>
 		<div class="portal-sidebar-user">
 			<div class="portal-sidebar-avatar"><?php echo esc_html( strtoupper( substr( $current_user_obj->user_login, 0, 2 ) ) ); ?></div>
