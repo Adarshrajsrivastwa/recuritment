@@ -128,7 +128,7 @@ $prefill_role = isset( $_GET['role'] ) ? sanitize_text_field( wp_unslash( $_GET[
 							</div>
 
 							<div class="form-field">
-								<label for="phone">Phone / WhatsApp Number <span>*</span></label>
+								<label for="phone">Contact Number <span>*</span></label>
 								<input id="phone" name="phone" type="tel" required placeholder="e.g. +91 98765 43210">
 							</div>
 
@@ -343,29 +343,13 @@ $prefill_role = isset( $_GET['role'] ) ? sanitize_text_field( wp_unslash( $_GET[
 					</div>
 				</div>
 
-				<!-- Card 2: Priority Candidate Hotline -->
+				<!-- Card 2: Priority Candidate Desk -->
 				<div class="hire-sidebar-card hotline-card">
-					<div class="sidebar-card-badge" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A;">📞 Candidate Desk</div>
+					<div class="sidebar-card-badge" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A;">✉ Candidate Desk</div>
 					<h4>Have Questions About Open Roles?</h4>
-					<p>Speak directly with our career advisory team about active mandates in your domain.</p>
+					<p>Connect directly with our career advisory team about active mandates in your domain.</p>
 					
 					<div class="hotline-contact-list">
-						<a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>" class="hotline-btn hotline-call">
-							<?php echo sam_icon('chat'); ?>
-							<div>
-								<small>Direct Phone Line</small>
-								<strong><?php echo esc_html( $phone ); ?></strong>
-							</div>
-						</a>
-
-						<a href="https://wa.me/<?php echo esc_attr( preg_replace('/[^0-9]/', '', $phone) ); ?>?text=Hello%20SAM%20Manpower,%20I%20am%20looking%20for%20a%20job%20change" target="_blank" rel="noopener noreferrer" class="hotline-btn hotline-wa">
-							<span style="font-size:1.4rem;">💬</span>
-							<div>
-								<small>WhatsApp Career Desk</small>
-								<strong>Chat With Recruiter</strong>
-							</div>
-						</a>
-
 						<a href="mailto:<?php echo esc_attr( $email ); ?>?subject=Candidate%20Job%20Inquiry" class="hotline-btn hotline-email">
 							<?php echo sam_icon('bell'); ?>
 							<div>

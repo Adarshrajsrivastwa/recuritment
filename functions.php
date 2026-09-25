@@ -982,7 +982,7 @@ function sam_get_social_links() {
 	$networks = array(
 		'linkedin'  => array(
 			'label' => 'LinkedIn',
-			'url'   => sam_get_social_url( 'sam_linkedin_url', 'https://www.linkedin.com/company/sam-manpower' ),
+			'url'   => sam_get_social_url( 'sam_linkedin_url', 'https://www.linkedin.com/company/sam-manpower-and-career-services-llp/?viewAsMember=true' ),
 		),
 		'instagram' => array(
 			'label' => 'Instagram',
@@ -1054,7 +1054,7 @@ function sam_customize_register( $wp_customize ) {
 
 	$wp_customize->add_section( 'sam_social', array( 'title' => 'SAM Social Media', 'priority' => 31 ) );
 
-	$wp_customize->add_setting( 'sam_linkedin_url', array( 'default' => 'https://www.linkedin.com/company/sam-manpower', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'sam_linkedin_url', array( 'default' => 'https://www.linkedin.com/company/sam-manpower-and-career-services-llp/?viewAsMember=true', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_linkedin_url', array( 'label' => 'LinkedIn Profile URL', 'section' => 'sam_social', 'type' => 'url' ) );
 
 	$wp_customize->add_setting( 'sam_instagram_url', array( 'default' => 'https://www.instagram.com/sammanpower', 'sanitize_callback' => 'esc_url_raw' ) );

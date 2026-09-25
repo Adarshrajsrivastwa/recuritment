@@ -4,7 +4,6 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$phone   = get_theme_mod( 'sam_phone', '' );
 $email   = function_exists( 'sam_get_company_email' ) ? sam_get_company_email() : 'sales@samcareer.com';
 $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida West, Uttar Pradesh' );
 ?>
@@ -33,15 +32,6 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 							<span><?php echo esc_html( $address ); ?></span>
 						</div>
 					</div>
-					<?php if ( ! empty( $phone ) ) : ?>
-					<div class="footer-contact-row">
-						<div class="footer-c-icon"><?php echo sam_icon('phone'); ?></div>
-						<div class="footer-c-text">
-							<a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a>
-							<small>24/7 Recruiter Hotline</small>
-						</div>
-					</div>
-					<?php endif; ?>
 					<div class="footer-contact-row">
 						<div class="footer-c-icon"><?php echo sam_icon('mail'); ?></div>
 						<div class="footer-c-text">
@@ -55,14 +45,8 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 				<div class="footer-social-wrapper">
 					<span class="footer-social-title">Follow our channels:</span>
 					<div class="footer-social-icons">
-						<a href="<?php echo esc_url( sam_get_social_url('sam_linkedin_url', 'https://www.linkedin.com/company/sam-manpower') ); ?>" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="f-soc-btn f-soc-linkedin">
+						<a href="<?php echo esc_url( sam_get_social_url('sam_linkedin_url', 'https://www.linkedin.com/company/sam-manpower-and-career-services-llp/?viewAsMember=true') ); ?>" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="f-soc-btn f-soc-linkedin">
 							<?php echo sam_icon('linkedin'); ?>
-						</a>
-						<a href="<?php echo esc_url( sam_get_social_url('sam_instagram_url', 'https://www.instagram.com/sammanpower') ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="f-soc-btn f-soc-instagram">
-							<?php echo sam_icon('instagram'); ?>
-						</a>
-						<a href="<?php echo esc_url( sam_get_social_url('sam_facebook_url', 'https://www.facebook.com/sammanpower') ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="f-soc-btn f-soc-facebook">
-							<?php echo sam_icon('facebook'); ?>
 						</a>
 					</div>
 				</div>

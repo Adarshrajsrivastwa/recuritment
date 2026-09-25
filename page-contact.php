@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 get_header();
 
 $status  = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_status'] ) ) : '';
-$phone   = get_theme_mod( 'sam_phone', '' );
 $email   = function_exists( 'sam_get_company_email' ) ? sam_get_company_email() : 'sales@samcareer.com';
 $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida West, Uttar Pradesh' );
 ?>
@@ -62,7 +61,7 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 					</div>
 				<?php elseif ( 'mail-error' === $status ) : ?>
 					<div class="form-notice form-notice-error" role="alert">
-						We could not dispatch your email message at this moment. Please call us directly or retry shortly.
+						We could not dispatch your email message at this moment. Please email us directly or retry shortly.
 					</div>
 				<?php elseif ( 'invalid' === $status ) : ?>
 					<div class="form-notice form-notice-error" role="alert">

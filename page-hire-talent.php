@@ -130,7 +130,7 @@ $prefill_role = isset( $_GET['role'] ) ? sanitize_text_field( wp_unslash( $_GET[
 							</div>
 
 							<div class="form-field">
-								<label for="phone">Phone / WhatsApp <span>*</span></label>
+								<label for="phone">Contact Number <span>*</span></label>
 								<input id="phone" name="phone" type="tel" required placeholder="e.g. +91 98765 43210">
 							</div>
 						</div>
@@ -229,29 +229,13 @@ $prefill_role = isset( $_GET['role'] ) ? sanitize_text_field( wp_unslash( $_GET[
 					</div>
 				</div>
 
-				<!-- Card 2: Urgent Recruiter Hotline -->
+				<!-- Card 2: Urgent Recruiter Desk -->
 				<div class="hire-sidebar-card hotline-card">
-					<div class="sidebar-card-badge" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A;">📞 Priority Hotline</div>
+					<div class="sidebar-card-badge" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A;">✉ Priority Desk</div>
 					<h4>Have an Urgent Role Today?</h4>
-					<p>Speak directly with an executive recruiter managing active candidates ready to join immediately.</p>
+					<p>Connect directly with an executive recruiter managing active candidates ready to join immediately.</p>
 					
 					<div class="hotline-contact-list">
-						<a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>" class="hotline-btn hotline-call">
-							<?php echo sam_icon('chat'); ?>
-							<div>
-								<small>Direct Phone Desk</small>
-								<strong><?php echo esc_html( $phone ); ?></strong>
-							</div>
-						</a>
-
-						<a href="https://wa.me/<?php echo esc_attr( preg_replace('/[^0-9]/', '', $phone) ); ?>?text=Hello%20SAM%20Manpower,%20I%20have%20an%20urgent%20hiring%20requirement" target="_blank" rel="noopener noreferrer" class="hotline-btn hotline-wa">
-							<span style="font-size:1.4rem;">💬</span>
-							<div>
-								<small>Instant WhatsApp</small>
-								<strong>Chat With Recruiter Lead</strong>
-							</div>
-						</a>
-
 						<a href="mailto:<?php echo esc_attr( $email ); ?>?subject=Urgent%20Hiring%20Requirement" class="hotline-btn hotline-email">
 							<?php echo sam_icon('bell'); ?>
 							<div>
