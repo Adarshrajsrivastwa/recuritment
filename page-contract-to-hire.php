@@ -35,9 +35,6 @@ get_header();
 				<a href="#c2h-lifecycle" class="btn btn-outline-light" style="padding:14px 26px; font-size:1rem;">
 					<?php echo sam_icon('calendar'); ?> How C2H Works
 				</a>
-				<a href="tel:+919876543210" class="btn btn-ghost" style="color:#38BDF8; display:flex; align-items:center; gap:8px; font-weight:600; padding:14px 16px;">
-					<?php echo sam_icon('phone'); ?> +91 98765 43210
-				</a>
 			</div>
 
 			<!-- HERO STATS STRIP -->

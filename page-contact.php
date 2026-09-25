@@ -6,9 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 get_header();
 
 $status  = isset( $_GET['form_status'] ) ? sanitize_key( wp_unslash( $_GET['form_status'] ) ) : '';
-$phone   = get_theme_mod( 'sam_phone', '+91 98765 43210' );
+$phone   = get_theme_mod( 'sam_phone', '' );
 $email   = function_exists( 'sam_get_company_email' ) ? sam_get_company_email() : 'sales@samcareer.com';
-$address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' );
+$address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida West, Uttar Pradesh' );
 ?>
 
 <section class="page-hero page-hero-simple">
@@ -26,12 +26,6 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 		<!-- CONTACT INFO CARDS -->
 		<div class="contact-info-cards">
 			<div class="focus-card contact-card">
-				<div class="icon-badge"><?php echo sam_icon( 'chat' ); ?></div>
-				<h4>Call Directly</h4>
-				<p><a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a></p>
-				<small style="color:var(--text-muted); display:block; margin-top:4px;">Mon &ndash; Sat: 9:30 AM &ndash; 7:00 PM IST</small>
-			</div>
-			<div class="focus-card contact-card">
 				<div class="icon-badge"><?php echo sam_icon( 'bell' ); ?></div>
 				<h4>Email Our Desk</h4>
 				<p><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a></p>
@@ -41,7 +35,13 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 				<div class="icon-badge"><?php echo sam_icon( 'target' ); ?></div>
 				<h4>Corporate Headquarters</h4>
 				<p><?php echo esc_html( $address ); ?></p>
-				<small style="color:var(--text-muted); display:block; margin-top:4px;">Delhi NCR / Noida West</small>
+				<small style="color:var(--text-muted); display:block; margin-top:4px;">Greater Noida West, Uttar Pradesh</small>
+			</div>
+			<div class="focus-card contact-card">
+				<div class="icon-badge"><?php echo sam_icon( 'clock' ); ?></div>
+				<h4>Operating Hours</h4>
+				<p>Monday &ndash; Saturday</p>
+				<small style="color:var(--text-muted); display:block; margin-top:4px;">9:30 AM &ndash; 7:00 PM IST</small>
 			</div>
 		</div>
 
@@ -147,7 +147,7 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 					<ul class="regional-desk-list">
 						<li>
 							<strong>Delhi NCR Corporate Office</strong>
-							<span>IT City Center, Greater Noida West, UP</span>
+							<span>A1109, Tower T3, NX One, Greater Noida West, UP</span>
 						</li>
 						<li>
 							<strong>Bengaluru Tech Practice</strong>

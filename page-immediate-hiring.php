@@ -197,7 +197,7 @@ get_header();
 				<p style="color:#94A3B8; font-size:1.02rem; line-height:1.6; margin-top:14px;">Every 90-day delay in filling critical engineering, sales, or manufacturing leadership roles stalls sprint deliveries, creates burned-out teammates, and burns budget on overtime. Cutting your cycle to 20 days preserves momentum and saves substantial capital.</p>
 				<div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
 					<a href="<?php echo esc_url( sam_hire_form_url() ); ?>" class="btn btn-primary"><?php echo sam_icon('users'); ?> Fast-Track Your Mandate</a>
-					<a href="tel:+919876543210" class="btn btn-outline-light"><?php echo sam_icon('phone'); ?> Call Fast-Track Desk</a>
+					<a href="<?php echo esc_url( sam_contact_url() ); ?>" class="btn btn-outline-light"><?php echo sam_icon('mail'); ?> Contact Fast-Track Desk</a>
 				</div>
 			</div>
 			<div style="background:#111A38; border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:32px;">

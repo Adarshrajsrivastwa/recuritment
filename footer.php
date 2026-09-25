@@ -4,9 +4,9 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$phone   = get_theme_mod( 'sam_phone', '+91 98765 43210' );
+$phone   = get_theme_mod( 'sam_phone', '' );
 $email   = function_exists( 'sam_get_company_email' ) ? sam_get_company_email() : 'sales@samcareer.com';
-$address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' );
+$address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida West, Uttar Pradesh' );
 ?>
 </main><!-- #main -->
 
@@ -33,6 +33,7 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 							<span><?php echo esc_html( $address ); ?></span>
 						</div>
 					</div>
+					<?php if ( ! empty( $phone ) ) : ?>
 					<div class="footer-contact-row">
 						<div class="footer-c-icon"><?php echo sam_icon('phone'); ?></div>
 						<div class="footer-c-text">
@@ -40,6 +41,7 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 							<small>24/7 Recruiter Hotline</small>
 						</div>
 					</div>
+					<?php endif; ?>
 					<div class="footer-contact-row">
 						<div class="footer-c-icon"><?php echo sam_icon('mail'); ?></div>
 						<div class="footer-c-text">
@@ -112,9 +114,9 @@ $address = get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trich
 						</div>
 					</a>
 					<a href="<?php echo esc_url( sam_contact_url() ); ?>" class="f-action-card">
-						<span class="f-act-icon"><?php echo sam_icon('phone'); ?></span>
+						<span class="f-act-icon"><?php echo sam_icon('mail'); ?></span>
 						<div class="f-act-info">
-							<strong>Talk to Recruiter</strong>
+							<strong>Contact Regional Desk</strong>
 							<small>Direct consultation</small>
 						</div>
 					</a>

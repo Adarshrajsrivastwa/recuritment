@@ -734,8 +734,8 @@ get_header();
 				<li><?php echo sam_icon('check'); ?> PAN-India sourcing capability</li>
 			</ul>
 			<div class="fp-ef-contact">
-				<p>Prefer to speak directly? Call us:</p>
-				<a href="tel:<?php echo esc_attr( str_replace( ' ', '', get_theme_mod( 'sam_phone', '+919876543210' ) ) ); ?>" class="fp-ef-phone"><?php echo esc_html( get_theme_mod( 'sam_phone', '+91 98765 43210' ) ); ?></a>
+				<p>Prefer to email directly?</p>
+				<a href="mailto:<?php echo esc_attr( function_exists( 'sam_get_company_email' ) ? sam_get_company_email() : 'sales@samcareer.com' ); ?>" class="fp-ef-phone" style="font-size:1.05rem; word-break:break-all;"><?php echo esc_html( function_exists( 'sam_get_company_email' ) ? sam_get_company_email() : 'sales@samcareer.com' ); ?></a>
 			</div>
 		</div>
 

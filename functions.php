@@ -808,10 +808,9 @@ function sam_seo_schema() {
 		'url'          => $site_url,
 		'logo'         => $logo,
 		'email'        => sam_get_company_email(),
-		'telephone'    => get_theme_mod( 'sam_phone', '+91 98765 43210' ),
 		'address'      => array(
 			'@type'           => 'PostalAddress',
-			'streetAddress'   => get_theme_mod( 'sam_address', 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ),
+			'streetAddress'   => get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida West, Uttar Pradesh' ),
 			'addressCountry'  => 'IN',
 		),
 		'sameAs'       => array_values( array_map( function ( $network ) {
@@ -1033,8 +1032,8 @@ function sam_render_social_links( $class = 'footer-social', $show_label = true )
 function sam_customize_register( $wp_customize ) {
 	$wp_customize->add_section( 'sam_contact', array( 'title' => 'SAM Contact Info', 'priority' => 30 ) );
 
-	$wp_customize->add_setting( 'sam_phone', array( 'default' => '+91 98765 43210' ) );
-	$wp_customize->add_control( 'sam_phone', array( 'label' => 'Phone Number', 'section' => 'sam_contact', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'sam_phone', array( 'default' => '' ) );
+	$wp_customize->add_control( 'sam_phone', array( 'label' => 'Phone Number (Optional)', 'section' => 'sam_contact', 'type' => 'text' ) );
 
 	$wp_customize->add_setting( 'sam_hire_form_url', array( 'default' => home_url( '/hire-talent/' ), 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( 'sam_hire_form_url', array( 'label' => 'Hire Talent CTA URL', 'description' => 'Defaults to the built-in requirement form. Enter an external URL only if you prefer another form.', 'section' => 'sam_contact', 'type' => 'url' ) );
@@ -1045,7 +1044,7 @@ function sam_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'sam_hiring_form_recipient', array( 'default' => 'sales@samcareer.com', 'sanitize_callback' => 'sanitize_email' ) );
 	$wp_customize->add_control( 'sam_hiring_form_recipient', array( 'label' => 'Hiring Form Recipient Email', 'section' => 'sam_contact', 'type' => 'email' ) );
 
-	$wp_customize->add_setting( 'sam_address', array( 'default' => 'A-701, Tower T2, IT City Center, Trichardra-2, Noida West, Uttar Pradesh' ) );
+	$wp_customize->add_setting( 'sam_address', array( 'default' => 'A1109, Tower T3, NX One, Greater Noida West, Uttar Pradesh' ) );
 	$wp_customize->add_control( 'sam_address', array( 'label' => 'Office Address', 'section' => 'sam_contact', 'type' => 'textarea' ) );
 	$wp_customize->add_setting( 'sam_smtp_user', array( 'default' => '', 'sanitize_callback' => 'sanitize_email' ) );
 	$wp_customize->add_control( 'sam_smtp_user', array( 'label' => 'Gmail SMTP Email (Sender)', 'description' => 'Required for Contact and Hire Talent forms to send email on XAMPP/local hosting.', 'section' => 'sam_contact', 'type' => 'email' ) );
