@@ -98,18 +98,17 @@ $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'ov
 				<div class="portal-form-group">
 					<label for="portal_username">Admin Email / Username</label>
 					<div class="portal-input-wrap">
-						<input type="text" id="portal_username" name="portal_username" required placeholder="sales@samcareer.com" value="<?php echo esc_attr( isset( $_POST['portal_username'] ) ? $_POST['portal_username'] : 'sales@samcareer.com' ); ?>">
+						<input type="text" id="portal_username" name="portal_username" required placeholder="Enter username or email" value="<?php echo esc_attr( isset( $_POST['portal_username'] ) ? $_POST['portal_username'] : '' ); ?>" autocomplete="username">
 					</div>
 				</div>
 				<div class="portal-form-group">
 					<label for="portal_password">Password</label>
 					<div class="portal-input-wrap">
-						<input type="password" id="portal_password" name="portal_password" required placeholder="Enter password" value="">
+						<input type="password" id="portal_password" name="portal_password" required placeholder="Enter password" value="" autocomplete="current-password">
 					</div>
 				</div>
 				<div class="portal-form-options">
 					<label class="portal-remember"><input type="checkbox" name="remember_me" value="1" checked> Remember this session</label>
-					<span class="portal-hint">Default: <code>sales@samcareer.com</code> / <code>sam@admin</code></span>
 				</div>
 				<button type="submit" class="portal-submit-btn">&#128274; Access SAM Admin Portal</button>
 				<div class="portal-card-footer">

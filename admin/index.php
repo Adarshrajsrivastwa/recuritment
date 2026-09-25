@@ -781,7 +781,6 @@ if ( $is_authenticated && isset( $_GET['action'] ) && 'delete' === $_GET['action
 			</form>
 
 			<div class="login-footer-info">
-				<p>Default Login: <code>sales@samcareer.com</code> / <code>sam@admin</code></p>
 				<p style="margin-top:12px;"><a href="../">&larr; Back to Website</a></p>
 			</div>
 		</div>
