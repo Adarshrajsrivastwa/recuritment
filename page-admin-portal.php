@@ -75,6 +75,7 @@ $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'ov
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
 <?php wp_head(); ?>
 <style>body{margin:0;padding:0;background:#080E1C;font-family:'Inter',sans-serif;} *{box-sizing:border-box;}</style>
 </head>
@@ -339,17 +340,22 @@ $current_tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'ov
 </div>
 <!-- CV VIEWER MODAL -->
 <div id="portalDocViewerModal" class="portal-modal-backdrop" style="display:none;" onclick="if(event.target===this)closePortalDocViewer();">
-	<div class="portal-modal-content" style="max-width:1050px;width:95%;height:90vh;">
+	<div class="portal-modal-content" style="max-width:1050px;width:95%;height:90vh;display:flex;flex-direction:column;">
 		<div class="portal-modal-head">
 			<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-				<h3 id="portalDocViewerTitle" style="font-size:1.05rem;">Document Viewer</h3>
+				<h3 id="portalDocViewerTitle" style="font-size:1.05rem;margin:0;">Document Viewer</h3>
 				<a id="portalDocViewerDownloadBtn" href="#" target="_blank" class="portal-doc-btn btn-blue" style="padding:4px 10px;font-size:.78rem;" download>&#128229; Download</a>
 				<a id="portalDocViewerNewTabBtn" href="#" target="_blank" class="portal-doc-btn btn-gray" style="padding:4px 10px;font-size:.78rem;">&#8599;&#65039; New Tab</a>
 			</div>
 			<button type="button" class="portal-modal-close" onclick="closePortalDocViewer()">&times;</button>
 		</div>
-		<div class="portal-modal-body" style="padding:0;height:calc(100% - 65px);background:#0F172A;display:flex;flex-direction:column;overflow:hidden;">
-			<iframe id="portalDocViewerFrame" src="" style="width:100%;height:100%;border:none;background:#fff;"></iframe>
+		<div id="portalDocViewerBody" class="portal-modal-body" style="padding:0;flex:1;background:#0F172A;overflow-y:auto;display:flex;flex-direction:column;position:relative;">
+			<iframe id="portalDocViewerFrame" src="" style="width:100%;height:100%;border:none;background:#fff;display:none;"></iframe>
+			<div id="portalDocContainer" style="flex:1;overflow-y:auto;padding:24px;display:none;"></div>
+			<div id="portalDocLoader" style="display:none;position:absolute;inset:0;background:#0F172A;align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:10;">
+				<div style="width:40px;height:40px;border:3px solid #334155;border-top-color:#0284C7;border-radius:50%;animation:portalDocSpin .8s linear infinite;"></div>
+				<span id="portalDocLoaderText" style="color:#94A3B8;font-size:.9rem;">Loading document preview...</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -385,14 +391,14 @@ function sam_portal_render_candidates( $limit = -1, $table_id = '' ) {
 		$contract   = get_post_meta( $p->ID, '_contract_role_ready', true );
 		$resume     = get_post_meta( $p->ID, '_resume_url', true );
 		$notice_doc = get_post_meta( $p->ID, '_notice_doc_url', true );
-		$details_json = htmlspecialchars( json_encode( array(
+		$cand_details = array(
 			'Candidate Name' => $name, 'Email' => $email, 'Contact' => $phone,
 			'Designation' => $role, 'Experience' => $exp, 'Primary Skill' => $skill,
 			'All Skills' => $all_skills, 'Location' => $location,
 			'Serving Notice?' => $serving, 'Joining Timeline' => $timeline,
 			'Offer in Hand?' => $offer, 'Contract Role?' => $contract,
 			'Current CTC' => $curr_ctc, 'Expected CTC' => $exp_ctc,
-		) ), ENT_QUOTES, 'UTF-8' );
+		);
 	?>
 	<tr>
 		<td><strong class="portal-main-title"><?php echo esc_html( $name ); ?></strong><br>
@@ -409,19 +415,19 @@ function sam_portal_render_candidates( $limit = -1, $table_id = '' ) {
 		<td>
 			<?php if ( $resume ) : ?>
 				<div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
-					<button type="button" class="portal-doc-btn btn-blue" onclick="openPortalDocViewer('<?php echo esc_url( $resume ); ?>','Resume - <?php echo esc_js( $name ); ?>')" style="cursor:pointer;border:none;">&#128065; View CV</button>
+					<button type="button" class="portal-doc-btn btn-blue" data-url="<?php echo esc_url( $resume ); ?>" data-title="<?php echo esc_attr( 'Resume - ' . $name ); ?>" onclick="handleDocViewerBtn(this)" style="cursor:pointer;border:none;">&#128065; View CV</button>
 					<a href="<?php echo esc_url( $resume ); ?>" target="_blank" download class="portal-doc-btn btn-gray" style="padding:4px 7px;">&#128229;</a>
 				</div>
 			<?php else : ?><span class="portal-text-dim">No CV</span><?php endif; ?>
 			<?php if ( $notice_doc ) : ?>
 				<div style="display:flex;align-items:center;gap:5px;margin-top:5px;flex-wrap:wrap;">
-					<button type="button" class="portal-doc-btn btn-gray" onclick="openPortalDocViewer('<?php echo esc_url( $notice_doc ); ?>','Notice - <?php echo esc_js( $name ); ?>')" style="cursor:pointer;border:none;font-size:.72rem;">&#128065; Notice</button>
+					<button type="button" class="portal-doc-btn btn-gray" data-url="<?php echo esc_url( $notice_doc ); ?>" data-title="<?php echo esc_attr( 'Notice - ' . $name ); ?>" onclick="handleDocViewerBtn(this)" style="cursor:pointer;border:none;font-size:.72rem;">&#128065; Notice</button>
 					<a href="<?php echo esc_url( $notice_doc ); ?>" target="_blank" download class="portal-doc-btn btn-gray" style="padding:2px 5px;font-size:.72rem;">&#128229;</a>
 				</div>
 			<?php endif; ?>
 		</td>
 		<td><small><?php echo esc_html( get_the_date( 'M j, Y', $p ) ); ?></small></td>
-		<td><button type="button" class="portal-btn-view" onclick="openPortalModalData('Candidate: <?php echo esc_js( $name ); ?>',<?php echo esc_attr( $details_json ); ?>,'<?php echo esc_url( $resume ); ?>','<?php echo esc_url( $notice_doc ); ?>')">Full Profile &rarr;</button></td>
+		<td><button type="button" class="portal-btn-view" data-title="<?php echo esc_attr( 'Candidate: ' . $name ); ?>" data-details="<?php echo esc_attr( wp_json_encode( $cand_details ) ); ?>" data-resume="<?php echo esc_url( $resume ); ?>" data-notice="<?php echo esc_url( $notice_doc ); ?>" onclick="handleModalBtn(this)">Full Profile &rarr;</button></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody></table></div>
@@ -453,12 +459,12 @@ function sam_portal_render_hiring( $limit = -1, $table_id = '' ) {
 		$experience = get_post_meta( $p->ID, '_experience', true );
 		$domain     = get_post_meta( $p->ID, '_domain', true );
 		$message    = get_post_meta( $p->ID, '_message', true );
-		$details_json = htmlspecialchars( json_encode( array(
+		$hiring_details = array(
 			'Company' => $company, 'Contact Person' => $name, 'Email' => $email, 'Phone' => $phone,
 			'Model' => $model, 'Domain' => $domain, 'Roles' => $roles,
 			'Headcount' => $headcount, 'Timeline' => $timeline, 'Location' => $location,
 			'Experience Band' => $experience, 'Budget/CTC' => $budget, 'Notes' => $message,
-		) ), ENT_QUOTES, 'UTF-8' );
+		);
 	?>
 	<tr>
 		<td><strong class="portal-main-title"><?php echo esc_html( $company ); ?></strong><br>
@@ -472,7 +478,7 @@ function sam_portal_render_hiring( $limit = -1, $table_id = '' ) {
 		<td><span class="portal-badge badge-gray"><?php echo esc_html( $model ?: 'Direct' ); ?></span><br>
 			<small class="portal-text-dim"><?php echo esc_html( $location ); ?></small></td>
 		<td><small><?php echo esc_html( get_the_date( 'M j, Y', $p ) ); ?></small></td>
-		<td><button type="button" class="portal-btn-view" onclick="openPortalModalData('Mandate: <?php echo esc_js( $company ); ?>',<?php echo esc_attr( $details_json ); ?>)">View Details &rarr;</button></td>
+		<td><button type="button" class="portal-btn-view" data-title="<?php echo esc_attr( 'Mandate: ' . $company ); ?>" data-details="<?php echo esc_attr( wp_json_encode( $hiring_details ) ); ?>" onclick="handleModalBtn(this)">View Details &rarr;</button></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody></table></div>
@@ -493,10 +499,10 @@ function sam_portal_render_contact( $limit = -1, $table_id = '' ) {
 		$phone   = get_post_meta( $p->ID, '_phone', true );
 		$subject = get_post_meta( $p->ID, '_subject', true );
 		$message = $p->post_content;
-		$details_json = htmlspecialchars( json_encode( array(
+		$contact_details = array(
 			'Name' => $name, 'Email' => $email, 'Phone' => $phone,
 			'Subject' => $subject, 'Message' => $message,
-		) ), ENT_QUOTES, 'UTF-8' );
+		);
 	?>
 	<tr>
 		<td><strong class="portal-main-title"><?php echo esc_html( $name ); ?></strong><br>
@@ -505,7 +511,7 @@ function sam_portal_render_contact( $limit = -1, $table_id = '' ) {
 		<td><span class="portal-badge badge-blue"><?php echo esc_html( $subject ); ?></span></td>
 		<td><div style="max-width:340px;word-break:break-word;color:#475569;"><?php echo esc_html( wp_trim_words( $message, 18 ) ); ?></div></td>
 		<td><small><?php echo esc_html( get_the_date( 'M j, Y', $p ) ); ?></small></td>
-		<td><button type="button" class="portal-btn-view" onclick="openPortalModalData('Inquiry: <?php echo esc_js( $name ); ?>',<?php echo esc_attr( $details_json ); ?>)">Read Message &rarr;</button></td>
+		<td><button type="button" class="portal-btn-view" data-title="<?php echo esc_attr( 'Inquiry: ' . $name ); ?>" data-details="<?php echo esc_attr( wp_json_encode( $contact_details ) ); ?>" onclick="handleModalBtn(this)">Read Message &rarr;</button></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody></table></div>
@@ -647,7 +653,14 @@ function sam_portal_render_contact( $limit = -1, $table_id = '' ) {
 @media(max-width:600px){
 .portal-login-card{padding:26px 16px;}
 .portal-kpi-grid{grid-template-columns:1fr 1fr;}
-}
+@keyframes portalDocSpin{to{transform:rotate(360deg)}}
+.doc-rendered-page{background:#ffffff;color:#1e293b;padding:40px 48px;max-width:850px;width:100%;margin:0 auto 30px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.35);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.75;}
+.doc-rendered-page h1,.doc-rendered-page h2,.doc-rendered-page h3{color:#0f172a;margin-top:20px;margin-bottom:10px;font-weight:700;}
+.doc-rendered-page p{margin:0 0 12px;}
+.doc-rendered-page table{width:100%;border-collapse:collapse;margin:16px 0;}
+.doc-rendered-page table td,.doc-rendered-page table th{border:1px solid #cbd5e1;padding:8px 12px;color:#1e293b;}
+.doc-rendered-page ul,.doc-rendered-page ol{margin:8px 0 16px 24px;padding:0;}
+.doc-rendered-page li{margin-bottom:6px;}
 </style>
 <script>
 var sidebarCollapsed=false;
@@ -657,74 +670,161 @@ function toggleSidebar(){
 	if(window.innerWidth<=900){sb.classList.toggle('mobile-open');}
 	else{sidebarCollapsed=!sidebarCollapsed;sb.classList.toggle('collapsed',sidebarCollapsed);}
 }
+
+function handleDocViewerBtn(btn) {
+	if (!btn) return;
+	var url = btn.getAttribute('data-url') || '';
+	var title = btn.getAttribute('data-title') || 'Document';
+	openPortalDocViewer(url, title);
+}
+
+function handleModalBtn(btn) {
+	if (!btn) return;
+	var title = btn.getAttribute('data-title') || 'Details';
+	var detailsStr = btn.getAttribute('data-details') || '{}';
+	var resumeUrl = btn.getAttribute('data-resume') || '';
+	var noticeDocUrl = btn.getAttribute('data-notice') || '';
+	var details = {};
+	try {
+		details = JSON.parse(detailsStr);
+	} catch (e) {
+		console.error('Invalid details JSON', e);
+	}
+	openPortalModalData(title, details, resumeUrl, noticeDocUrl);
+}
+
 function openPortalDocViewer(url, title) {
 	if (!url) return;
 	document.getElementById('portalDocViewerTitle').innerText = title || 'Document Preview';
-	document.getElementById('portalDocViewerDownloadBtn').href = url;
-	document.getElementById('portalDocViewerNewTabBtn').href = url;
+	var dlBtn = document.getElementById('portalDocViewerDownloadBtn');
+	var ntBtn = document.getElementById('portalDocViewerNewTabBtn');
+	if (dlBtn) dlBtn.href = url;
+	if (ntBtn) ntBtn.href = url;
 
-	var isPdf  = url.match(/\.pdf$/i);
-	var frame  = document.getElementById('portalDocViewerFrame');
-	var wrap   = frame.parentNode;
+	var modal = document.getElementById('portalDocViewerModal');
+	var frame = document.getElementById('portalDocViewerFrame');
+	var container = document.getElementById('portalDocContainer');
+	var loader = document.getElementById('portalDocLoader');
+	var loaderText = document.getElementById('portalDocLoaderText');
 
-	// Clear previous
-	var old = document.getElementById('portalDocFallback');
-	if (old) old.remove();
-	frame.style.display = 'none';
-	frame.src = '';
+	// Reset display states
+	if (frame) { frame.src = ''; frame.style.display = 'none'; }
+	if (container) { container.innerHTML = ''; container.style.display = 'none'; }
+	if (loader) { loader.style.display = 'none'; }
+	modal.style.display = 'flex';
+
+	var cleanUrl = url.split('?')[0].toLowerCase();
+	var isPdf = cleanUrl.endsWith('.pdf');
+	var isDocx = cleanUrl.endsWith('.docx');
+	var isDoc = cleanUrl.endsWith('.doc');
+	var isImg = cleanUrl.match(/\.(png|jpe?g|webp|gif|svg)$/);
 
 	if (isPdf) {
-		// PDF: render natively in iframe
+		// Native browser PDF viewer
 		frame.style.display = 'block';
 		frame.src = url;
+	} else if (isDocx) {
+		// Render Word Document using Mammoth in browser
+		if (loader) {
+			loader.style.display = 'flex';
+			if (loaderText) loaderText.innerText = 'Converting & loading Word resume...';
+		}
+
+		if (typeof mammoth !== 'undefined') {
+			fetch(url)
+				.then(function(res) {
+					if (!res.ok) throw new Error('HTTP ' + res.status);
+					return res.arrayBuffer();
+				})
+				.then(function(arrayBuffer) {
+					return mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+				})
+				.then(function(result) {
+					if (loader) loader.style.display = 'none';
+					container.style.display = 'block';
+					container.innerHTML = '<div class="doc-rendered-page">' + (result.value || '<p style="color:#64748B;">Document has no readable text.</p>') + '</div>';
+				})
+				.catch(function(err) {
+					console.warn('Mammoth render fallback:', err);
+					showDocFallback(url, title, 'DOCX');
+				});
+		} else {
+			showDocFallback(url, title, 'DOCX');
+		}
+	} else if (isImg) {
+		container.style.display = 'flex';
+		container.style.justifyContent = 'center';
+		container.style.alignItems = 'center';
+		container.innerHTML = '<img src="' + url + '" style="max-width:100%;max-height:80vh;object-fit:contain;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.4);">';
 	} else {
-		// Word / other: show instant action panel
-		var ext = (url.split('.').pop() || 'DOC').toUpperCase();
-		var fb = document.createElement('div');
-		fb.id = 'portalDocFallback';
-		fb.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:22px;padding:40px;text-align:center;background:#0F172A;';
-		fb.innerHTML =
-			'<div style="width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,rgba(2,132,199,.2),rgba(37,99,235,.2));border:1px solid rgba(2,132,199,.35);display:flex;align-items:center;justify-content:center;font-size:2.4rem;">&#128196;</div>'
-			+ '<div>'
-			+   '<p style="color:#F8FAFC;font-size:1.15rem;font-weight:800;margin:0 0 8px;">' + ext + ' — ' + (title || 'Document') + '</p>'
-			+   '<p style="color:#94A3B8;font-size:.9rem;margin:0 0 4px;">Word documents cannot be previewed directly in the browser.</p>'
-			+   '<p style="color:#64748B;font-size:.82rem;margin:0;">Open in a new tab or download to view the full resume.</p>'
-			+ '</div>'
-			+ '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">'
-			+   '<a href="' + url + '" target="_blank" class="portal-doc-btn btn-blue" style="padding:11px 26px;font-size:.95rem;border-radius:8px;">&#8599;&#65039;&nbsp; Open in New Tab</a>'
-			+   '<a href="' + url + '" download class="portal-doc-btn btn-gray" style="padding:11px 24px;font-size:.95rem;border-radius:8px;">&#128229;&nbsp; Download</a>'
-			+ '</div>';
-		wrap.appendChild(fb);
+		showDocFallback(url, title, isDoc ? 'DOC' : 'FILE');
 	}
-	document.getElementById('portalDocViewerModal').style.display = 'flex';
+}
+
+function showDocFallback(url, title, ext) {
+	var loader = document.getElementById('portalDocLoader');
+	if (loader) loader.style.display = 'none';
+	var container = document.getElementById('portalDocContainer');
+	if (!container) return;
+	container.style.display = 'block';
+	container.innerHTML =
+		'<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;gap:22px;padding:40px;text-align:center;">'
+		+ '<div style="width:72px;height:72px;border-radius:18px;background:rgba(2,132,199,.15);border:1px solid rgba(2,132,199,.35);display:flex;align-items:center;justify-content:center;font-size:2.4rem;">&#128196;</div>'
+		+ '<div>'
+		+   '<p style="color:#F8FAFC;font-size:1.15rem;font-weight:700;margin:0 0 6px;">' + (title || 'Resume Document') + ' (' + ext + ')</p>'
+		+   '<p style="color:#94A3B8;font-size:.9rem;margin:0 0 4px;">Click below to open in a new tab or download directly.</p>'
+		+ '</div>'
+		+ '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">'
+		+   '<a href="' + url + '" target="_blank" class="portal-doc-btn btn-blue" style="padding:10px 24px;font-size:.92rem;border-radius:8px;">&#8599;&#65039;&nbsp; Open Document</a>'
+		+   '<a href="' + url + '" download class="portal-doc-btn btn-gray" style="padding:10px 22px;font-size:.92rem;border-radius:8px;">&#128229;&nbsp; Download (' + ext + ')</a>'
+		+ '</div>'
+		+ '</div>';
 }
 
 function closePortalDocViewer() {
 	var frame = document.getElementById('portalDocViewerFrame');
-	frame.src = '';
-	frame.style.display = 'block';
-	var old = document.getElementById('portalDocFallback');
-	if (old) old.remove();
+	if (frame) { frame.src = ''; frame.style.display = 'none'; }
+	var container = document.getElementById('portalDocContainer');
+	if (container) { container.innerHTML = ''; container.style.display = 'none'; }
+	var loader = document.getElementById('portalDocLoader');
+	if (loader) loader.style.display = 'none';
 	document.getElementById('portalDocViewerModal').style.display = 'none';
 }
-function openPortalModalData(title,details,resumeUrl,noticeDocUrl){
-	document.getElementById('portalModalTitle').innerText=title;
-	var html='<div class="portal-detail-grid">';
-	for(var k in details){if(details[k]){html+='<div class="portal-detail-item"><strong>'+k+'</strong><span>'+details[k]+'</span></div>';}}
-	html+='</div>';
-	if(resumeUrl||noticeDocUrl){
-		html+='<div style="margin-top:18px;display:flex;gap:10px;border-top:1px solid #334155;padding-top:14px;flex-wrap:wrap;">';
-		if(resumeUrl){
-			html+='<button type="button" onclick="openPortalDocViewer(\''+resumeUrl+'\',\'Resume - '+encodeURIComponent(title)+'\')" class="portal-doc-btn btn-blue" style="padding:8px 14px;font-size:.86rem;border:none;cursor:pointer;">&#128065; View Resume</button>';
-			html+='<a href="'+resumeUrl+'" target="_blank" download class="portal-doc-btn btn-gray" style="padding:8px 13px;font-size:.86rem;">&#128229; Download CV</a>';
+
+function openPortalModalData(title, details, resumeUrl, noticeDocUrl) {
+	document.getElementById('portalModalTitle').innerText = title;
+	var html = '<div class="portal-detail-grid">';
+	for (var k in details) {
+		if (details[k]) {
+			var safeVal = String(details[k]).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+			html += '<div class="portal-detail-item"><strong>' + k + '</strong><span>' + safeVal + '</span></div>';
 		}
-		if(noticeDocUrl){
-			html+='<button type="button" onclick="openPortalDocViewer(\''+noticeDocUrl+'\',\'Notice - '+encodeURIComponent(title)+'\')" class="portal-doc-btn btn-gray" style="padding:8px 13px;font-size:.86rem;border:none;cursor:pointer;">&#128065; Notice Doc</button>';
-		}
-		html+='</div>';
 	}
-	document.getElementById('portalModalBody').innerHTML=html;
-	document.getElementById('portalModal').style.display='flex';
+	html += '</div>';
+
+	if (resumeUrl || noticeDocUrl) {
+		html += '<div style="margin-top:18px;display:flex;gap:10px;border-top:1px solid #334155;padding-top:14px;flex-wrap:wrap;">';
+		if (resumeUrl) {
+			html += '<button type="button" id="modalViewResumeBtn" class="portal-doc-btn btn-blue" style="padding:8px 14px;font-size:.86rem;border:none;cursor:pointer;">&#128065; View Resume</button>';
+			html += '<a href="' + resumeUrl + '" target="_blank" download class="portal-doc-btn btn-gray" style="padding:8px 13px;font-size:.86rem;">&#128229; Download CV</a>';
+		}
+		if (noticeDocUrl) {
+			html += '<button type="button" id="modalViewNoticeBtn" class="portal-doc-btn btn-gray" style="padding:8px 13px;font-size:.86rem;border:none;cursor:pointer;">&#128065; Notice Doc</button>';
+		}
+		html += '</div>';
+	}
+	document.getElementById('portalModalBody').innerHTML = html;
+
+	if (resumeUrl) {
+		var btnR = document.getElementById('modalViewResumeBtn');
+		if (btnR) btnR.onclick = function() { openPortalDocViewer(resumeUrl, 'Resume - ' + title); };
+	}
+	if (noticeDocUrl) {
+		var btnN = document.getElementById('modalViewNoticeBtn');
+		if (btnN) btnN.onclick = function() { openPortalDocViewer(noticeDocUrl, 'Notice - ' + title); };
+	}
+
+	document.getElementById('portalModal').style.display = 'flex';
 }
 function closePortalModal(){document.getElementById('portalModal').style.display='none';}
 document.addEventListener('keydown',function(e){
