@@ -7,6 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 define( 'SAM_THEME_VERSION', '2.3.0' );
 
+// Load Admin Dashboard & Submissions System
+require_once get_template_directory() . '/inc/admin-dashboard.php';
+
 /**
  * Theme setup
  */

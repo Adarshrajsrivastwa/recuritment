@@ -148,6 +148,7 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 					<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'privacy-policy' ) ); ?>">Privacy</a>
 					<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'terms-of-service' ) ); ?>">Terms</a>
 					<a href="<?php echo esc_url( sam_get_page_url_by_slug( 'cookie-policy' ) ); ?>">Cookies</a>
+					<a href="<?php echo esc_url( admin_url() ); ?>" class="footer-admin-link" title="Staff & Admin Portal" rel="nofollow">Admin</a>
 					<a href="#page" class="footer-back-to-top" id="backToTopBtn" aria-label="Back to Top" title="Back to top">
 						<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 					</a>
