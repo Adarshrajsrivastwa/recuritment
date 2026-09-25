@@ -35,7 +35,7 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 				<div class="icon-badge"><?php echo sam_icon( 'target' ); ?></div>
 				<h4>Corporate Headquarters</h4>
 				<p><?php echo esc_html( $address ); ?></p>
-				<small style="color:var(--text-muted); display:block; margin-top:4px;">Greater Noida West, Uttar Pradesh</small>
+				<small style="color:var(--text-muted); display:block; margin-top:4px;">Strategic Talent Hub &bull; Delhi NCR</small>
 			</div>
 			<div class="focus-card contact-card">
 				<div class="icon-badge"><?php echo sam_icon( 'clock' ); ?></div>
