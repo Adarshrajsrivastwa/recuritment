@@ -46,13 +46,18 @@
 				faqButtons.forEach(function (other) {
 					if (other !== btn) {
 						other.setAttribute('aria-expanded', 'false');
-						var oa = other.closest('.faq-item').querySelector('.faq-answer');
-						oa.style.maxHeight = null;
+						var otherItem = other.closest('.faq-item');
+						if (otherItem) {
+							var oa = otherItem.querySelector('.faq-answer');
+							if (oa) oa.style.maxHeight = null;
+						}
 					}
 				});
 
 				btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-				answer.style.maxHeight = isOpen ? null : answer.scrollHeight + 'px';
+				if (answer) {
+					answer.style.maxHeight = isOpen ? null : answer.scrollHeight + 'px';
+				}
 			});
 		});
 
