@@ -148,15 +148,6 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 							<strong>Delhi NCR Corporate Office</strong>
 							<span>A1109, Tower T3, NX One, Greater Noida West, UP</span>
 						</li>
-						<li>
-							<strong>Bengaluru Tech Practice</strong>
-						</li>
-						<li>
-							<strong>Mumbai BFSI Practice</strong>
-						</li>
-						<li>
-							<strong>Pune Manufacturing Desk</strong>
-						</li>
 					</ul>
 				</div>
 
