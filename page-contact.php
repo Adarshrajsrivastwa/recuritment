@@ -150,15 +150,12 @@ $address = get_theme_mod( 'sam_address', 'A1109, Tower T3, NX One, Greater Noida
 						</li>
 						<li>
 							<strong>Bengaluru Tech Practice</strong>
-							<span>Koramangala 4th Block, Bengaluru, Karnataka</span>
 						</li>
 						<li>
 							<strong>Mumbai BFSI Practice</strong>
-							<span>Bandra Kurla Complex (BKC), Mumbai, MH</span>
 						</li>
 						<li>
 							<strong>Pune Manufacturing Desk</strong>
-							<span>MIDC Chakan Industrial Area, Pune, MH</span>
 						</li>
 					</ul>
 				</div>
