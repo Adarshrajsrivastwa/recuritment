@@ -6,8 +6,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 ?><?php // phpcs:ignore ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-239FTRY52J"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-239FTRY52J');
+	</script>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="16GdwdcWU_saIoCLlJtiFkLY9jFJENiWnZ05r8qVYKo" />
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<?php
 	// Fallback favicon — uses WordPress Site Icon if set, else the bundled logo
